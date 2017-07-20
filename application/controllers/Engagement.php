@@ -8,7 +8,7 @@ class Engagement extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Mengagement','Mentity','Mclient','Mservicetitle','Memployee','Mclosing_periode'));
+        $this->load->model(array('Mengagement','Mengagement_detail','Mentity','Mclient','Mservicetitle','Memployee','Mclosing_periode'));
         //$this->load->model('Mclient');
         $this->load->helper(array('form','url','rupiah_helper'));
         $this->load->library(array('form_validation','template'));
@@ -220,6 +220,7 @@ class Engagement extends CI_Controller
 
         if ($row) {
             $data = array(
+                'employees'=> $this->Memployee->get_all(),
                 'entities'=>$this->Mentity->get_all(),
                 'clients'=>$this->Mclient->get_all(),
                 'button' => 'Update',
@@ -270,6 +271,8 @@ class Engagement extends CI_Controller
     
     public function update_action() 
     {
+        
+      //  echo "<pre>"; print_r($_POST); exit(0);
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
@@ -312,6 +315,9 @@ class Engagement extends CI_Controller
 		'userUpdate' => $this->input->post('userUpdate',TRUE),
 		'updateDate' => $this->input->post('updateDate',TRUE),
 	    );
+            
+            $details = $this->input->post('detail', TRUE);
+            $this->Mengagement_detail->replaceAll($this->input->post('id', TRUE), $details);
 
             $this->Mengagement->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');

@@ -7,8 +7,9 @@ $segmentPage2 = $this->uri->segment(2);
     <header class="panel-heading btn-inverse">
         <h4><strong>Engagement</strong> /<?= $button ?></h4>
     </header>
+            <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data">
+
     <div class="panel-body">
-        <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col-sm-3">
@@ -35,10 +36,7 @@ $segmentPage2 = $this->uri->segment(2);
                           </div>
                     <div class="row">
                         <div class="col-xs-6">
-                            <div class="form-group">
-                               
-                              
-                                </div>
+                            <div class="form-group"></div>
                         </div>
                         
                         <div class="col-xs-6">                            
@@ -133,15 +131,15 @@ $segmentPage2 = $this->uri->segment(2);
                 <div class="col-sm-4">
                     <div class="col-sm-12">
                         <label for="decimal">Agreed Fees <?php echo form_error('agreedFees') ?></label>
-                        <input type="text" class="form-control" name="agreedFees" id="agreedFees" placeholder="AgreedFees" value="<?php echo $agreedFees; ?>" />
+                        <input type="text" class="form-control number" name="agreedFees" id="agreedFees" placeholder="AgreedFees" value="<?php echo $agreedFees; ?>" />
                     </div>
                     <div class="col-sm-12">
                         <label for="decimal">Agreed Expenses <?php echo form_error('agreedExpenses') ?></label>
-                        <input type="text" class="form-control" name="agreedExpenses" id="agreedExpenses" placeholder="AgreedExpenses" value="<?php echo $agreedExpenses; ?>" />
+                        <input type="text" class="form-control number" name="agreedExpenses" id="agreedExpenses" placeholder="AgreedExpenses" value="<?php echo $agreedExpenses; ?>" />
                     </div>
                     <div class="col-sm-12">
                         <label for="decimal">Estimated Cost <?php echo form_error('estimatedCost') ?></label>
-                        <input type="text" class="form-control" name="estimatedCost" id="estimatedCost" placeholder="EstimatedCost" value="<?php echo $estimatedCost; ?>" />
+                        <input type="text" class="form-control number" name="estimatedCost" id="estimatedCost" placeholder="EstimatedCost" value="<?php echo $estimatedCost; ?>" />
                     </div>
                 </div> 
                 <div class="col-sm-4">
@@ -177,58 +175,29 @@ $segmentPage2 = $this->uri->segment(2);
                 <div class="tab-pane fade in active" id="tab1">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table  id="append" class="table table-fixed text-center table-bordered">
+                            <table  id="employee-table" class="table table-fixed text-center table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Employee</th>
                                         <th>Billing Rate</th>
                                         <th>Budget Hour</th>
                                         <th>Subtotal</th>
-                                        <th onclick="add()"><input type="button" value="+add" class="btn btn-success btn-sm"/></th>
+                                        <th><input type="button" value="+add" class="btn btn-success btn-sm add-employee"/></th>
 <!--                                        <th><span class="btn btn-success btn-sm">+ Add</span></th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id="appendTr0">
-                                        <td>
-                                            <select name="detail[employeeId][]" class="form-control" id="dropDownEmployee">
-                                                <option>Pelase Select Employee first..</option>
-                                                <?php 
-                                                foreach($employees as $rsEmployee){
-                                                ?>
-                                                    <option value="<?= $rsEmployee->id;?>" id="<?= rupiah($rsEmployee->costRate);?>">
-                                                        <?= $rsEmployee->firstName.''.$rsEmployee->lastName;?>
-                                                    </option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="detail[costRate][]"class="form-control" id="price" readonly="readonly" placeholder="select employee first"/>
-                                        </td>
-                                        <td>
-                                            <div class="input-group">                                              
-                                            <input type="number" name="detail[budgetHour][]" pattern="[1-9][1-9]{0,4}" id="budgetHour" class="form-control" value="1" />
-                                            <span class="input-group-addon"><b>HOUR</b></span>
-                                              </div>
-                                        </td>
-                                        <td><input type="text" name="detail[subTotal][]" pattern="[1-9][1-9]{0,4}" id="subTotal" class="form-control" readonly="read"/></td>
-                                        <td onclick="deleteTr(0)"><span class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></span></td>
-                                    </tr>
-
+                                    
                                     
                                 </tbody>
-                                   <tr>
-                                       <td colspan="3" align="right"><b>UNDER / OVER BUDGET</b></td>
-                                       <td colspan="2"><b>-0</b></td>
+                                 
+                            </table>
+                            
+                            <table class="table table-fixed text-center">
+                                 <tr>
+                                     <td align="right"><b class="budgetLabel">UNDER / OVER BUDGET</b></td>
+                                       <td align="left"><b class="grandTotal number">-0</b><input type="hidden" id="grandTotal"/></td>
                                     </tr>
-                                   
-
-
-
-
-
                             </table>
                         </div>
                     </div>
@@ -296,40 +265,56 @@ $segmentPage2 = $this->uri->segment(2);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
 
 <input type="hidden" name="counter" id="counter" value="1" >
-<script>
-function add(){
-	var counter =$("#counter").val();
-	$.ajax({
-		url:'<?=base_url();?>engagement/ajax_employee',          
-		type:"POST",
-		data:{counter:counter},
-		success:function(msg){
-			$("#counter").val(parseInt(counter)+1);
-			$("#append").append(msg);
-		},
-		})
-}
+<script type="text/javascript">
+$(".add-employee").on("click", function(){
+    var c =$("tr[class*='input-employee']").length;
+    var count = c +1;
+    $.ajax({
+        type:"POST",
+        url:'<?=base_url();?>engagement/ajax_employee', 
+        data:{counter:count},
+        success:function(html){
+            $("#employee-table tbody").append(html);
+            calc();
+        }
+    });
+});
 
-function deleteTr(n){
-	$("#appendTr"+n).remove();
-}
-</script>
- <script type="text/javascript">
-    var mydropdown = document.getElementById('dropDownEmployee');
-    var mytextbox = document.getElementById('mytext');
-    var basePrice = document.getElementById('price');
-    var CountBudgetHour = document.getElementById('budgetHour');
-    mydropdown.onchange = function(){
-         // mytextbox.value = mytextbox.value  + this.value; //to appened
-         //mytextbox.innerHTML = this.value;
-       $('input[id=price]').val($(this).find('option:selected').attr('id'));
-       $('input[id=budgetHour]').val(1);
-       $('input[id=subTotal]').val($(this).find('option:selected').attr('id'));
-    }    
-    CountBudgetHour.onchange = function(){
-        var price = document.getElementById('price');
-         // mytextbox.value = mytextbox.value  + this.value; //to appened
-         //mytextbox.innerHTML = this.value;
-        $('input[id=subTotal]').val();
+$(document).on("change",".dropDownEmployee", function(){
+    var price = $(this).find("option:selected").data("price");
+    $(this).closest("tr").find(".costRate").val(price);
+    var budgetHour = $(this).closest("tr").find(".budgetHour").val();
+    $(this).closest("tr").find(".subTotal").val(price*budgetHour);
+    calc();
+});
+
+$(document).on("change",".budgetHour", function(){
+    $(this).closest("tr").find(".subTotal").val($(this).val() * $(this).closest("tr").find(".costRate").val());
+    calc();
+});
+
+$("body").on("click", ".trash", function(){
+    $("#"+$(this).data("trash")).remove();
+    calc();
+});
+
+function calc(){
+var sum = 0;
+$(".totalHarga").each(function()
+{
+    sum += isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val());
+});
+$("#grandTotal").val(sum);
+$(".grandTotal").html($.number(sum, 0, ",", "."));
+
+var estimatedCost = parseFloat($("#estimatedCost").val());
+if(sum<=estimatedCost){
+    $(".budgetLabel").html("UNDER");
+    $(".add-employee").show();
+} else {
+    $(".budgetLabel").html("OVER BUDGET");
+    $(".add-employee").hide();
     }
+    $("input.number-ajax").number(true,0);
+}
 </script>

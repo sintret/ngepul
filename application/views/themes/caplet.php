@@ -151,8 +151,7 @@
 -->
 		
 <!-- Jquery Library -->
-<script src="<?= base_url() ?>assets/js/jquery-3.2.1.js"></script
-<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+<script src="<?= base_url() ?>assets/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.ui.min.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/plugins/bootstrap/bootstrap.min.js"></script>
 
@@ -173,8 +172,8 @@
 <script type="text/javascript" src="<?= base_url() ?>assets/plugins/miscellaneous/miscellaneous.js"></script>
 <!-- Library Themes Customize-->
 <script type="text/javascript" src="<?= base_url() ?>assets/js/caplet.custom.js"></script>
-<script type="text/javascript" src="assets/plugins/datable/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="assets/plugins/datable/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/plugins/datable/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/plugins/datable/dataTables.bootstrap.js"></script>
 <script type="text/javascript">
 
 	function fnShowHide( iCol , table){
@@ -207,7 +206,6 @@
 		$('table[data-provide="data-table"]').dataTable();
 	});
 </script>
-
  <script type="text/javascript" src="<?= base_url() ?>assets/js/bootstrap-datepicker.min.js"></script>
 <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>-->
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/datepicker.css" />
@@ -223,6 +221,9 @@
 		})
 	})
 </script>
+ <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.number.min.js"></script>
+ <script type="text/javascript" >$("input.number").number(true, 0, ",", ".");</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
     $('select[id="showhide"]').change(function(){
