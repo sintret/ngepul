@@ -65,13 +65,13 @@ $segmentPage2 = $this->uri->segment(2);
                     <li <?php if($segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>leave"><i class="icon  fa fa-th" aria-hidden="true"></i> LEAVE SETTING</a></li>
                 </ul>
     </li>
-    <li <?php if($segmentPage == 'userslist' || $segmentPage == 'userlevel' ){ ?>class="activelink"<?php } else { }?>>
+    <li <?php if($segmentPage == 'userslist' ||$segmentPage == 'access' || $segmentPage == 'userlevel' ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon glyphicon glyphicon-user"></i> USER LIST</span>
         <ul>
             <li class="Label label-lg">USER LOGIN PARAMETER</li>
             <li <?php if($segmentPage == 'userslist' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>userslist"><i class="icon  fa fa-th"></i> USER LIST </a></li>    
             <li <?php if($segmentPage == 'userlevel' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>userlevel"><i class="icon  fa fa-th"></i> USER LEVEL </a></li>
-            <li><a href="#"><i class="icon  fa fa-th"></i> ACCESS ROLE </a></li>
+            <li <?php if($segmentPage == 'access' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>access"><i class="icon  fa fa-th"></i> ACCESS ROLE </a></li>
 
         </ul>
     </li>
