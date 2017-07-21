@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Mengagement extends CI_Model {
+class Mengagement_detail extends CI_Model {
 
     public $table = 'engagementdetail';
     public $id = 'id';
