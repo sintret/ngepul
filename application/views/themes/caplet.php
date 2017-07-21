@@ -16,6 +16,7 @@
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap/bootstrap-themes.css" />
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/style.css" />
+
 <!--<script src="<?= base_url() ?>assets/js/jquery-1.7.1.min.js"></script>-->
 <!-- Styleswitch if  you don't chang theme , you can delete -->
 <!--<link type="text/css" rel="alternate stylesheet" media="screen" title="style1" href="<?= base_url() ?>assets/css/styleTheme1.css" />
@@ -139,7 +140,7 @@
 		</nav>
 		<!-- //nav right menu-->
 		
-		
+                <span id="sess_id"><?= $this->session->userdata('id');?></span>
 </div>
 <!-- //wrapper-->
 

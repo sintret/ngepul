@@ -179,6 +179,7 @@ $segmentPage2 = $this->uri->segment(2);
                                 <thead>
                                     <tr>
                                         <th>Employee</th>
+                                        <th>Level</th>
                                         <th>Billing Rate</th>
                                         <th>Budget Hour</th>
                                         <th>Subtotal</th>
@@ -282,9 +283,11 @@ $(".add-employee").on("click", function(){
 
 $(document).on("change",".dropDownEmployee", function(){
     var price = $(this).find("option:selected").data("price");
+    var userlevelId = $(this).find("option:selected").data("level");
     $(this).closest("tr").find(".costRate").val(price);
     var budgetHour = $(this).closest("tr").find(".budgetHour").val();
     $(this).closest("tr").find(".subTotal").val(price*budgetHour);
+    $(this).closest("tr").find(".userlevelId").val(userlevelId);
     calc();
 });
 

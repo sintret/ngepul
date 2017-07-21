@@ -5,13 +5,16 @@
             <?php
             foreach ($employees as $rsEmployee) {
                 ?>
-                <option value="<?= $rsEmployee->id; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
+                <option value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
                     <?= $rsEmployee->firstName . '' . $rsEmployee->lastName; ?>
                 </option>
                 <?php
             }
             ?>
         </select>
+    </td>
+     <td>
+         <input type="text" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
     </td>
     <td>
         <input type="text" name="detail[costRate][]"class="form-control costRate number-ajax" id="costRate<?php echo $counter;?>" readonly="readonly" placeholder="select employee first"/>

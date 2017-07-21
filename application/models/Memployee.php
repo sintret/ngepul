@@ -25,7 +25,7 @@ class Memployee extends CI_Model
     
      function get_dropdown()
     {
-         $this->db->select('id, firstName, lastName, costRate');
+         $this->db->select('id, firstName, lastName, costRate, (select userlevelId from users where employeeId = employee.id limit 1) as userlevelId');
             $this->db->from('employee');           
             $this->db->where('deleted',0);
             $this->db->order_by('firstName','ASC'); 
