@@ -336,6 +336,10 @@ $segmentPage2 = $this->uri->segment(2);
                                     $("#" + $(this).data("trash")).remove();
                                     calc();
                                 });
+                                
+                                $("#estimatedCost").on("change", function(){
+                                    calc();
+                                })
 
                                 function calc() {
                                     var sum = 0;
