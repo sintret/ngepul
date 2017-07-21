@@ -155,58 +155,66 @@ class Engagement extends CI_Controller {
             'createDate' => set_value('createDate'),
             'userUpdate' => set_value('userUpdate'),
             'updateDate' => set_value('updateDate'),
+            'startDate' => set_value('startDate'),
+            'endDate' => set_value('endDate'),
         );
         $this->template->caplet('engagement/engagement_form', $data);
     }
 
     public function create_action() {
-        $this->_rules();
+        //echo "<pre>"; print_r($_POST); exit(0);
+        ///$this->_rules();
+        $this->load->helper('rupiah_helper');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-                'entityId' => $this->input->post('entityId', TRUE),
-                'code' => $this->input->post('code', TRUE),
-                'engagementDate' => $this->input->post('engagementDate', TRUE),
-                'clientId' => $this->input->post('clientId', TRUE),
-                'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
-                'yearService' => $this->input->post('yearService', TRUE),
-                'description' => $this->input->post('description', TRUE),
-                'partnerId' => $this->input->post('partnerId', TRUE),
-                'managerId' => $this->input->post('managerId', TRUE),
-                'seniorId' => $this->input->post('seniorId', TRUE),
-                'complexity' => $this->input->post('complexity', TRUE),
-                'risk' => $this->input->post('risk', TRUE),
-                'agreedFees' => $this->input->post('agreedFees', TRUE),
-                'agreedExpenses' => $this->input->post('agreedExpenses', TRUE),
-                'estimatedCost' => $this->input->post('estimatedCost', TRUE),
-                'signingPartnerId' => $this->input->post('signingPartnerId', TRUE),
-                'engagementPartnerId' => $this->input->post('engagementPartnerId', TRUE),
-                'asset' => $this->input->post('asset', TRUE),
-                'rl' => $this->input->post('rl', TRUE),
-                'reportNo' => $this->input->post('reportNo', TRUE),
-                'reportDate' => $this->input->post('reportDate', TRUE),
-                'opinion' => $this->input->post('opinion', TRUE),
-                'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
-                'finishStatusId' => $this->input->post('finishStatusId', TRUE),
-                'finishDate' => $this->input->post('finishDate', TRUE),
-                'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
-                'closing' => $this->input->post('closing', TRUE),
-                'closingDate' => $this->input->post('closingDate', TRUE),
-                'deleted' => $this->input->post('deleted', TRUE),
-                'inputby' => $this->input->post('inputby', TRUE),
-                'version' => $this->input->post('version', TRUE),
-                'userCreate' => $this->input->post('userCreate', TRUE),
-                'createDate' => $this->input->post('createDate', TRUE),
-                'userUpdate' => $this->input->post('userUpdate', TRUE),
-                'updateDate' => $this->input->post('updateDate', TRUE),
-            );
+//        if ($this->form_validation->run() == FALSE) {
+//            $this->create();
+//        } else {
+        $data = array(
+            'entityId' => $this->input->post('entityId', TRUE),
+            'code' => $this->input->post('code', TRUE),
+            'engagementDate' => $this->input->post('engagementDate', TRUE),
+            'clientId' => $this->input->post('clientId', TRUE),
+            'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
+            'yearService' => $this->input->post('yearService', TRUE),
+            'description' => $this->input->post('description', TRUE),
+            'partnerId' => $this->input->post('partnerId', TRUE),
+            'managerId' => $this->input->post('managerId', TRUE),
+            'seniorId' => $this->input->post('seniorId', TRUE),
+            'complexity' => $this->input->post('complexity', TRUE),
+            'risk' => $this->input->post('risk', TRUE),
+            'agreedFees' => cleanFormat($this->input->post('agreedFees', TRUE)),
+            'agreedExpenses' => cleanFormat($this->input->post('agreedExpenses', TRUE)),
+            'estimatedCost' => cleanFormat($this->input->post('estimatedCost', TRUE)),
+            'signingPartnerId' => $this->input->post('signingPartnerId', TRUE),
+            'engagementPartnerId' => $this->input->post('engagementPartnerId', TRUE),
+            'asset' => $this->input->post('asset', TRUE),
+            'rl' => $this->input->post('rl', TRUE),
+            'reportNo' => $this->input->post('reportNo', TRUE),
+            'reportDate' => $this->input->post('reportDate', TRUE),
+            'opinion' => $this->input->post('opinion', TRUE),
+            'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
+            'finishStatusId' => $this->input->post('finishStatusId', TRUE),
+            'finishDate' => $this->input->post('finishDate', TRUE),
+            'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
+            'closing' => $this->input->post('closing', TRUE),
+            'closingDate' => $this->input->post('closingDate', TRUE),
+            'deleted' => $this->input->post('deleted', TRUE),
+            'inputby' => $this->input->post('inputby', TRUE),
+            'version' => $this->input->post('version', TRUE),
+            'userCreate' => $this->input->post('userCreate', TRUE),
+            'createDate' => $this->input->post('createDate', TRUE),
+            'userUpdate' => $this->input->post('userUpdate', TRUE),
+            'updateDate' => $this->input->post('updateDate', TRUE),
+            'closing' => 0
+        );
 
-            $this->Mengagement->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('engagement'));
-        }
+        $this->Mengagement->insert($data);
+        $engagementId = $this->db->insert_id();
+        $details = $this->input->post('detail', TRUE);
+        $this->Mengagement_detail->replaceAll($engagementId, $details);
+        $this->session->set_flashdata('message', 'Create Record Success');
+        redirect(site_url('engagement'));
+        //}
     }
 
     public function update($id) {
@@ -215,8 +223,8 @@ class Engagement extends CI_Controller {
 
         if ($row) {
             $data = array(
-                'details' => null,
-                'employees' => $this->Memployee->get_all(),
+                'details' => $this->Mengagement_detail->details($id),
+                'employees' => $this->Memployee->get_dropdown(),
                 'entities' => $this->Mentity->get_all(),
                 'clients' => $this->Mclient->get_all(),
                 'button' => 'Update',
@@ -257,6 +265,8 @@ class Engagement extends CI_Controller {
                 'createDate' => set_value('createDate', $row->createDate),
                 'userUpdate' => set_value('userUpdate', $row->userUpdate),
                 'updateDate' => set_value('updateDate', $row->updateDate),
+                'startDate' => set_value('startDate', $row->startDate),
+                'endDate' => set_value('endDate', $row->endDate),
             );
             $this->template->caplet('engagement/engagement_form', $data);
         } else {
@@ -269,10 +279,10 @@ class Engagement extends CI_Controller {
 
         //  echo "<pre>"; print_r($_POST); exit(0);
         $this->_rules();
+        $this->load->helper('rupiah_helper');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('id', TRUE));
-        } else {
+
+       
             $data = array(
                 'entityId' => $this->input->post('entityId', TRUE),
                 'code' => $this->input->post('code', TRUE),
@@ -286,9 +296,9 @@ class Engagement extends CI_Controller {
                 'seniorId' => $this->input->post('seniorId', TRUE),
                 'complexity' => $this->input->post('complexity', TRUE),
                 'risk' => $this->input->post('risk', TRUE),
-                'agreedFees' => $this->input->post('agreedFees', TRUE),
-                'agreedExpenses' => $this->input->post('agreedExpenses', TRUE),
-                'estimatedCost' => $this->input->post('estimatedCost', TRUE),
+                'agreedFees' => cleanFormat($this->input->post('agreedFees', TRUE)),
+                'agreedExpenses' => cleanFormat($this->input->post('agreedExpenses', TRUE)),
+                'estimatedCost' => cleanFormat($this->input->post('estimatedCost', TRUE)),
                 'signingPartnerId' => $this->input->post('signingPartnerId', TRUE),
                 'engagementPartnerId' => $this->input->post('engagementPartnerId', TRUE),
                 'asset' => $this->input->post('asset', TRUE),
@@ -311,13 +321,13 @@ class Engagement extends CI_Controller {
                 'updateDate' => $this->input->post('updateDate', TRUE),
             );
 
+            $this->Mengagement->update($this->input->post('id', TRUE), $data);
+            
             $details = $this->input->post('detail', TRUE);
             $this->Mengagement_detail->replaceAll($this->input->post('id', TRUE), $details);
-
-            $this->Mengagement->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('engagement'));
-        }
+        
     }
 
     public function delete($id) {
@@ -334,21 +344,21 @@ class Engagement extends CI_Controller {
     }
 
     public function _rules() {
-        $this->form_validation->set_rules('entityId', 'entityid', 'trim|required');
+        $this->form_validation->set_rules('entityId', 'Entity', 'trim|required');
         $this->form_validation->set_rules('code', 'code', 'trim|required');
-        $this->form_validation->set_rules('engagementDate', 'engagementdate', 'trim|required');
-        $this->form_validation->set_rules('clientId', 'clientid', 'trim|required');
-        $this->form_validation->set_rules('serviceTitleId', 'servicetitleid', 'trim|required');
+        $this->form_validation->set_rules('engagementDate', 'Engagement Date', 'trim|required');
+        $this->form_validation->set_rules('clientId', 'Client', 'trim|required');
+        //$this->form_validation->set_rules('serviceTitleId', 'servicetitleid', 'trim|required');
         $this->form_validation->set_rules('yearService', 'yearservice', 'trim|required');
-        $this->form_validation->set_rules('description', 'description', 'trim|required');
-        $this->form_validation->set_rules('partnerId', 'partnerid', 'trim|required');
-        $this->form_validation->set_rules('managerId', 'managerid', 'trim|required');
-        $this->form_validation->set_rules('seniorId', 'seniorid', 'trim|required');
+        $this->form_validation->set_rules('description', 'Description', 'trim|required');
+        $this->form_validation->set_rules('partnerId', 'Partner', 'trim|required');
+        $this->form_validation->set_rules('managerId', 'Manager', 'trim|required');
+        //$this->form_validation->set_rules('seniorId', 'Senior', 'trim|required');
         $this->form_validation->set_rules('complexity', 'complexity', 'trim|required');
         $this->form_validation->set_rules('risk', 'risk', 'trim|required');
-        $this->form_validation->set_rules('agreedFees', 'agreedfees', 'trim|required|numeric');
-        $this->form_validation->set_rules('agreedExpenses', 'agreedexpenses', 'trim|required|numeric');
-        $this->form_validation->set_rules('estimatedCost', 'estimatedcost', 'trim|required|numeric');
+        $this->form_validation->set_rules('agreedFees', 'agreedfees', 'trim|required');
+        $this->form_validation->set_rules('agreedExpenses', 'agreedexpenses', 'trim|required');
+        $this->form_validation->set_rules('estimatedCost', 'estimatedcost', 'trim|required');
         $this->form_validation->set_rules('signingPartnerId', 'signingpartnerid', 'trim|required');
         $this->form_validation->set_rules('engagementPartnerId', 'engagementpartnerid', 'trim|required');
         $this->form_validation->set_rules('asset', 'asset', 'trim|required|numeric');

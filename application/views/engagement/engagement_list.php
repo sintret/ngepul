@@ -42,7 +42,7 @@
             
 		<tbody align="center">
             <?php
-            //echo"<pre>"; print_r($client); exit(0);
+            if($engagement_data)
             foreach ($engagement_data as $engagement)
             {
                 ?>

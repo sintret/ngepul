@@ -12,28 +12,25 @@ $segmentPage2 = $this->uri->segment(2);
         <div class="panel-body">
 
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
+                    <label for="startDate">Start Date <?php echo form_error('startDate') ?></label>
+                    <input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date" value="<?php echo $startDate; ?>" />
+                </div>
+                <div class="col-sm-4">
+                    <label for="datetime">End Date <?php echo form_error('endDate') ?></label>
+                    <input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date" value="<?php echo $endDate; ?>" />
+                </div>
+                <div class="col-sm-4">
                     <label for="datetime">Engagement Date <?php echo form_error('engagementDate') ?></label>
                     <input type="text" class="form-control" name="engagementDate" id="engagementDate" placeholder="EngagementDate" value="<?php echo $engagementDate; ?>" />
                 </div>
+            </div>
+
+            <div class="row">
+               
                 <div class="col-sm-4">
                     <label for="varchar">Service Period</label>
                     <input id="ChromeMonthPicker" type="month" class="form-control" />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <select name="month" class="form-control col-md-6">
-                                <?php
-                                foreach ($closingPeriodes as $rsClosing) {
-                                    ?>
-                                    <option value="<?= $rsClosing->id; ?>"><?= $rsClosing->closingPeriode; ?></option>
-                                <?php } ?>
-                            </select>
-
-                        </div>
-                        <div class="col-md-6">
-                            <select id="year" name="year" class="form-control col-md-6"></select>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-xs-6">
                             <div class="form-group"></div>
@@ -57,14 +54,14 @@ $segmentPage2 = $this->uri->segment(2);
                     </div>
 
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <label for="tinyint">Complexity <?php echo form_error('complexity') ?></label>
                     <select name="complexity" class="form-control">
                         <option value="1">Low</option>
                         <option value="2">Midle</option>
                     </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label for="tinyint">Risk <?php echo form_error('risk') ?></label>
                     <select name="risk" class="form-control">
                         <option value="1">Low</option>
@@ -116,15 +113,36 @@ $segmentPage2 = $this->uri->segment(2);
                 <div class="col-sm-4">
                     <div class="col-sm-12">
                         <label for="int">Partner <?php echo form_error('partnerId') ?></label>
-                        <input type="text" class="form-control" name="partnerId" id="partnerId" placeholder="PartnerId" value="<?php echo $partnerId; ?>" />
+                        <select name="partnerId" class="form-control" id="partnerId" >
+                            <?php
+                            if ($employees)
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                <?php } ?>
+                        </select>
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Manager <?php echo form_error('managerId') ?></label>
-                        <input type="text" class="form-control" name="managerId" id="managerId" placeholder="ManagerId" value="<?php echo $managerId; ?>" />
+                        <select name="managerId" class="form-control" id="managerId" >
+                            <?php
+                            if ($employees)
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                <?php } ?>
+                        </select>
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Senior <?php echo form_error('seniorId') ?></label>
-                        <input type="text" class="form-control" name="seniorId" id="seniorId" placeholder="SeniorId" value="<?php echo $seniorId; ?>" />
+                        <select name="seniorId" class="form-control" id="seniorId">
+                            <?php
+                            if ($employees)
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                <?php } ?>
+                        </select>
                     </div>
                 </div>
 
@@ -189,42 +207,43 @@ $segmentPage2 = $this->uri->segment(2);
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $counter=1;
+                                        $counter = 1;
                                         if ($details)
                                             foreach ($details as $detail) {
                                                 ?>
-<tr class="input-employee" id="appendTr<?php echo $counter;?>">
-    <td>
-        <select name="detail[employeeId][]" class="form-control dropDownEmployee" id="dropDownEmployee<?php echo $counter;?>">
-            <option>Pelase Select Employee first..</option>
-            <?php
-            foreach ($employees as $rsEmployee) {
-                ?>
-                <option value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
-                    <?= $rsEmployee->firstName . '' . $rsEmployee->lastName; ?>
-                </option>
-                <?php
-                $counter++;
-            }
-            ?>
-        </select>
-    </td>
-     <td>
-         <input type="text" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
-    </td>
-    <td>
-        <input type="text" name="detail[costRate][]"class="form-control costRate number-ajax" id="costRate<?php echo $counter;?>" readonly="readonly" placeholder="select employee first"/>
-    </td>
-    <td>
-        <div class="input-group">                                              
-            <input type="number" name="detail[budgetHour][]" pattern="[1-9][1-9]{0,4}" id="budgetHour<?php echo $counter;?>" class="form-control budgetHour" value="1" />
-            <span class="input-group-addon"><b>HOUR</b></span>
-        </div>
-    </td>
-    <td><input type="text" name="detail[subTotal][]" pattern="[1-9][1-9]{0,4}" id="subTotal<?php echo $counter;?>" class="form-control number-ajax totalHarga subTotal" readonly="read"/></td>
-    <td><span class="btn btn-danger btn-sm trash" data-trash="appendTr<?php echo $counter;?>"><i class="fa fa-trash-o"></i></span></td>
-</tr>
-    <?php } ?>
+                                                <tr class="input-employee" id="appendTr<?php echo $counter; ?>">
+                                                    <td>
+                                                        <select name="detail[employeeId][]" class="form-control dropDownEmployee" id="dropDownEmployee<?php echo $counter; ?>">
+                                                            <option>Pelase Select Employee first..</option>
+                                                            <?php
+                                                            foreach ($employees as $rsEmployee) {
+                                                                $selected = $rsEmployee->id == $detail->employeeId ? 'selected':'';
+                                                                ?>
+                                                                <option <?php echo $selected;?> value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
+                                                                    <?= $rsEmployee->firstName . '' . $rsEmployee->lastName; ?>
+                                                                </option>
+                                                                <?php
+                                                                $counter++;
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="detail[costRate][]"class="form-control costRate number" value="<?php echo $detail->costrate;?>" id="costRate<?php echo $counter; ?>" readonly="readonly" placeholder="select employee first"/>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">                                              
+                                                            <input type="number" name="detail[budgetHour][]" pattern="[1-9][1-9]{0,4}" value="<?php echo $detail->budgetHour;?>"  id="budgetHour<?php echo $counter; ?>" class="form-control budgetHour" value="1" />
+                                                            <span class="input-group-addon"><b>HOUR</b></span>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="detail[subTotal][]" pattern="[1-9][1-9]{0,4}" value="<?php echo $detail->billingRate;?>"  id="subTotal<?php echo $counter; ?>" class="form-control number totalHarga subTotal" readonly="read"/></td>
+                                                    <td><span class="btn btn-danger btn-sm trash" data-trash="appendTr<?php echo $counter; ?>"><i class="fa fa-trash-o"></i></span></td>
+                                                </tr>
+                                            <?php } ?>
 
                                     </tbody>
 
@@ -336,8 +355,8 @@ $segmentPage2 = $this->uri->segment(2);
                                     $("#" + $(this).data("trash")).remove();
                                     calc();
                                 });
-                                
-                                $("#estimatedCost").on("change", function(){
+
+                                $("#estimatedCost").on("change", function () {
                                     calc();
                                 })
 

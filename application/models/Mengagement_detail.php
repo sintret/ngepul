@@ -8,6 +8,7 @@ class Mengagement_detail extends CI_Model {
     public $table = 'engagementdetail';
     public $id = 'id';
     public $order = 'DESC';
+    public $helper;
 
     function __construct() {
         parent::__construct();
@@ -31,32 +32,35 @@ class Mengagement_detail extends CI_Model {
     }
 
     function replaceAll($engagementId, $array = []) {
+
         $this->deleteAll($engagementId);
         $count = count($array['employeeId']);
-
         $data = [];
 
         if ($count) {
             for ($i = 0; $i < $count; $i++) {
                 $data[] = [
-                    'engagementId'=>$engagementId,
-                    'employeeId'=>$array[$i]['employeeId'],
-                    'budgetHour'=>$array[$i]['budgetHour'],
-                    'billingRate'=>$array[$i]['subTotal'],
-                    'costrate'=>$array[$i]['costRate']
+                    'engagementId' => $engagementId,
+                    'employeeId' => $array['employeeId'][$i],
+                    'budgetHour' => self::cleanFormat($array['budgetHour'][$i]),
+                    'billingRate' => self::cleanFormat($array['subTotal'][$i]),
+                    'costrate' => self::cleanFormat($array['costRate'][$i])
                 ];
             }
         }
-        
-        if($data)
-            foreach ($data as $v){
+        if ($data)
+            foreach ($data as $v) {
                 $this->insert($v);
             }
     }
 
+    function details($engagementId) {
+        $query = $this->db->get_where($this->table, array('engagementId' => $engagementId));
+        return $query->result();
+    }
+
     function deleteAll($engagementId) {
-        $this->db->where($this->engagementId, $engagementId);
-        $this->db->delete($this->table);
+        $this->db->delete($this->table, array('engagementId' => $engagementId));
     }
 
     // update data
@@ -69,6 +73,11 @@ class Mengagement_detail extends CI_Model {
     function delete($id) {
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
+    }
+
+    static function cleanFormat($str) {
+        $array = ['"', "'", ",", "."];
+        return str_replace($array, "", $str);
     }
 
 }
