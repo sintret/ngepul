@@ -1,8 +1,6 @@
 
 <div class="container">
-    <div class="page-header">
         <h1>Your Work Dashboard</h1>
-    </div>
 </div>
 
 <div id="exTab1" class="container">
