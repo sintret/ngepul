@@ -149,6 +149,7 @@ class Mengagement_detail extends CI_Model {
             $this->db->from('engagementdetail a');
             $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=1');
             $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
+            $this->db->limit(20);
             $this->db->order_by('b.endDate', 'DESC');
 
             $query = $this->db->get();
