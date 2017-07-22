@@ -64,7 +64,7 @@ class Mengagement_detail extends CI_Model {
                 $engagement = $this->getEngagement($v['engagementId']);
                 //print_r($engagement); exit(0);
                 //echo 'employeeId '.$v['employeeId'].' engagementId '.$v['engagementId']; exit(0);
-                $title = "Create Project code " . $engagement->id;
+                $title = "Project " . $engagement->name;
                 $message = $engagement->description;
                 //print_r($user); exit(0);
                 //echo $user->id;exit(0);
