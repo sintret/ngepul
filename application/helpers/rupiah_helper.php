@@ -47,7 +47,7 @@ function cleanFormat($str) {
 
 function dropdown_years() {
     $return = [];
-    for ($i = date(Y); $i >= 2011; $i--) {
+    for ($i = date("Y"); $i >= 2011; $i--) {
         $return[$i] = $i;
     }
 

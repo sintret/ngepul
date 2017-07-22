@@ -13,17 +13,34 @@ class Dashboard extends CI_Controller {
     }
 
     function index() {
-
         $todolist = $this->Mengagement_detail->todolist($this->session->userdata('id'));
         $closed = $this->Mengagement_detail->closed($this->session->userdata('id'));
+
+        $month = empty($_POST['month']) ? date("m") : $_POST['month'];
+        $year = empty($_POST['year']) ? date("Y") : $_POST['year'];
+        $index = empty($_POST['index']) ? 1 : $_POST['index'];
+        $results = $this->Mengagement_detail->timesheet($month, $year, $index, $this->session->userdata('employeeId'));
+
 
         $data = [];
         $data['title'] = "Home";
         $data['todolists'] = $todolist;
         $data['closeds'] = $closed;
+        $data['results'] = $results;
         ///$data['rupiah'] = $this->load->rupiah_helper;
 
         $this->template->caplet('dashboard/index', $data);
+    }
+
+    public function ajax_timesheet() {
+        $month = empty($_POST['month']) ? date("m") : $_POST['month'];
+        $year = empty($_POST['year']) ? date("Y") : $_POST['year'];
+        $index = empty($_POST['index']) ? 1 : $_POST['index'];
+        $results = $this->Mengagement_detail->timesheet($month, $year, $index, $this->session->userdata('employeeId'));
+        $data = array(
+            'results' => $results,
+        );
+        $this->load->view('ajax/ajax_timesheet', $data);
     }
 
 }

@@ -65,7 +65,7 @@ class Mengagement_detail extends CI_Model {
                 //print_r($engagement); exit(0);
                 //echo 'employeeId '.$v['employeeId'].' engagementId '.$v['engagementId']; exit(0);
                 $title = "Engagement News";
-                $message = $engagement->name.' description: '.$engagement->description;
+                $message = $engagement->name . ' description: ' . $engagement->description;
                 //print_r($user); exit(0);
                 //echo $user->id;exit(0);
                 if ($user)
@@ -126,7 +126,7 @@ class Mengagement_detail extends CI_Model {
         $employeeId = $user->employeeId;
 
         if ($employeeId) {
-            $this->db->select('a.*, b.name as name,  b.startDate as startDate,b.endDate as endDate,(select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->select('a.*,b.name as name, b.startDate as startDate,b.endDate as endDate, (select clientName from client where id=b.clientId limit 1) as clientName, (select firstName from employee where id = b.seniorId limit 1) as senior,(select firstName from employee where id = b.partnerId limit 1) as partner,(select firstName from employee where id = b.managerId limit 1) as manager ');
             $this->db->from('engagementdetail a');
             $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=0');
             $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
@@ -139,13 +139,13 @@ class Mengagement_detail extends CI_Model {
             }
         }
     }
-    
+
     function closed($userId) {
         $user = $this->getEmployeeId($userId);
         $employeeId = $user->employeeId;
 
         if ($employeeId) {
-            $this->db->select('a.*,b.name as name, b.startDate as startDate,b.endDate as endDate, (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->select('a.*,b.name as name, b.startDate as startDate,b.endDate as endDate, (select clientName from client where id=b.clientId limit 1) as clientName, (select firstName from employee where id = b.seniorId limit 1) as senior,(select firstName from employee where id = b.partnerId limit 1) as partner,(select firstName from employee where id = b.managerId limit 1) as manager ');
             $this->db->from('engagementdetail a');
             $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=1');
             $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
@@ -158,6 +158,36 @@ class Mengagement_detail extends CI_Model {
                 return $query->result();
             }
         }
+    }
+
+    function timesheet($month, $year, $index, $employeeId) {
+        $date = $year . '-' . $month . '-11';
+        $t = date("t", strtotime($date));
+
+        if ($index == 1) {
+            $time1 = 1;
+            $time2 = 15;
+            $startDate = $year . '-' . $month . '-01';
+            $endDate = $year . '-' . $month . '-15';
+        } else {
+            $time1 = 16;
+            $time2 = $t;
+            $startDate = $year . '-' . $month . '-16';
+            $endDate = $year . '-' . $month . '-' . $t;
+        }
+        $between1 = '( b.startDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
+        $between2 = '(b.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
+
+        //$sql ='SELECT b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ( b.startDate BETWEEN "2017-07-01" AND "2017-07-15" AND a.`employeeId` = "64") OR (b.endDate BETWEEN "2017-07-01" AND "2017-07-15" AND a.`employeeId` = "64")';
+        $sql = 'SELECT b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
+        $query = $this->db->query($sql);
+        $result = $query->result();
+
+        return [
+            'results' => $result,
+            'time1' => $time1,
+            'time2' => $time2
+        ];
     }
 
 }
