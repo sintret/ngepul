@@ -75,6 +75,17 @@ $segmentPage2 = $this->uri->segment(2);
 
         </ul>
     </li>
+    
+    <li <?php if($segmentPage == 'personal' ||$segmentPage == 'notification' || $segmentPage == 'personal' ){ ?>class="activelink"<?php } else { }?>>
+        <span><i class="icon glyphicon glyphicon-user"></i> My Account</span>
+        <ul>
+            <li class="Label label-lg">PERSONAL INFORMATION</li>
+            <li <?php if($segmentPage == 'notification' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>notification"><i class="icon  fa fa-globe"></i> My Notification </a></li>    
+            <li <?php if($segmentPage == 'personal' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>personal/change_password"><i class="icon  fa fa-th"></i> Change Password</a></li>
+            <li <?php if($segmentPage == 'access' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>access"><i class="icon  fa fa-th"></i> My Profile</a></li>
+
+        </ul>
+    </li>
 <!--    <li><a href="<?= base_url() ?>filemanager"><i class="icon  fa fa-th"></i> File Manager </a></li>
     <li><a href="<?= base_url() ?>profile"><i class="icon  fa fa-th"></i> Profile </a></li>-->
   
