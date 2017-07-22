@@ -44,3 +44,16 @@ function cleanFormat($str) {
     $array = ['"', "'", ",", "."];
     return str_replace($array, "", $str);
 }
+
+function dropdown_years() {
+    $return = [];
+    for ($i = date(Y); $i >= 2011; $i--) {
+        $return[$i] = $i;
+    }
+
+    return $return;
+}
+
+function dropdown_months() {
+    return [1 => 'January', 'February', 'March', 'April', 'May', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'];
+}
