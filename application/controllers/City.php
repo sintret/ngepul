@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class City extends CI_Controller
+class City extends BaseController
 {
     function __construct()
     {
@@ -14,6 +14,7 @@ class City extends CI_Controller
 
     public function index()
     {
+        $this->checkAccess();
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         

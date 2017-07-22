@@ -41,7 +41,6 @@ class Access extends CI_Controller {
         //  $data['title']="Access";
         //  $data['userlevels']= $this->Muserlevel->get_all();
 
-
         $access = [];
         $as = $this->Muserlevel->get_all();
         $no = 1;
