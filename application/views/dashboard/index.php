@@ -11,6 +11,9 @@
             <a  href="#1a" data-toggle="tab">Todo List</a>
         </li>
         <li>
+            <a href="#timesheets" data-toggle="tab">TimeSheet</a>
+        </li>
+        <li>
             <a href="#2a" data-toggle="tab">On Closed</a>
         </li>
 
@@ -42,17 +45,17 @@
                                 ?>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                        <td><?php echo $no;?></td>
                                         <td><?php echo $todolist->name;?></td>
-                                        <td>PT Perdana Mulia Makmur (TiPhone Mobile Indonesia Tbk Grup)</td>
-                                        <td><button type="button" class="btn btn-xs btn-primary btn-transparent">Agung </button></td>
-                                        <td><button type="button" class="btn btn-xs btn-success btn-transparent">Agung </button></td>
-                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"></button></td>
-                                        <td>2017-09-09 00:00:00</td>
-                                        <td>2017-07-22 11:50:40</td>
+                                        <td><?php echo $todolist->startDate .' until ' .$todolist->endDate;?></td>
+                                        <td><?php echo $todolist->clientName;?></td>
+                                        <td><button type="button" class="btn btn-xs btn-success btn-transparent"><?php echo $todolist->partner;?> </button></td>
+                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"><?php echo $todolist->manager;?></button></td>
+                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"><?php echo $todolist->senior;?></button></td>
+                                        <td><?php echo rupiah($todolist->billingRate);?></td>
                                         <td>
                                             <span class="tooltip-area">
-                                                <a href="http://128.199.241.0/new-pts/engagement/update/14" class="btn btn-default btn-sm" title="" data-original-title="Edit">
+                                                <a href="http://128.199.241.0/new-pts" class="btn btn-default btn-sm" title="" data-original-title="Edit">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 
@@ -68,6 +71,9 @@
                 <div class="col-md-1"></div>
             </div>
 
+        </div>
+        <div class="tab-pane" id="timesheets">
+            <h3>TimeSheets</h3>
         </div>
         <div class="tab-pane" id="2a">
             
@@ -95,17 +101,17 @@
                                 ?>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                        <td><?php echo $no;?></td>
                                         <td><?php echo $todolist->name;?></td>
-                                        <td>PT Perdana Mulia Makmur (TiPhone Mobile Indonesia Tbk Grup)</td>
-                                        <td><button type="button" class="btn btn-xs btn-primary btn-transparent">Agung </button></td>
-                                        <td><button type="button" class="btn btn-xs btn-success btn-transparent">Agung </button></td>
-                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"></button></td>
-                                        <td>2017-09-09 00:00:00</td>
-                                        <td>2017-07-22 11:50:40</td>
+                                        <td><?php echo $todolist->startDate .' until ' .$todolist->endDate;?></td>
+                                        <td><?php echo $todolist->clientName;?></td>
+                                        <td><button type="button" class="btn btn-xs btn-success btn-transparent"><?php echo $todolist->partner;?> </button></td>
+                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"><?php echo $todolist->manager;?></button></td>
+                                        <td><button type="button" class="btn btn-xs btn-theme btn-transparent"><?php echo $todolist->senior;?></button></td>
+                                        <td><?php echo rupiah($todolist->billingRate);?></td>
                                         <td>
                                             <span class="tooltip-area">
-                                                <a href="http://128.199.241.0/new-pts/engagement/update/14" class="btn btn-default btn-sm" title="" data-original-title="Edit">
+                                                <a href="http://128.199.241.0/new-pts" class="btn btn-default btn-sm" title="" data-original-title="Edit">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 

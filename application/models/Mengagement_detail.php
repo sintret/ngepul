@@ -126,7 +126,7 @@ class Mengagement_detail extends CI_Model {
         $employeeId = $user->employeeId;
 
         if ($employeeId) {
-            $this->db->select('a.*, b.name as name, (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->select('a.*, b.name as name,  b.startDate as startDate,b.endDate as endDate,(select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
             $this->db->from('engagementdetail a');
             $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=0');
             $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
@@ -145,7 +145,7 @@ class Mengagement_detail extends CI_Model {
         $employeeId = $user->employeeId;
 
         if ($employeeId) {
-            $this->db->select('a.*,b.name as name,  (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->select('a.*,b.name as name, b.startDate as startDate,b.endDate as endDate, (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
             $this->db->from('engagementdetail a');
             $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=1');
             $this->db->join('engagement b', 'b.id = a.engagementId', 'left');

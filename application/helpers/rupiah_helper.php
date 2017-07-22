@@ -32,6 +32,14 @@ function rupiahs($data) {
     return $rupiahs;
 }
 
+function Rp($price, $nolable = NULL) {
+    $return = 0;
+    if ($price) {
+        $return = number_format($price, 0, ',', '.');
+    }
+    return $return;
+}
+
 function cleanFormat($str) {
     $array = ['"', "'", ",", "."];
     return str_replace($array, "", $str);
