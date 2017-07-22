@@ -12,28 +12,65 @@ $segmentPage2 = $this->uri->segment(2);
         <div class="panel-body">
             
             <div class="row">
-                <div class="col-sm-4">
-                    <label for="varchar">Project Name <?php echo form_error('name') ?></label>
+               <div class="col-sm-4">
+                    <label for="varchar">Engagement Name <?php echo form_error('name') ?></label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Project Name" value="<?php echo $name; ?>" />
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-4">
                     <label for="varchar">Description <?php echo form_error('description') ?></label>
                     <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="<?php echo $description; ?>" />
+                </div>
+                  <div class="col-sm-2">
+                    <label for="datetime">Engagement Date <?php echo form_error('engagementDate') ?></label>
+                    <input type="text" class="form-control" name="engagementDate" id="date" placeholder="EngagementDate" value="<?php if($engagementDate) { echo date('d/M/Y', strtotime($engagementDate) );} else { echo date('d/M/Y'); } ?>" />
+                </div>
+                  <div class="col-sm-2">
+                    <label for="datetime">Lock Status <?php echo form_error('lockStatusId') ?></label>
+                    <select name="lockStatusId" class="form-control">
+                        <option value="0"  <?php if($lockStatusId == 0) { echo "selected"; }else {}?> >Unlock</option>
+                        <option value="1"  <?php if($lockStatusId == 1) { echo "selected"; }else {}?> >Lock</option>
+                    </select>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-4">
-                    <label for="startDate">Start Date <?php echo form_error('startDate') ?></label>
-                    <input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date" value="<?php echo $startDate; ?>" />
+                    <label for="int">Entity <?php echo form_error('entityId') ?></label>
+                    <select name="entityId" class="form-control">
+                        <?php
+                        if ($entities)
+                            foreach ($entities as $rsEntity) {
+                                $selected = $rsEntity->id == $entityId ? 'selected' : '';
+                                ?>
+                                <option <?php echo $selected; ?> value="<?= $rsEntity->id; ?>"><?= $rsEntity->company_name; ?></option>
+                            <?php } ?>
+                    </select>
                 </div>
                 <div class="col-sm-4">
-                    <label for="datetime">End Date <?php echo form_error('endDate') ?></label>
-                    <input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date" value="<?php echo $endDate; ?>" />
+                    <label for="int">Client Name <?php echo form_error('clientId') ?></label>
+                    <select name="clientId" class="form-control">
+                        <?php
+                        if ($clients)
+                            foreach ($clients as $rsclient) {
+                                ?>
+                                <option value="<?= $rsclient->id; ?>" <?php if($clientId == $rsclient->id) { echo "selected"; } else {} ?>>
+                                    <?= $rsclient->clientName; ?>
+                                </option>
+                            <?php } ?>
+                    </select>
                 </div>
                 <div class="col-sm-4">
-                    <label for="datetime">Engagement Date <?php echo form_error('engagementDate') ?></label>
-                    <input type="text" class="form-control" name="engagementDate" id="engagementDate" placeholder="EngagementDate" value="<?php echo $engagementDate; ?>" />
+                    <label for="int">Service Title <?php echo form_error('serviceTitleId') ?></label>
+                    <select name="clientId" class="form-control">
+                        <?php
+                        if ($serviceTitles)
+                            foreach ($serviceTitles as $rsService) {
+                                ?>
+                                <option value="<?= $rsService->id; ?>" <?php if($serviceTitleId == $rsService->id) { echo "selected"; } else {} ?>>
+                                    <?= $rsService->serviceTitleName; ?>
+                                </option>
+                            <?php } ?>
+                    </select>
                 </div>
             </div>
 
@@ -65,58 +102,16 @@ $segmentPage2 = $this->uri->segment(2);
                     </div>
 
                 </div>
-                <div class="col-sm-4">
-                    <label for="tinyint">Complexity <?php echo form_error('complexity') ?></label>
-                    <select name="complexity" class="form-control">
-                        <option value="1">Low</option>
-                        <option value="2">Midle</option>
-                    </select>
+                 <div class="col-sm-4">
+                    <label for="startDate">Engagement Start Date <?php echo form_error('startDate') ?></label>
+                    <input type="text" class="form-control" name="startDate" id="date" placeholder="Start Date" value="<?php if($engagementDate) { echo date('d/M/Y', strtotime($startDate) );} else { echo date('d/M/Y'); } ?>" />
                 </div>
                 <div class="col-sm-4">
-                    <label for="tinyint">Risk <?php echo form_error('risk') ?></label>
-                    <select name="risk" class="form-control">
-                        <option value="1">Low</option>
-                        <option value="2">Midle</option>
-                    </select>
+                    <label for="datetime">Engagement End Date <?php echo form_error('endDate') ?></label>
+                    <input type="text" class="form-control" name="endDate" id="date" placeholder="End Date" value="<?php if($engagementDate) { echo date('d/M/Y', strtotime($endDate) );} else { echo date('d/M/Y'); } ?>" />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-3">
-                    <label for="int">Entity <?php echo form_error('entityId') ?></label>
-                    <select name="entityId" class="form-control">
-                        <?php
-                        if ($entities)
-                            foreach ($entities as $rsEntity) {
-                                $selected = $rsEntity->id == $entityId ? 'selected' : '';
-                                ?>
-                                <option <?php echo $selected; ?> value="<?= $rsEntity->id; ?>"><?= $rsEntity->company_name; ?></option>
-                            <?php } ?>
-                    </select>
-                </div>
-                <div class="col-sm-6">
-                    <label for="int">Client Name <?php echo form_error('clientId') ?></label>
-                    <select name="clientId" class="form-control">
-                        <?php
-                        if ($clients)
-                            foreach ($clients as $rsclient) {
-                                ?>
-                                <option value="<?= $rsclient->id; ?>"><?= $rsclient->clientName; ?></option>
-                            <?php } ?>
-                    </select>
-                </div>
-                <div class="col-sm-3">
-                    <label for="int">Service Title <?php echo form_error('serviceTitleId') ?></label>
-                    <select name="clientId" class="form-control">
-                        <?php
-                        if ($serviceTitles)
-                            foreach ($serviceTitles as $rsService) {
-                                ?>
-                                <option value="<?= $rsService->id; ?>"><?= $rsService->serviceTitleName; ?></option>
-                            <?php } ?>
-                    </select>
-                </div>
-                
-            </div>
+            
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-12">
@@ -172,15 +167,49 @@ $segmentPage2 = $this->uri->segment(2);
 
                     <div class="col-sm-12">
                         <label for="int">Signing Partner <?php echo form_error('signingPartnerId') ?></label>
-                        <input type="text" class="form-control" name="signingPartnerId" id="signingPartnerId" placeholder="SigningPartnerId" value="<?php echo $signingPartnerId; ?>" />
+                       <select name="signingPartnerId" class="form-control" id="signingPartnerId" >
+                            <?php
+                            if ($employees)
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option value="<?= $employee->id; ?>" <?php if($signingPartnerId == $employee->id) { echo "selected"; } else {} ?>>
+                                    <?= $employee->firstName . ' ' . $employee->lastName; ?>
+                                    </option>
+                                <?php } ?>
+                        </select>
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Engagement Partner <?php echo form_error('engagementPartnerId') ?></label>
-                        <input type="text" class="form-control" name="engagementPartnerId" id="engagementPartnerId" placeholder="EngagementPartnerId" value="<?php echo $engagementPartnerId; ?>" />
+                       <select name="engagementPartnerId" class="form-control" id="engagementPartnerId" >
+                            <?php
+                            if ($employees)
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option value="<?= $employee->id; ?>" <?php if($engagementPartnerId == $employee->id) { echo "selected"; } else {} ?>>
+                                    <?= $employee->firstName . ' ' . $employee->lastName; ?>
+                                    </option>
+                                <?php } ?>
+                        </select>
                     </div>
                     <div class="col-sm-12">
-                        <label for="int">Senior <?php echo form_error('seniorId') ?></label>
-                        <input type="text" class="form-control" name="seniorId" id="seniorId" placeholder="SeniorId" value="<?php echo $seniorId; ?>" />
+                       <div class="row">
+                        <div class="col-sm-6">
+                    <label for="tinyint">Complexity <?php echo form_error('complexity') ?></label>
+                    <select name="complexity" class="form-control">
+                        <option value="1" <?php if($complexity == 1) { echo "selected"; }else {}?> >Low</option>
+                        <option value="2" <?php if($complexity == 2) { echo "selected"; }else {}?>>Medium</option>
+                        <option value="2" <?php if($complexity == 3) { echo "selected"; }else {}?>>High</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label for="tinyint">Risk <?php echo form_error('risk') ?></label>
+                    <select name="risk" class="form-control">
+                       <option value="1" <?php if($risk == 1) { echo "selected"; }else {}?>>Low</option>
+                       <option value="2" <?php if($risk == 2) { echo "selected"; }else {}?>>Medium</option>
+                       <option value="2" <?php if($risk == 3) { echo "selected"; }else {}?>>High</option>
+                    </select>
+                </div>
+                        </div>
                     </div>
 
                 </div>
@@ -281,12 +310,12 @@ $segmentPage2 = $this->uri->segment(2);
                                         <input type="text" class="form-control" name="rl" id="rl" placeholder="Rl" value="<?php echo $rl; ?>" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="varchar">ReportNo <?php echo form_error('reportNo') ?></label>
+                                        <label for="varchar">Report No <?php echo form_error('reportNo') ?></label>
                                         <input type="text" class="form-control" name="reportNo" id="reportNo" placeholder="ReportNo" value="<?php echo $reportNo; ?>" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="datetime">ReportDate <?php echo form_error('reportDate') ?></label>
-                                        <input type="text" class="form-control" name="reportDate" id="reportDate" placeholder="ReportDate" value="<?php echo $reportDate; ?>" />
+                                        <label for="datetime">Report Date <?php echo form_error('reportDate') ?></label>
+                                        <input type="text" class="form-control" name="reportDate" id="date" placeholder="ReportDate" value="<?php echo $reportDate; ?>" />
                                     </div>
                                 </div>
 
@@ -296,12 +325,22 @@ $segmentPage2 = $this->uri->segment(2);
                                         <input type="text" class="form-control" name="opinion" id="opinion" placeholder="Opinion" value="<?php echo $opinion; ?>" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="int">JobFromEmployeeId <?php echo form_error('jobFromEmployeeId') ?></label>
-                                        <input type="text" class="form-control" name="jobFromEmployeeId" id="jobFromEmployeeId" placeholder="JobFromEmployeeId" value="<?php echo $jobFromEmployeeId; ?>" />
+                                        <label for="int">Job From Employee  <?php echo form_error('jobFromEmployeeId') ?></label>
+                                        <select name="engagementPartnerId" class="form-control" id="engagementPartnerId" >
+                                            <option value="0">Please Select One</option>
+                                            <?php
+                                            if ($employees)
+                                                foreach ($employees as $employee) {
+                                                    ?>
+                                                    <option value="<?= $employee->id; ?>" <?php if($engagementPartnerId == $employee->id) { echo "selected"; } else {} ?>>
+                                                    <?= $employee->firstName . ' ' . $employee->lastName; ?>
+                                                    </option>
+                                                <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="datetime">FinishDate <?php echo form_error('finishDate') ?></label>
-                                        <input type="text" class="form-control" name="finishDate" id="finishDate" placeholder="FinishDate" value="<?php echo $finishDate; ?>" />
+                                        <label for="datetime">Finish Date <?php echo form_error('finishDate') ?></label>
+                                        <input type="text" class="form-control" name="finishDate" id="date" placeholder="FinishDate" value="<?php echo $finishDate; ?>" />
                                     </div>
                                 </div>
                             </div>

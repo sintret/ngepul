@@ -51,7 +51,11 @@ class Mnotification extends CI_Model {
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-
+     function get_by_user($id) {
+        $this->db->where($this->id, $id);
+        $this->db->where('userId', $this->session->userdata('id'));
+        return $this->db->get($this->table)->row();
+    }
     // insert data
     function insert($data) {
         $this->db->insert($this->table, $data);
@@ -66,7 +70,36 @@ class Mnotification extends CI_Model {
     // delete data
     function delete($id) {
         $this->db->where($this->id, $id);
-        $this->db->delete($this->table);
+        $this->db->update($this->table);
+    }
+    
+    function mark_read($id, $data) {
+       $this->db->where($this->id, $id);
+        $this->db->update($this->table, $data);
+    }
+    function total_rows($q = NULL) {
+        $this->db->like('id', $q);
+	$this->db->or_like('userId', $q);
+	$this->db->or_like('title', $q);
+	$this->db->or_like('message', $q);
+	$this->db->or_like('url', $q);
+	$this->db->or_like('read', $q);
+	$this->db->or_like('createdBy', $q);
+	$this->db->or_like('updatedAt', $q);
+	$this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+    function total_rows_by($q = NULL) {
+	$this->db->from($this->table);
+        $this->db->where('userId', $this->session->userdata('id'));
+        return $this->db->count_all_results();
+    }
+    function get_limit_data($limit, $start = 0, $q = NULL) {
+       // $this->db->order_by($this->id, $this->order);
+         $this->db->order_by('updatedAt', $this->order);
+        $this->db->where('userId', $this->session->userdata('id'));
+	$this->db->limit($limit, $start);
+        return $this->db->get($this->table)->result();
     }
 
 }
