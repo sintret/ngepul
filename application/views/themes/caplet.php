@@ -265,12 +265,12 @@
             });
 
             // request permission on page load
-            if (sessionId) {
+            //if (sessionId) {
                 document.addEventListener('DOMContentLoaded', function () {
                     if (Notification.permission !== "granted")
                         Notification.requestPermission();
                 });
-            }
+            //}
 
             function notifyMe(title, message) {
                 if (!Notification) {
@@ -282,7 +282,7 @@
                     Notification.requestPermission();
                 else {
                     var notification = new Notification(title, {
-                        icon: 'http://finsrecipe.com/system/web/img/kueijo-icon.png',
+                        icon: '<?= base_url();?>/assets/img/icon-notifikasi.png',
                         body: message,
                     });
 

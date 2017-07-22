@@ -5,6 +5,9 @@ if (!defined('BASEPATH'))
 
 class Site extends CI_Controller {
 
+    const DEFAULT_URL = 'https://ptsonline-213b4.firebaseio.com';
+    const DEFAULT_TOKEN = NULL;
+
     public function __construct() {
         parent::__construct();
         $this->load->model(array('Musers'));
@@ -26,6 +29,24 @@ class Site extends CI_Controller {
     public function logout() {
         $this->session->unset_userdata('username');
         redirect('site');
+    }
+
+    public function test() {
+        $id = 21;
+        $firebase = new \Firebase\FirebaseLib(self::DEFAULT_URL, self::DEFAULT_TOKEN);
+        $path = 'notification/' . $id;
+
+        $array = [
+            'id' => $id,
+            'title' => 'test',
+            'message' => 'ok',
+            'time' => time()
+        ];
+
+
+        echo "<pre>";
+        print_r($array);
+        $firebase->push($path, $array);
     }
 
     public function authlog() {
@@ -51,18 +72,18 @@ class Site extends CI_Controller {
                 $dlogin['status'] = 1;
                 $dlogin['logged_in'] = TRUE;
                 //echo "<pre>"; print_r($dlogin); exit(0);
-                
+
                 $this->session->set_userdata($dlogin);
-                redirect(site_url().'dashboard');
+                redirect(site_url() . 'dashboard');
             } else {
                 //login failed				
                 $return_arr["status"] = 0;
                 $this->session->set_flashdata('message', 'Username atau password salah');
                 redirect('site');
             }
-           // echo json_encode($return_arr);
+            // echo json_encode($return_arr);
         }
-       // exit();
+        // exit();
     }
 
     public function authlog2() {

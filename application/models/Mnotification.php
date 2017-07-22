@@ -28,7 +28,7 @@ class Mnotification extends CI_Model {
             'time' => time()
         ];
 
-        $firebase->set($path, $array);
+        $firebase->push($path, $array);
 
         self::notificationDelete($id);
     }
