@@ -62,7 +62,8 @@
                                     </tr>
 
                                 </tbody>
-                                <?php $no++;
+                                <?php
+                                $no++;
                             }
                         ?>
                     </table>
@@ -76,15 +77,18 @@
             <h3>Select Periode :</h3>
             <p>
             <form class="form-inline">
-                <div class="form-group">
+                <div class="form-group" style="margin: 0 5px">
                     <label for="periode">Month:</label>
                     <select name="month" class="form-control">
-                        <?php foreach (dropdown_months() as $k => $v) { ?>
-                            <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                        <?php
+                        foreach (dropdown_months() as $k => $v) {
+                            $selected = $k == date("m") ? 'selected' : '';
+                            ?>
+                            <option <?php echo $selected; ?> value="<?php echo $k; ?>"><?php echo $v; ?></option>
 <?php } ?>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group"  style="margin: 0 5px">
                     <label for="pwd">Year:</label>
                     <select name="year" class="form-control">
                         <?php foreach (dropdown_years() as $k => $v) { ?>
@@ -92,9 +96,9 @@
 <?php } ?>
                     </select>
                 </div>
-                <div class="checkbox">
-                    <label><input type="radio" name="option"> 1-15</label>
-                    <label><input type="radio" name="option"> 16-31</label>
+                <div class="checkbox"  style="margin: 0 5px">
+                    <label  style="margin: 0 5px"><input type="radio" checked="" id="option1" name="option" class="form-control"><span id="span-option1"> 1-15 </span></label>
+                    <label><input type="radio" id="option2" name="option" class="form-control"><span id="span-option2"> 16-31 </span></label>
                 </div>
                 <button type="submit" class="btn btn-success"> Go!</button>
             </form>
@@ -157,7 +161,8 @@
                                     </tr>
 
                                 </tbody>
-                                <?php $no++;
+                                <?php
+                                $no++;
                             }
                         ?>
                     </table>
@@ -166,6 +171,12 @@
                 <div class="col-md-1"></div>
             </div>
         </div>
-
     </div>
 </div>
+<script type="text/javascript">
+   // $(document).ready(function () {
+        var month = 0; // January
+        var d = new Date(2008, month + 1, 0);
+        alert(d); // last day in January
+   // });
+</script>

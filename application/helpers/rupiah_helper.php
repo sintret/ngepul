@@ -55,5 +55,5 @@ function dropdown_years() {
 }
 
 function dropdown_months() {
-    return [1 => 'January', 'February', 'March', 'April', 'May', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'];
+    return ['01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April', '05' => 'May', '06' => 'Juni', '07' => 'Juli', '08' => 'Augustus', '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'];
 }
