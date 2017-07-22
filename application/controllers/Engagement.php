@@ -118,6 +118,7 @@ class Engagement extends CI_Controller {
             'serviceTitles' => $serviceTitles,
             'employees' => $employees,
             'closingPeriodes' => $closingPeriodes,
+            'lockStatusId' => set_value('lockStatusId'),
             'action' => site_url('engagement/create_action'),
             'id' => set_value('id'),
             'entityId' => set_value('entityId'),
@@ -163,7 +164,7 @@ class Engagement extends CI_Controller {
     }
 
     public function create_action() {
-        //echo "<pre>"; print_r($_POST); exit(0);
+     //echo "<pre>"; print_r($_POST); exit(0);
         ///$this->_rules();
         $this->load->helper('rupiah_helper');
 
@@ -172,8 +173,9 @@ class Engagement extends CI_Controller {
 //        } else {
         $data = array(
             'entityId' => $this->input->post('entityId', TRUE),
-            'code' => $this->input->post('code', TRUE),
-            'engagementDate' => $this->input->post('engagementDate', TRUE),
+            //'code' => $this->input->post('code', TRUE),
+            'code' => 'ENG/'.rand(10,1000000).'/'.$this->input->post('clientId', TRUE).'/'.date('m').'/'.date('Y'),
+            'engagementDate' => date("Y-m-d", strtotime(strtr($this->input->post('engagementDate', TRUE), '/', '-') )),
             'clientId' => $this->input->post('clientId', TRUE),
             'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
             'yearService' => $this->input->post('yearService', TRUE),
@@ -191,25 +193,27 @@ class Engagement extends CI_Controller {
             'asset' => $this->input->post('asset', TRUE),
             'rl' => $this->input->post('rl', TRUE),
             'reportNo' => $this->input->post('reportNo', TRUE),
-            'reportDate' => $this->input->post('reportDate', TRUE),
+            'reportDate' => date("Y-m-d", strtotime(strtr($this->input->post('reportDate', TRUE), '/', '-'))),
             'opinion' => $this->input->post('opinion', TRUE),
             'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
             'finishStatusId' => $this->input->post('finishStatusId', TRUE),
-            'finishDate' => $this->input->post('finishDate', TRUE),
+            'finishDate' => date("Y-m-d", strtotime($this->input->post('finishDate', TRUE))),
             'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
             'closing' => $this->input->post('closing', TRUE),
-            'closingDate' => $this->input->post('closingDate', TRUE),
-            'deleted' => $this->input->post('deleted', TRUE),
-            'inputby' => $this->input->post('inputby', TRUE),
+            'closingDate' => date("Y-m-d", strtotime(strtr($this->input->post('closingDate', TRUE), '/', '-') )),
+            //'deleted' => $this->input->post('deleted', TRUE),
+            'inputby' => $this->session->userdata('id'),
             'version' => $this->input->post('version', TRUE),
-            'userCreate' => $this->input->post('userCreate', TRUE),
-            'createDate' => $this->input->post('createDate', TRUE),
-            'userUpdate' => $this->input->post('userUpdate', TRUE),
-            'updateDate' => $this->input->post('updateDate', TRUE),
+            'userCreate' => $this->session->userdata('id'),
+            'createDate' => date("Y-m-d H:i:s"),
+            //'userUpdate' => $this->input->post('userUpdate', TRUE),
+            //'updateDate' => $this->input->post('updateDate', TRUE),
+            'startDate' => date('Y-m-d', strtotime(strtr($this->input->post('startDate', TRUE), '/', '-') )),
+            'endDate' => date('Y-m-d', strtotime(strtr($this->input->post('endDate', TRUE), '/', '-') )),
             'closing' => 0,
             'name' => $this->input->post('name', TRUE),
         );
-
+//echo "<pre>"; print_r($data); exit(0);
         $this->Mengagement->insert($data);
         $engagementId = $this->db->insert_id();
         $details = $this->input->post('detail', TRUE);
@@ -222,13 +226,15 @@ class Engagement extends CI_Controller {
     public function update($id) {
         $row = $this->Mengagement->get_by_id($id);
         //$entities = $this->Mentity->dropdown($row->entityId);
-
+         $serviceTitles = $this->Mservicetitle->get_all();
         if ($row) {
-            $data = array(
+            $data = array(                
                 'details' => $this->Mengagement_detail->details($id),
                 'employees' => $this->Memployee->get_dropdown(),
                 'entities' => $this->Mentity->get_all(),
                 'clients' => $this->Mclient->get_all(),
+                'serviceTitles' => $serviceTitles,
+                'lockStatusId' => set_value('lockStatusId', $row->lockStatusId),
                 'button' => 'Update',
                 'action' => site_url('engagement/update_action'),
                 'id' => set_value('id', $row->id),
@@ -288,8 +294,8 @@ class Engagement extends CI_Controller {
 
         $data = array(
             'entityId' => $this->input->post('entityId', TRUE),
-            'code' => $this->input->post('code', TRUE),
-            'engagementDate' => $this->input->post('engagementDate', TRUE),
+           // 'code' => $this->input->post('code', TRUE),
+            'engagementDate' => date('Y-m-d', strtotime(strtr($this->input->post('engagementDate', TRUE), '/', '-') )),
             'clientId' => $this->input->post('clientId', TRUE),
             'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
             'yearService' => $this->input->post('yearService', TRUE),
@@ -307,21 +313,23 @@ class Engagement extends CI_Controller {
             'asset' => $this->input->post('asset', TRUE),
             'rl' => $this->input->post('rl', TRUE),
             'reportNo' => $this->input->post('reportNo', TRUE),
-            'reportDate' => $this->input->post('reportDate', TRUE),
+            'reportDate' => date('Y-m-d', strtotime(strtr($this->input->post('reportDate', TRUE), '/', '-') )),
             'opinion' => $this->input->post('opinion', TRUE),
             'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
             'finishStatusId' => $this->input->post('finishStatusId', TRUE),
-            'finishDate' => $this->input->post('finishDate', TRUE),
+            'finishDate' => date('Y-m-d', strtotime(strtr($this->input->post('finishDate', TRUE), '/', '-') )),
             'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
             'closing' => $this->input->post('closing', TRUE),
-            'closingDate' => $this->input->post('closingDate', TRUE),
-            'deleted' => $this->input->post('deleted', TRUE),
-            'inputby' => $this->input->post('inputby', TRUE),
+            'closingDate' => date('Y-m-d', strtotime(strtr($this->input->post('closingDate', TRUE), '/', '-'))),
+          //  'deleted' => $this->input->post('deleted', TRUE),
+            //'inputby' => $this->input->post('inputby', TRUE),
             'version' => $this->input->post('version', TRUE),
-            'userCreate' => $this->input->post('userCreate', TRUE),
-            'createDate' => $this->input->post('createDate', TRUE),
-            'userUpdate' => $this->input->post('userUpdate', TRUE),
-            'updateDate' => $this->input->post('updateDate', TRUE),
+           // 'userCreate' => $this->input->post('userCreate', TRUE),
+           // 'createDate' => $this->input->post('createDate', TRUE),
+            'userUpdate' => $this->session->userdata('id'),
+           // 'updateDate' => date('Y-m-d', strtotime($this->input->post('updateDate', TRUE))),
+            'startDate' => date('Y-m-d', strtotime(strtr($this->input->post('startDate', TRUE), '/', '-') )),
+            'endDate' => date('Y-m-d', strtotime(strtr($this->input->post('endDate', TRUE), '/', '-') )),
             'name' => $this->input->post('name', TRUE),
         );
 
