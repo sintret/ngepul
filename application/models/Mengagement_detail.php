@@ -85,6 +85,11 @@ class Mengagement_detail extends CI_Model {
         return $query->row();
     }
 
+    function getEmployeeId($id) {
+        $query = $this->db->get_where('users', array('id' => $id));
+        return $query->row();
+    }
+
     function getEngagement($engagementId) {
         $query = $this->db->get_where('engagement', array('id' => $engagementId));
         return $query->row();
@@ -114,6 +119,44 @@ class Mengagement_detail extends CI_Model {
     static function cleanFormat($str) {
         $array = ['"', "'", ",", "."];
         return str_replace($array, "", $str);
+    }
+
+    function todolist($userId) {
+        $user = $this->getEmployeeId($userId);
+        $employeeId = $user->employeeId;
+
+        if ($employeeId) {
+            $this->db->select('a.*, (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->from('engagementdetail a');
+            $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=0');
+            $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
+            $this->db->order_by('b.endDate', 'DESC');
+
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            }
+        }
+    }
+    
+    function closed($userId) {
+        $user = $this->getEmployeeId($userId);
+        $employeeId = $user->employeeId;
+
+        if ($employeeId) {
+            $this->db->select('a.*, (select clientName from client where id=b.clientId) as clientName, (select firstName from employee where id = b.seniorId) as senior,(select firstName from employee where id = b.partnerId) as partner,(select firstName from employee where id = b.managerId) as manager ');
+            $this->db->from('engagementdetail a');
+            $this->db->where('a.employeeId = "' . $user->employeeId . '"  and b.closing=1');
+            $this->db->join('engagement b', 'b.id = a.engagementId', 'left');
+            $this->db->order_by('b.endDate', 'DESC');
+
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            }
+        }
     }
 
 }
