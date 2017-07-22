@@ -96,7 +96,7 @@
                     <label><input type="radio" name="option"> 1-15</label>
                     <label><input type="radio" name="option"> 16-31</label>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success"> Go!</button>
             </form>
             <p>&nbsp;</p>
             <table class="table table-bordered" style="margin-bottom: 10px;margin-right: 10px">
