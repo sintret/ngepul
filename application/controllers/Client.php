@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Client extends CI_Controller
+class Client extends BaseController
 {
     function __construct()
     {

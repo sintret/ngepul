@@ -14,7 +14,6 @@ class City extends BaseController
 
     public function index()
     {
-        $this->checkAccess();
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         

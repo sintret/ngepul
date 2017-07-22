@@ -5,6 +5,35 @@ class BaseController extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model(array('Muserlevel', 'Maccess'));
+        
+        if(in_array($this->router->method, self::methods())){
+            $this->checkAccess();
+        }
+    }
+    
+    static function controllers() {
+        return [
+            'entity',
+            'client',
+            'employee',
+            'service',
+            'global',
+            'employee',
+            'user',
+            'engagement'
+        ];
+    }
+
+    static function methods() {
+        return [
+            'index',
+            'create',
+            'update',
+            'view',
+            'delete',
+            'excel',
+            'word',
+        ];
     }
 
     function isAccess($roleId = NULL, $controller = NULL, $method = NULL) {
