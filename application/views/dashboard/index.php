@@ -235,13 +235,21 @@
         $("#span-option2").html('16-' + daysInMonth(iMonth, $(this).val()));
     });
     $("#goTimesheets").on("click", function () {
+        var m = $("#tsMonth").find("option:selected").data("id");
         var iMonth = $("#tsMonth").find("option:selected").val();
         var iYear = $("#tsYear").find("option:selected").val();
+        var l = daysInMonth(m, iYear);
 
         var index = 1;
 
         if ($("#option2").is(":checked")) {
             index = 2;
+            var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
+            for (i = 16; i <= l; i++) {
+                head += '<th>' + i + '</th>';
+            }
+            head += '<th>Total</th></tr>';
+            $("#table-timesheet thead").html(head);
         }
         var index = $("#tsYear").find("option:selected").val();
         timesheets(iMonth, iYear, index);

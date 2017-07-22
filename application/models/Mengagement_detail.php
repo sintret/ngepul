@@ -179,7 +179,8 @@ class Mengagement_detail extends CI_Model {
         $between2 = '(b.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
 
         //$sql ='SELECT b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ( b.startDate BETWEEN "2017-07-01" AND "2017-07-15" AND a.`employeeId` = "64") OR (b.endDate BETWEEN "2017-07-01" AND "2017-07-15" AND a.`employeeId` = "64")';
-        $sql = 'SELECT b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
+        $sql = 'SELECT  DISTINCT b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
+        //echo $sql;exit(0);
         $query = $this->db->query($sql);
         $result = $query->result();
 
