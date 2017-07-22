@@ -240,11 +240,11 @@
         var iYear = $("#tsYear").find("option:selected").val();
         var l = daysInMonth(m, iYear);
 
-        var index = 1;
+        var c = 1;
         var p=0;
 
         if ($("#option2").is(":checked")) {
-            index = 2;
+            c = 2;
             var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
             for (i = 16; i <= l; i++) {
                 head += '<th>' + i + '</th>';
@@ -252,6 +252,7 @@
             head += '<th>Total</th></tr>';
             $("#table-timesheet thead").html(head);
         } else {
+            c=1;
             var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
             for (i = 1; i <= 15; i++) {
                 if(i <10)
@@ -262,7 +263,6 @@
             head += '<th>Total</th></tr>';
             $("#table-timesheet thead").html(head);
         }
-        var index = $("#tsYear").find("option:selected").val();
-        timesheets(iMonth, iYear, index);
+        timesheets(iMonth, iYear, c);
     });
 </script>
