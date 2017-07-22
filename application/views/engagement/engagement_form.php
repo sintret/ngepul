@@ -330,6 +330,9 @@ $segmentPage2 = $this->uri->segment(2);
 
 <input type="hidden" name="counter" id="counter" value="1" >
 <script type="text/javascript">
+    $(document).ready(function(){
+        calc();
+    });
                                 $(".add-employee").on("click", function () {
                                     var c = $("tr[class*='input-employee']").length;
                                     var count = c + 1;
@@ -366,7 +369,7 @@ $segmentPage2 = $this->uri->segment(2);
 
                                 $("#estimatedCost").on("change", function () {
                                     calc();
-                                })
+                                });
 
                                 function calc() {
                                     var sum = 0;
