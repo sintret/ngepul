@@ -10,6 +10,17 @@ $segmentPage2 = $this->uri->segment(2);
     <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data">
 
         <div class="panel-body">
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="varchar">Project Name <?php echo form_error('name') ?></label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Project Name" value="<?php echo $name; ?>" />
+                </div>
+                <div class="col-sm-8">
+                    <label for="varchar">Description <?php echo form_error('description') ?></label>
+                    <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="<?php echo $description; ?>" />
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-sm-4">
@@ -104,10 +115,7 @@ $segmentPage2 = $this->uri->segment(2);
                             <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-12">
-                    <label for="varchar">Description <?php echo form_error('description') ?></label>
-                    <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="<?php echo $description; ?>" />
-                </div>
+                
             </div>
             <div class="row">
                 <div class="col-sm-4">

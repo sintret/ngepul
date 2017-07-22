@@ -121,6 +121,7 @@ class Engagement extends CI_Controller {
             'action' => site_url('engagement/create_action'),
             'id' => set_value('id'),
             'entityId' => set_value('entityId'),
+            'name' => set_value('name'),
             'code' => set_value('code'),
             'engagementDate' => set_value('engagementDate'),
             'clientId' => set_value('clientId'),
@@ -205,7 +206,8 @@ class Engagement extends CI_Controller {
             'createDate' => $this->input->post('createDate', TRUE),
             'userUpdate' => $this->input->post('userUpdate', TRUE),
             'updateDate' => $this->input->post('updateDate', TRUE),
-            'closing' => 0
+            'closing' => 0,
+            'name' => $this->input->post('name', TRUE),
         );
 
         $this->Mengagement->insert($data);
@@ -267,6 +269,7 @@ class Engagement extends CI_Controller {
                 'updateDate' => set_value('updateDate', $row->updateDate),
                 'startDate' => set_value('startDate', $row->startDate),
                 'endDate' => set_value('endDate', $row->endDate),
+                'name' => set_value('name', $row->name),
             );
             $this->template->caplet('engagement/engagement_form', $data);
         } else {
@@ -282,52 +285,52 @@ class Engagement extends CI_Controller {
         $this->load->helper('rupiah_helper');
 
 
-       
-            $data = array(
-                'entityId' => $this->input->post('entityId', TRUE),
-                'code' => $this->input->post('code', TRUE),
-                'engagementDate' => $this->input->post('engagementDate', TRUE),
-                'clientId' => $this->input->post('clientId', TRUE),
-                'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
-                'yearService' => $this->input->post('yearService', TRUE),
-                'description' => $this->input->post('description', TRUE),
-                'partnerId' => $this->input->post('partnerId', TRUE),
-                'managerId' => $this->input->post('managerId', TRUE),
-                'seniorId' => $this->input->post('seniorId', TRUE),
-                'complexity' => $this->input->post('complexity', TRUE),
-                'risk' => $this->input->post('risk', TRUE),
-                'agreedFees' => cleanFormat($this->input->post('agreedFees', TRUE)),
-                'agreedExpenses' => cleanFormat($this->input->post('agreedExpenses', TRUE)),
-                'estimatedCost' => cleanFormat($this->input->post('estimatedCost', TRUE)),
-                'signingPartnerId' => $this->input->post('signingPartnerId', TRUE),
-                'engagementPartnerId' => $this->input->post('engagementPartnerId', TRUE),
-                'asset' => $this->input->post('asset', TRUE),
-                'rl' => $this->input->post('rl', TRUE),
-                'reportNo' => $this->input->post('reportNo', TRUE),
-                'reportDate' => $this->input->post('reportDate', TRUE),
-                'opinion' => $this->input->post('opinion', TRUE),
-                'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
-                'finishStatusId' => $this->input->post('finishStatusId', TRUE),
-                'finishDate' => $this->input->post('finishDate', TRUE),
-                'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
-                'closing' => $this->input->post('closing', TRUE),
-                'closingDate' => $this->input->post('closingDate', TRUE),
-                'deleted' => $this->input->post('deleted', TRUE),
-                'inputby' => $this->input->post('inputby', TRUE),
-                'version' => $this->input->post('version', TRUE),
-                'userCreate' => $this->input->post('userCreate', TRUE),
-                'createDate' => $this->input->post('createDate', TRUE),
-                'userUpdate' => $this->input->post('userUpdate', TRUE),
-                'updateDate' => $this->input->post('updateDate', TRUE),
-            );
 
-            $this->Mengagement->update($this->input->post('id', TRUE), $data);
-            
-            $details = $this->input->post('detail', TRUE);
-            $this->Mengagement_detail->replaceAll($this->input->post('id', TRUE), $details);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('engagement'));
-        
+        $data = array(
+            'entityId' => $this->input->post('entityId', TRUE),
+            'code' => $this->input->post('code', TRUE),
+            'engagementDate' => $this->input->post('engagementDate', TRUE),
+            'clientId' => $this->input->post('clientId', TRUE),
+            'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
+            'yearService' => $this->input->post('yearService', TRUE),
+            'description' => $this->input->post('description', TRUE),
+            'partnerId' => $this->input->post('partnerId', TRUE),
+            'managerId' => $this->input->post('managerId', TRUE),
+            'seniorId' => $this->input->post('seniorId', TRUE),
+            'complexity' => $this->input->post('complexity', TRUE),
+            'risk' => $this->input->post('risk', TRUE),
+            'agreedFees' => cleanFormat($this->input->post('agreedFees', TRUE)),
+            'agreedExpenses' => cleanFormat($this->input->post('agreedExpenses', TRUE)),
+            'estimatedCost' => cleanFormat($this->input->post('estimatedCost', TRUE)),
+            'signingPartnerId' => $this->input->post('signingPartnerId', TRUE),
+            'engagementPartnerId' => $this->input->post('engagementPartnerId', TRUE),
+            'asset' => $this->input->post('asset', TRUE),
+            'rl' => $this->input->post('rl', TRUE),
+            'reportNo' => $this->input->post('reportNo', TRUE),
+            'reportDate' => $this->input->post('reportDate', TRUE),
+            'opinion' => $this->input->post('opinion', TRUE),
+            'jobFromEmployeeId' => $this->input->post('jobFromEmployeeId', TRUE),
+            'finishStatusId' => $this->input->post('finishStatusId', TRUE),
+            'finishDate' => $this->input->post('finishDate', TRUE),
+            'finishApproveBy' => $this->input->post('finishApproveBy', TRUE),
+            'closing' => $this->input->post('closing', TRUE),
+            'closingDate' => $this->input->post('closingDate', TRUE),
+            'deleted' => $this->input->post('deleted', TRUE),
+            'inputby' => $this->input->post('inputby', TRUE),
+            'version' => $this->input->post('version', TRUE),
+            'userCreate' => $this->input->post('userCreate', TRUE),
+            'createDate' => $this->input->post('createDate', TRUE),
+            'userUpdate' => $this->input->post('userUpdate', TRUE),
+            'updateDate' => $this->input->post('updateDate', TRUE),
+            'name' => $this->input->post('name', TRUE),
+        );
+
+        $this->Mengagement->update($this->input->post('id', TRUE), $data);
+
+        $details = $this->input->post('detail', TRUE);
+        $this->Mengagement_detail->replaceAll($this->input->post('id', TRUE), $details);
+        $this->session->set_flashdata('message', 'Update Record Success');
+        redirect(site_url('engagement'));
     }
 
     public function delete($id) {
