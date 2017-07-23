@@ -2,7 +2,7 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
+include('BaseController.php');
 class Client extends BaseController
 {
     function __construct()

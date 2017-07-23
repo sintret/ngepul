@@ -60,6 +60,10 @@ class BaseController extends CI_Controller {
 
         $r = $this->isAccess();
         if (!$r) {
+            $this->session->set_flashdata('eroor_set', '<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<span><strong>Notice: </strong> Sorry You Dont Have The Permission To Access Last Visiting Module..</span>
+		</div>');
             redirect(site_url('dashboard'));
         }
     }
