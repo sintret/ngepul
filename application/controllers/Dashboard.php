@@ -33,7 +33,15 @@ class Dashboard extends CI_Controller {
     }
 
     public function ajax_timesheet() {
-        $month = empty($_POST['month']) ? date("m") : $_POST['month'];
+        $m = empty($_POST['month']) ? date("m") : $_POST['month'];
+        $m = (int) $m;
+
+        if ($m < 10) {
+            $month = '0' . $m;
+        } else {
+            $month = $m;
+        }
+
         $year = empty($_POST['year']) ? date("Y") : $_POST['year'];
         $index = empty($_POST['index']) ? 1 : $_POST['index'];
         $results = $this->Mengagement_detail->timesheet($month, $year, $index, $this->session->userdata('employeeId'));
@@ -44,7 +52,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function ajax_timesheet_post() {
-        $engagementId = (int)$_POST['engagementId'];
+        $engagementId = (int) $_POST['engagementId'];
         $hour = $_POST['hour'];
         $description = $_POST['description'];
         $date = $_POST['date'];
