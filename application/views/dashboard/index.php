@@ -293,8 +293,8 @@
                 var date = $("#tDate").val();
                 var elm = "ts"+engagementId +"_"+ date;
                 $("#"+elm).html(json.value);
-                $("#total"+engagementId).val(json.total);
-                $('#tModal').modal('hide');
+                $("#total"+engagementId).html(json.total);
+                $('#tModal').modal('hide');                
             }
         });
     });
