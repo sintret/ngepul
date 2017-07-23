@@ -45,5 +45,27 @@ class musers extends CI_Model {
         $this->db->where("id",$kode);
         $this->db->delete("users");
     }
+    public function cek_old_password($oldPassword, $id){
+        $old = md5($oldPassword);    
+        $this->db->where('id',$id);
+        $this->db->where('password',$old);
+        $query = $this->db->get('users');
+        $res = $query->result();
+        if($res){
+            return 1;
+        }else{
+            //$this->form_validation->set_message('passwordCheck', 'Invalid current password, please try again');
+            return 0;
+        }
+     // return $query->result();
+    }
+    
+     function update_password($data,$userId){
+       $this->db->where('id', $userId);
+       $this->db->update("users", $data);   
+       $lastInsert_id = $this->db->insert_id();
+       //return TRUE;
+       //return $lastInsert_id;
+    }
 }
 ?>
