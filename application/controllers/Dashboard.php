@@ -4,7 +4,7 @@ class Dashboard extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('Mengagement', 'Mengagement_detail', 'Mentity', 'Mclient', 'Mservicetitle', 'Memployee', 'Mclosing_periode'));
+        $this->load->model(array('Mtimesheet', 'Mengagement', 'Mengagement_detail', 'Mentity', 'Mclient', 'Mservicetitle', 'Memployee', 'Mclosing_periode'));
         $this->load->library(array('form_validation', 'template'));
         $this->load->helper(array('form', 'url', 'rupiah_helper'));
         if (!$this->session->userdata('username')) {
@@ -41,6 +41,30 @@ class Dashboard extends CI_Controller {
             'results' => $results,
         );
         $this->load->view('ajax/ajax_timesheet', $data);
+    }
+
+    public function ajax_timesheet_post() {
+        $engagementId = $_POST['engagementId'];
+        $hour = $_POST['hour'];
+        $description = $_POST['description'];
+        $date = $_POST['date'];
+        $employeeId = $this->session->userdata('employeeId');
+        $data = [
+            'engagementId' => $engagementId,
+            'hour' => $hour,
+            'description' => $description,
+            'date' => $date,
+            'employeeId' => $employeeId
+        ];
+        $this->Mtimesheet->insert($data);
+        
+        $r = $this->Mtimesheet->total($date,$employeeId);
+        $array = [
+            'value' => $hour,
+            'total' => $r->total
+        ];
+
+        echo json_encode($array);
     }
 
 }
