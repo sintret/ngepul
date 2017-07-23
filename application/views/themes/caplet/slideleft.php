@@ -4,10 +4,18 @@
 <!-- //nav-title-->
 <div id="nav-scroll">
     <div class="avatar-slide">
-
+<?php
+  $emptyPath =  base_url().'assets/uploads/employee/empty.png';
+  $profileImagePath = base_url().'assets/uploads/employee/'.$this->session->userdata('avatar');
+ if (file_exists($profileImagePath)) {
+     $picturePath = $profileImagePath;
+ } else {
+     $picturePath = $emptyPath;
+ }
+?>
         <span class="easy-chart avatar-chart" data-color="theme-inverse" data-percent="100" data-track-color="rgba(255,255,255,0.1)" data-line-width="5" data-size="118">
             <span class="percent"></span>
-            <img alt="" src="<?= base_url() ?>assets/img/avatar.png" class="circle">
+            <img alt="" src="<?= $picturePath; ?>" class="circle">
         </span>
         <!-- //avatar-chart-->
 

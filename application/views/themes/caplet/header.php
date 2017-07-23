@@ -47,9 +47,19 @@
 <!--            <li><a href="#menu-right" data-toggle="tooltip" title="Right Menu" data-container="body" data-placement="left"><i class="fa fa-align-right"></i></a></li>-->
 <!--            <li class="hidden-xs hidden-sm"><a href="#" class="h-seperate">Help</a></li>-->
 <!--            <li><button class="btn btn-circle btn-header-search" ><i class="fa fa-search"></i></button></li>-->
+<?php
+  $emptyPath =  base_url().'assets/uploads/employee/empty.png';
+  $profileImagePath = base_url().'assets/uploads/employee/'.$this->session->userdata('avatar');
+ if (file_exists($profileImagePath)) {
+     $picturePath = $profileImagePath;
+ } else {
+     $picturePath = $emptyPath;
+ }
+?>
             <li>
                 <a href="#" class="nav-collapse avatar-header">
-                    <img alt="" src="<?= base_url() ?>assets/img/avatar.png"  class="circle">
+                 <!--   <img alt="" src="<?= base_url() ?>assets/img/avatar.png"  class="circle">-->
+                       <img alt="" src="<?= $picturePath;?>"  class="circle">
                     <span class="badge">3</span>
                 </a>
             </li>
