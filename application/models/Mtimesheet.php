@@ -40,4 +40,25 @@ class Mtimesheet extends CI_Model {
         $this->db->delete($this->table);
     }
 
+    function total($date, $employeeId) {
+        $d = date("d", strtotime($date));
+        $y = date("Y", strtotime($date));
+        $m = date("m", strtotime($date));
+        $t = date("t", strtotime($date));
+
+        if ($d > 15) {
+            $startDate = $y . '-' . $m . '-16';
+            $endDate = $y . '-' . $m . '-' . $t;
+        } else {
+            $startDate = $y . '-' . $m . '-01';
+            $endDate = $y . '-' . $m . '-15';
+        }
+
+        $between = 'date BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND `employeeId` = "' . $employeeId . '"';
+        $sql = 'select sum(hour) as total from ' . $this->table . ' where ' . $between;
+
+        $qr = $this->db->query($sql);
+        return $qr->row();
+    }
+
 }

@@ -107,43 +107,49 @@
                 <button type="button" id="goTimesheets" class="btn btn-success"> Go!</button>
             </form>
             <p>&nbsp;</p>
-            <table class="table table-bordered" id="table-timesheet" style="margin-bottom: 10px;margin-right: 10px">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Project Name</th>
-                        <th>Description</th>
-                        <th>Approval</th>
-                        <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
-                            <th><?php echo $i < 10 ? '0' . $i : $i; ?></th>
-                        <?php } ?>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $no = 1;
-                    $timesheets = $results['results'];
-                    if ($timesheets)
-                        foreach ($timesheets as $timesheet) {
-                            ?>
-                            <tr>
-                                <td>#</td>
-                                <td><?php echo $timesheet->name; ?></td>
-                                <td><?php echo $timesheet->description; ?></td>
-                                <td>Approval</td>
-                                <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
-                                    <td>0</td>
-                                <?php } ?>
-                                <td>Total</td>
-                            </tr>
-                            <?php
-                            $no++;
-                        }
-                    ?>
-                </tbody>
-            </table>
 
+            <div class="row">
+                <div class="col-md-11">
+                    <table class="table table-bordered" id="table-timesheet" style="margin-bottom: 10px;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project Name</th>
+                                <th>Description</th>
+                                <th>Approval</th>
+                                <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
+                                    <th><?php echo $i < 10 ? '0' . $i : $i; ?></th>
+                                <?php } ?>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            $timesheets = $results['results'];
+                            if ($timesheets)
+                                foreach ($timesheets as $timesheet) {
+                                    ?>
+                                    <tr>
+                                        <td>#</td>
+                                        <td><?php echo $timesheet->name; ?></td>
+                                        <td><?php echo $timesheet->description; ?></td>
+                                        <td>Approval</td>
+                                        <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
+                                            <td>0</td>
+                                        <?php } ?>
+                                        <td>Total</td>
+                                    </tr>
+                                    <?php
+                                    $no++;
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
         </div>
         <div class="tab-pane" id="2a">
 
@@ -241,7 +247,7 @@
         var l = daysInMonth(m, iYear);
 
         var c = 1;
-        var p=0;
+        var p = 0;
 
         if ($("#option2").is(":checked")) {
             c = 2;
@@ -252,12 +258,13 @@
             head += '<th>Total</th></tr>';
             $("#table-timesheet thead").html(head);
         } else {
-            c=1;
+            c = 1;
             var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
             for (i = 1; i <= 15; i++) {
-                if(i <10)
-                    p = '0'+i;
-                else p = i;
+                if (i < 10)
+                    p = '0' + i;
+                else
+                    p = i;
                 head += '<th>' + p + '</th>';
             }
             head += '<th>Total</th></tr>';
@@ -265,4 +272,62 @@
         }
         timesheets(iMonth, iYear, c);
     });
+
+    $(document).on("click", ".tInput", function (e) {
+        $('#tModal').modal('show');
+        $("#tHour").val($(this).html());
+        $("#tDescription").val($(this).data("description"));
+        $("#tTitle").html($(this).data("title"));
+        $("#tEngagementId").val($(this).data("engagementid"));
+        $("#tDate").val($(this).data("date"));
+    });
+
+    $(document).on("click","#tSave", function () {
+        $.ajax({
+            type: "POST",
+            url: '<?= base_url(); ?>dashboard/ajax_timesheet_post',
+            data: {engagementId: $("#tEngagementId").val(), date: $("#tDate").val(), hour: $("#tHour").val(), description: $("#tDescription").val()},
+            success: function (data) {
+                var json = JSON.parse(data);
+                var engagementId =$("#tEngagementId").val();
+                var date = $("#tDate").val();
+                var elm = "ts"+engagementId +"_"+ date;
+                $("#"+elm).html(json.value);
+                $("#total"+engagementId).val(json.total);
+                $('#tModal').modal('hide');
+            }
+        });
+    });
 </script>
+
+<!-- Modal -->
+<div class="modal fade" id="tModal" tabindex="-1" role="dialog" aria-labelledby="tTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="tHour" class="form-control-label">Hour:</label>
+                        <input type="number" class="form-control" id="tHour">
+                    </div>
+                    <div class="form-group">
+                        <label for="tDescription" class="form-control-label">Description:</label>
+                        <textarea class="form-control" id="tDescription"></textarea>
+                        <input type="hidden" id="tEngagementId">
+                        <input type="hidden" id="tDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="tSave">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
