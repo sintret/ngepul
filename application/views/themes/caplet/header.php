@@ -58,10 +58,11 @@
                     <em><strong>Hi</strong>, <?= $this->session->userdata('username'); ?> </em> <i class="dropdown-icon fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu pull-right icon-right arrow">
-                    <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
-                    <li><a href="#"><i class="fa fa-cog"></i> Setting </a></li>
-                    <li><a href="#"><i class="fa fa-bookmark"></i> Bookmarks</a></li>
-                    <li><a href="#"><i class="fa fa-money"></i> Make a Deposit</a></li>
+                    <li><a href="<?= base_url();?>notification"><i class="fa fa-globe"></i> My notification </a></li>
+                    <li><a href="<?= base_url();?>profile"><i class="fa fa-user"></i>My Profile</a></li>
+                    <li><a href="<?= base_url();?>personal/change_password"><i class="fa fa-cog"></i> Change Password </a></li>
+                    <!--<li><a href="#"><i class="fa fa-bookmark"></i> Bookmarks</a></li>
+                    <li><a href="#"><i class="fa fa-money"></i> Make a Deposit</a></li>-->
                     <li class="divider"></li>
                     <li><a href="<?= base_url() ?>site/logout"><i class="fa fa-sign-out"></i> Signout </a></li>
                 </ul>
