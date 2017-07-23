@@ -1,11 +1,11 @@
 <div id="nav-title">
-    <h3><strong>Hi</strong>, Admin</h3>
+    <h3><strong>Hi</strong>,  <?= $this->session->userdata('username'); ?> </h3>
 </div>
 <!-- //nav-title-->
 <div id="nav-scroll">
     <div class="avatar-slide">
 
-        <span class="easy-chart avatar-chart" data-color="theme-inverse" data-percent="69" data-track-color="rgba(255,255,255,0.1)" data-line-width="5" data-size="118">
+        <span class="easy-chart avatar-chart" data-color="theme-inverse" data-percent="100" data-track-color="rgba(255,255,255,0.1)" data-line-width="5" data-size="118">
             <span class="percent"></span>
             <img alt="" src="<?= base_url() ?>assets/img/avatar.png" class="circle">
         </span>
@@ -13,33 +13,34 @@
 
         <div class="avatar-detail">
             <p><button class="btn btn-inverse btn-sm"><i class="fa fa-pencil"></i> Edit Profile</button></p>
-            <p><a href="#">@ Chaing Mai , TH</a></p>
-            <span>12,110 Sales</span>
-            <span>106 Follower</span>
+            <p><a href="#">@  <?= $this->session->userdata('username'); ?> </a></p>
+<!--            <span>12,110 Sales</span>
+            <span>106 Follower</span>-->
         </div>
         <!-- //avatar-detail-->
 
         <div class="avatar-link btn-group btn-group-justified">
-            <a class="btn" href="profile.html"  title="Portfolio"><i class="fa fa-briefcase"></i></a>
+            <a class="btn" href="#"  title="profile"><i class="fa fa-briefcase"></i></a>
             <a class="btn"  data-toggle="modal" href="#md-notification" title="Notification">
                 <i class="fa fa-bell-o"></i><em class="green"></em>
             </a>
             <a class="btn"  data-toggle="modal" href="#md-messages"  title="Messages">
                 <i class="fa fa-envelope-o"></i><em class="active"></em>
             </a>
-            <a class="btn" href="#menu-right" title="Contact List"><i class="fa fa-book"></i></a>
+            <a class="btn" href="#" title="themes"><i class="fa fa-book"></i></a>
+<!--            <a class="btn" href="#menu-right" title="themes color"><i class="fa fa-book"></i></a>-->
         </div>
         <!-- //avatar-link-->
 
     </div>
     <!-- //avatar-slide-->
 
-
+<!--
     <div class="widget-collapse dark">
         <header>
             <a data-toggle="collapse" href="#collapseSummary"><i class="collapse-caret fa fa-angle-up"></i> Summary Order </a>
         </header>
-        <section class="collapse in" id="collapseSummary">
+       <section class="collapse in" id="collapseSummary">
             <div class="collapse-boby" style="padding:0">
 
                 <div class="widget-mini-chart align-xs-left">
@@ -49,7 +50,6 @@
                     <p>This week's balance</p>
                     <h4>$12,788</h4>
                 </div>
-                <!-- //widget-mini-chart -->
 
                 <div class="widget-mini-chart align-xs-right">
                     <div class="pull-left">
@@ -58,17 +58,15 @@
                     <p>This week sales</p>
                     <h4>1,325 item</h4>
                 </div>
-                <!-- //widget-mini-chart -->
 
             </div>
-            <!-- //collapse-boby-->
 
         </section>
-        <!-- //collapse-->
-    </div>
+         //collapse
+    </div>-->
     <!-- //widget-collapse-->
 
-
+<!--
 
     <div class="widget-collapse dark">
         <header>
@@ -84,28 +82,28 @@
                         <div class="progress-bar bg-darkorange" aria-valuetransitiongoal="75"></div>
                     </div>
                     <label class="progress-label">Master.zip 4 / 5 </label>
-                    <!-- //progress-->
+                     //progress
 
                     <div class="progress progress-dark progress-xs">
                         <div class="progress-bar bg-theme-inverse" aria-valuetransitiongoal="45"></div>
                     </div>
                     <label class="progress-label lasted">Profile 2 / 5 </label>
-                    <!-- //progress-->
+                     //progress
 
                 </div>
-                <!-- //widget-slider-->
+                 //widget-slider
 
             </div>
-            <!-- //collapse-boby-->
+             //collapse-boby
 
         </section>
-        <!-- //collapse-->
-    </div>
+         //collapse
+    </div>-->
     <!-- //widget-collapse-->
 
 
 
-    <div class="widget-collapse dark">
+<!--    <div class="widget-collapse dark">
         <header>
             <a data-toggle="collapse" href="#collapseSetting"><i class="collapse-caret fa fa-angle-up"></i> Setting Option </a>
         </header>
@@ -128,14 +126,14 @@
                         <small>Lorem ipsum dolor sit amet</small>
                     </li>
                 </ul>
-                <!-- //widget-slide-setting-->
+                 //widget-slide-setting
 
             </div>
-            <!-- //collapse-boby-->
+             //collapse-boby
 
         </section>
-        <!-- //collapse-->
-    </div>
+         //collapse
+    </div>-->
     <!-- //widget-collapse-->
 
 

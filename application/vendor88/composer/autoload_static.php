@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit38d19920e6d460d5b6116910852d2d65
+class ComposerStaticInitb276c0f52518de1c8590a54436c2f1ce
 {
     public static $classMap = array (
         'Firebase\\Error' => __DIR__ . '/..' . '/ktamas77/firebase-php/src/firebaseStub.php',
@@ -16,7 +16,7 @@ class ComposerStaticInit38d19920e6d460d5b6116910852d2d65
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit38d19920e6d460d5b6116910852d2d65::$classMap;
+            $loader->classMap = ComposerStaticInitb276c0f52518de1c8590a54436c2f1ce::$classMap;
 
         }, null, ClassLoader::class);
     }
