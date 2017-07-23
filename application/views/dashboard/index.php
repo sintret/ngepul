@@ -292,7 +292,12 @@
             type: "POST",
             url: '<?= base_url(); ?>dashboard/ajax_timesheet_post',
             data: {engagementId: $("#tEngagementId").val(), date: $("#tDate").val(), hour: $("#tHour").val(), description: $("#tDescription").val()},
+            beforeSend: function () {
+                // setting a timeout
+                $('.loading-image').show();
+            },
             success: function (data) {
+                $('.loading-image').hide();
                 var json = JSON.parse(data);
                 var engagementId = $("#tEngagementId").val();
                 var date = $("#tDate").val();
@@ -327,6 +332,7 @@
                         <input type="hidden" id="tEngagementId">
                         <input type="hidden" id="tDate">
                     </div>
+                    <img class="loading-image img-responsive" style="display:none" src="<?php echo base_url().'assets/img/Spinner.gif';?>" >
                 </form>
             </div>
             <div class="modal-footer">

@@ -211,4 +211,31 @@ class Mengagement_detail extends CI_Model {
         ];
     }
 
+    function pushToFirebase($engagementId, $message) {
+        $where = ['engagementId' => $engagementId];
+        $this->db->where($where);
+        $this->db->from($this->table);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $results = $query->result();
+            if ($results)
+                foreach ($results as $result) {
+                    $title = 'Engagement - Timesheets News';
+                    $user = $this->getUser($result->employeeId);
+
+                    Mnotification::notification($user->id, $title, $message);
+
+                    $data = [
+                        'userId' => $user->id,
+                        'title' => $title,
+                        'message' => $message,
+                        'createdBy' => $this->session->userdata("id")
+                    ];
+
+                    $this->db->insert('notification', $data);
+                }
+        }
+    }
+
 }

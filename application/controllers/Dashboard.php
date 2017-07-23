@@ -44,7 +44,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function ajax_timesheet_post() {
-        $engagementId = $_POST['engagementId'];
+        $engagementId = (int)$_POST['engagementId'];
         $hour = $_POST['hour'];
         $description = $_POST['description'];
         $date = $_POST['date'];
@@ -57,8 +57,12 @@ class Dashboard extends CI_Controller {
             'employeeId' => $employeeId
         ];
         $this->Mtimesheet->insert($data);
-        
-        $r = $this->Mtimesheet->total($date,$employeeId);
+        //push to firebase
+        $message = 'input ' . $hour . ' hour description : ' . $description . ' by ' . $this->session->userdata('username');
+        $this->Mengagement_detail->pushToFirebase($engagementId, $message);
+
+
+        $r = $this->Mtimesheet->total($date, $employeeId);
         $array = [
             'value' => $hour,
             'total' => $r->total
