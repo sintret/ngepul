@@ -5,7 +5,7 @@ $segmentPage2 = $this->uri->segment(2);
 ?>
 <section class="panel" style="background-color: whitesmoke">
     <header class="panel-heading btn-inverse">
-        <h4><strong>LEAVE</strong> /<?= $button ?></h4>
+        <h4><strong>NON CHARGEABLE</strong> /<?= $button ?></h4>
     </header>
     <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data">

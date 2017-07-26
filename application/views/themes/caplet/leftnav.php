@@ -20,14 +20,17 @@ $segmentPage2 = $this->uri->segment(2);
                     <li <?php if($segmentPage == 'closing_periode' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>closing_periode"><i class="icon  fa fa-th" aria-hidden="true"></i> CLOSING PERIODE</a></li>   
                 </ul>
     </li> 
-    <li <?php if($segmentPage == 'engagement' ||$segmentPage == 'timereportdetail'||$segmentPage == 'expensereimbursementdetail'  ){ ?>class="activelink"<?php } else { }?>>
+    <li <?php if($segmentPage == 'engagement' ||$segmentPage == 'expense' ||$segmentPage == 'timereportdetail'||$segmentPage == 'reimbursement' ||$segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon glyphicon glyphicon-screenshot"></i> PTS</span>
         <ul>
             <li class="Label label-lg">PROJECT TRACKING SYSTEM</li>
 <!--            <li><a href="<?= base_url() ?>client"><i class="icon  fa fa-th"></i> Client </a></li>    -->
             <li <?php if($segmentPage == 'engagement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>engagement"><i class="icon  fa fa-th"></i> ENGAGEMENT </a></li>
             <li <?php if($segmentPage == 'timereportdetail' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>timereportdetail"><i class="icon  fa fa-th"></i> TIME REPORT </a></li>
-            <li <?php if($segmentPage == 'expensereimbursementdetail' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>expensereimbursementdetail"><i class="icon  fa fa-th"></i> EXPENSE REIMBURSEMENT</a></li>
+             <li <?php if($segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>leave"><i class="icon  fa fa-th" aria-hidden="true"></i>NON CHARGEABLE</a></li>
+            <li <?php if($segmentPage == 'expense' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>expense"><i class="icon  fa fa-th"></i> EXPENSE PARAMETER</a></li>
+             <li <?php if($segmentPage == 'reimbursement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>reimbursement"><i class="icon  fa fa-th"></i> REIMBURSEMENT</a></li>
+            <!--<li <?php if($segmentPage == 'expensereimbursementdetail' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>expensereimbursementdetail"><i class="icon  fa fa-th"></i> EXPENSE REIMBURSEMENT</a></li>-->
 
         </ul>
     </li>
@@ -54,7 +57,7 @@ $segmentPage2 = $this->uri->segment(2);
                     <li <?php if($segmentPage == 'service' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>service"><i class="icon  fa fa-th" aria-hidden="true"></i> SERVICE AREA</a></li>   
                 </ul>
     </li>
-    <li <?php if($segmentPage == 'bank' ||  $segmentPage == 'country'  || $segmentPage == 'city'  || $segmentPage == 'province' || $segmentPage == 'leave'  ){ ?>class="activelink"<?php } else { }?>>
+    <li <?php if($segmentPage == 'bank' ||  $segmentPage == 'country'  || $segmentPage == 'city'  || $segmentPage == 'province'  ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon fa fa-globe"></i> GLOBAL SETTING </span>
                 <ul>
                     <li class="Label label-lg"><b>SERVICE PARAMETER</b></li>
@@ -62,7 +65,7 @@ $segmentPage2 = $this->uri->segment(2);
                     <li <?php if($segmentPage == 'country' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>country"><i class="icon  fa fa-th" aria-hidden="true"></i> COUNTRY</a></li>
                     <li <?php if($segmentPage == 'city' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>city"><i class="icon  fa fa-th" aria-hidden="true"></i> CITY</a></li>
                     <li <?php if($segmentPage == 'province' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>province"><i class="icon  fa fa-th" aria-hidden="true"></i> PROVINCE</a></li>
-                    <li <?php if($segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>leave"><i class="icon  fa fa-th" aria-hidden="true"></i> LEAVE SETTING</a></li>
+                   
                 </ul>
     </li>
     <li <?php if($segmentPage == 'userslist' ||$segmentPage == 'access' || $segmentPage == 'userlevel' ){ ?>class="activelink"<?php } else { }?>>
@@ -75,14 +78,22 @@ $segmentPage2 = $this->uri->segment(2);
 
         </ul>
     </li>
-    
+    <li <?php if($segmentPage == 'report' ){ ?>class="activelink"<?php } else { }?>>
+        <span><i class="icon glyphicon glyphicon-file"></i>REPORT</span>
+        <ul>
+            <li class="Label label-lg">ALL REPORT </li>
+            <li <?php if($segmentPage2 == 'engagement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/engagement"><i class="icon  fa fa-th-large"></i> Engagement Report </a></li>    
+            <li <?php if($segmentPage2 == 'employee' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/employee"><i class="icon  fa fa-th-large"></i> Employee Report</a></li>
+
+        </ul>
+    </li>
     <li <?php if($segmentPage == 'personal' ||$segmentPage == 'notification' || $segmentPage == 'profile' ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon glyphicon glyphicon-user"></i> My Account</span>
         <ul>
             <li class="Label label-lg">PERSONAL INFORMATION</li>
             <li <?php if($segmentPage == 'notification' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>notification"><i class="icon  fa fa-globe"></i> My Notification </a></li>    
             <li <?php if($segmentPage == 'personal' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>personal/change_password"><i class="icon  fa fa-th"></i> Change Password</a></li>
-            <li <?php if($segmentPage == 'profile' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>profile"><i class="icon  fa fa-th"></i> My Profile</a></li>
+           <!--<li <?php if($segmentPage == 'profile' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>profile"><i class="icon  fa fa-th"></i> My Profile</a></li>-->
 
         </ul>
     </li>

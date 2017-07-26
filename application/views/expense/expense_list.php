@@ -3,18 +3,18 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                <h4><strong>NON CHARGEABLE SETTING</strong></h4>
+                <h4><strong>EXPENSE PARAMETER</strong></h4>
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                     <li>
-                        <a href="<?= site_url('leave/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
+                        <a href="<?= site_url('expense/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('leave/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
+                        <a href="<?= site_url('expense/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('leave/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
+                        <a href="<?= site_url('expense/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
                     <li></li>
                     <li><a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
@@ -27,10 +27,9 @@
         <thead>
             <tr>
                 <th>No</th>
-		<th>Leave Code</th>
-		<th>Entity</th>
-		<th>Leave Name</th>
-		<th>Charges Type</th>
+		<th>Expense Code</th>
+		<th>Expense Name</th>
+		<th>Expense Cost</th>
 		<th>Action</th>
             
 		</tr>
@@ -39,31 +38,24 @@
             
 		<tbody align="center">
             <?php
-            foreach ($leave_data as $leave)
+            foreach ($expense_data as $expense)
             {
-                if($leave->leaveChargesType == 1){
-                    $spans = '<span class="label label-success">official charge</span>';
-                } else {
-                    $spans = '<span class="label label-warning">personal charge</span>'; 
-                }
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $leave->leaveCode ?></td>
-			<td><?php echo $leave->company_name ?></td>
-			<td><?php echo $leave->leaveName ?></td>
-			<td><?php echo $spans ?></td>
-			
-                         <td>
-                                        <span class="tooltip-area">
-                                            <a href="<?= site_url('leave/update/' . $leave->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+			<td><?php echo $expense->expenseCode ?></td>
+			<td><?php echo $expense->expenseName ?></td>
+			<td><?php echo rupiah(ceil($expense->expenseCost)) ?></td>
+			<td style="text-align:center" width="200px">
+                 <span class="tooltip-area">
+                                            <a href="<?= site_url('expense/update/' . $expense->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="<?= site_url('leave/read/' . $leave->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= site_url('expense/read/' . $expense->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('leave/delete/' . $leave->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= site_url('expense/delete/' . $expense->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
-                                    </td>
+			</td>
 		</tr>
                 <?php
             }

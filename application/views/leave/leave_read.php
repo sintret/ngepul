@@ -1,6 +1,6 @@
 <section class="panel" style="background-color: whitesmoke">
     <header class="panel-heading btn-inverse">
-        <h4><strong>LEAVE</strong> /READ</h4>
+        <h4><strong>NON CHARGEABLE</strong> /READ</h4>
     </header>
     <?php
     if($leaveChargesType == 1){
