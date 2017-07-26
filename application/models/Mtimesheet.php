@@ -60,5 +60,37 @@ class Mtimesheet extends CI_Model {
         $qr = $this->db->query($sql);
         return $qr->row();
     }
+    
+     function get_all()
+    {
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get($this->table)->result();
+    }
+
+    // get data by id
+    function get_by_id($id)
+    {
+        $this->db->where($this->id, $id);
+        return $this->db->get($this->table)->row();
+    }
+    
+    // get total rows
+    function total_rows($q = NULL) {
+        $this->db->like('id', $q);
+	$this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+
+    // get data with limit and search
+    function get_limit_data($limit, $start = 0, $q = NULL) {
+        $this->db->select('a.*,b.name as engagementName, CONCAT(d.firstName," ",d.lastName) as fullname');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('employee d', 'a.employeeId = d.id');
+        $this->db->order_by('updateDate', 'DESC');
+	    $this->db->limit($limit, $start);
+        
+        return $this->db->get("timesheet a")->result();
+        
+    }
 
 }

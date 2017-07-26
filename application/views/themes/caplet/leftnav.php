@@ -20,13 +20,13 @@ $segmentPage2 = $this->uri->segment(2);
                     <li <?php if($segmentPage == 'closing_periode' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>closing_periode"><i class="icon  fa fa-th" aria-hidden="true"></i> CLOSING PERIODE</a></li>   
                 </ul>
     </li> 
-    <li <?php if($segmentPage == 'engagement' ||$segmentPage == 'expense' ||$segmentPage == 'timereportdetail'||$segmentPage == 'reimbursement' ||$segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>>
+    <li <?php if($segmentPage == 'engagement' ||$segmentPage == 'expense' ||$segmentPage == 'timesheet'||$segmentPage == 'reimbursement' ||$segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon glyphicon glyphicon-screenshot"></i> PTS</span>
         <ul>
             <li class="Label label-lg">PROJECT TRACKING SYSTEM</li>
 <!--            <li><a href="<?= base_url() ?>client"><i class="icon  fa fa-th"></i> Client </a></li>    -->
             <li <?php if($segmentPage == 'engagement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>engagement"><i class="icon  fa fa-th"></i> ENGAGEMENT </a></li>
-            <li <?php if($segmentPage == 'timereportdetail' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>timereportdetail"><i class="icon  fa fa-th"></i> TIME REPORT </a></li>
+            <li <?php if($segmentPage == 'timesheet' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>timesheet"><i class="icon  fa fa-th"></i> TIME SHEET </a></li>
              <li <?php if($segmentPage == 'leave' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>leave"><i class="icon  fa fa-th" aria-hidden="true"></i>NON CHARGEABLE</a></li>
             <li <?php if($segmentPage == 'expense' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>expense"><i class="icon  fa fa-th"></i> EXPENSE PARAMETER</a></li>
              <li <?php if($segmentPage == 'reimbursement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>reimbursement"><i class="icon  fa fa-th"></i> REIMBURSEMENT</a></li>
