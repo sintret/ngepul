@@ -1,7 +1,7 @@
 <?php
 
 $sheet = $objPHPExcel->setActiveSheetIndex(0);
-$sheet->setCellValue('A2', 'PERIODE : ' . $data['startDate'] . ' - ' . $data['endDate']);
+$sheet->setCellValue('A2', 'PERIODE : ' . $data['startDate'] . ' UNTIL  ' . $data['endDate']);
 
 $num = 6;
 //echo "<pre>"; print_r($results); exit;
