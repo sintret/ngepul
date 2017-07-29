@@ -8,7 +8,7 @@ class Reimbursement extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Mreimbursement','Mexpense','Memployee','Musers','Mengagement'));
+        $this->load->model(array('Mreimbursement','Mexpense','Memployee','Musers','Mengagement','Mnotification'));
         $this->load->library(array('form_validation','template'));
         $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
@@ -41,8 +41,15 @@ class Reimbursement extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('reimbursement/reimbursement_list', $data);
+        
+          
+       
+        
+       $this->template->caplet('reimbursement/reimbursement_list', $data);
     }
+    
+     
+   
 
     public function read($id) 
     {
@@ -51,6 +58,7 @@ class Reimbursement extends CI_Controller
             $data = array(
 		'id' => $row->id,
 		'engagementId' => $row->engagementId,
+		'employeeId' => $row->employeeId,
 		'periodDate' => $row->periodDate,
 		'approvalId' => $row->approvalId,
 		'expenseId' => $row->expenseId,
@@ -66,6 +74,7 @@ class Reimbursement extends CI_Controller
 		'userUpdate' => $row->userUpdate,
 		'updateDate' => $row->updateDate,
 	    );
+       
              $this->template->caplet('reimbursement/reimbursement_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -83,6 +92,7 @@ class Reimbursement extends CI_Controller
 	    'expenses' =>  $this->Mexpense->get_all(),
 	    'employees' =>  $this->Memployee->get_all(),
 	    'engagementId' => set_value('engagementId'),
+		'employeeId' => set_value('employeeId'),
 	    'periodDate' => set_value('periodDate'),
 	    'approvalId' => set_value('approvalId'),
 	    'expenseId' => set_value('expenseId'),
@@ -110,16 +120,18 @@ class Reimbursement extends CI_Controller
         } else {
             $data = array(
 		'engagementId' => $this->input->post('engagementId',TRUE),
+		'employeeId' =>  $this->input->post('employeeId',TRUE),
 		'periodDate' => date('Y-m-d', strtotime(strtr($this->input->post('periodDate',TRUE), '/', '-'))),
 		'approvalId' => $this->input->post('approvalId',TRUE),
 		'expenseId' => $this->input->post('expenseId',TRUE),
 		'expenseAmount' => $this->input->post('expenseAmount',TRUE),
 		'expenseDate' => date('Y-m-d', strtotime(strtr($this->input->post('expenseDate',TRUE), '/', '-'))),
 		'expenseDesc' => $this->input->post('expenseDesc',TRUE),
-		'approvalStatusId' => $this->input->post('approvalStatusId',TRUE),
-		'approvalBy' => $this->input->post('approvalBy',TRUE),
-		'approvalDate' =>  date('Y-m-d', strtotime(strtr($this->input->post('approvalDate',TRUE), '/', '-')) ),
-		'approvalDesc' => $this->input->post('approvalDesc',TRUE),
+		'approvalStatusId' => 1, // pending
+	//	'approvalStatusId' => $this->input->post('approvalStatusId',TRUE),
+	//	'approvalBy' => $this->input->post('approvalBy',TRUE),
+	//	'approvalDate' =>  date('Y-m-d', strtotime(strtr($this->input->post('approvalDate',TRUE), '/', '-')) ),
+	//	'approvalDesc' => $this->input->post('approvalDesc',TRUE),
 		'userCreate' => $this->session->userdata('id'),
 		'createDate' => date('Y-m-d H:i:s'),
 		//'userUpdate' => $this->input->post('userUpdate',TRUE),
@@ -128,8 +140,12 @@ class Reimbursement extends CI_Controller
 
        // echo "<pre>"; print_r($data); exit(0);
             $this->Mreimbursement->insert($data);
+			$lastId = $this->db->insert_id();
+
+			Mnotification::notification(3,'test','description',base_url().'reimbursement/read/'. $lastId);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('reimbursement'));
+          //  redirect(site_url('personal/my_reimbursement'));
         }
     }
     
@@ -143,6 +159,7 @@ class Reimbursement extends CI_Controller
                 'action' => site_url('reimbursement/update_action'),
 		'id' => set_value('id', $row->id),  
         'engagements' =>  $this->Mengagement->get_all(),
+        'employeeId' =>  set_value('employeeId', $row->employeeId),
 	    'expenses' =>  $this->Mexpense->get_all(),
 	    'employees' =>  $this->Memployee->get_all(),
 		'engagementId' => set_value('engagementId', $row->engagementId),
@@ -177,16 +194,18 @@ class Reimbursement extends CI_Controller
         } else {
             $data = array(
 		'engagementId' => $this->input->post('engagementId',TRUE),
+        'employeeId' => $this->input->post('employeeId',TRUE),
 		'periodDate' => date('Y-m-d', strtotime(strtr($this->input->post('periodDate',TRUE), '/', '-')) ),
 		'approvalId' => $this->input->post('approvalId',TRUE),
 		'expenseId' => $this->input->post('expenseId',TRUE),
 		'expenseAmount' => $this->input->post('expenseAmount',TRUE),
 		'expenseDate' => date('Y-m-d', strtotime(strtr($this->input->post('expenseDate',TRUE), '/', '-')) ),
 		'expenseDesc' => $this->input->post('expenseDesc',TRUE),
-		'approvalStatusId' => $this->input->post('approvalStatusId',TRUE),
-		'approvalBy' => $this->input->post('approvalBy',TRUE),
-		'approvalDate' => date('Y-m-d', strtotime(strtr($this->input->post('approvalDate',TRUE), '/', '-')) ),
-		'approvalDesc' => $this->input->post('approvalDesc',TRUE),
+		'approvalStatusId' => 1,
+		//'approvalStatusId' => $this->input->post('approvalStatusId',TRUE),
+		//'approvalBy' => $this->input->post('approvalBy',TRUE),
+		//'approvalDate' => date('Y-m-d', strtotime(strtr($this->input->post('approvalDate',TRUE), '/', '-')) ),
+		//'approvalDesc' => $this->input->post('approvalDesc',TRUE),
 		//'userCreate' => $this->input->post('userCreate',TRUE),
 		//s'createDate' => $this->input->post('createDate',TRUE),
 		'userUpdate' => $this->session->userdata('id'),
@@ -195,7 +214,7 @@ class Reimbursement extends CI_Controller
 
             $this->Mreimbursement->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('reimbursement'));
+            redirect(site_url('personal/myreimbursement'));
         }
     }
     
@@ -216,6 +235,29 @@ class Reimbursement extends CI_Controller
     public function _rules() 
     {
 	$this->form_validation->set_rules('engagementId', 'engagementid', 'trim|required');
+	$this->form_validation->set_rules('employeeId', 'employeeId', 'trim|required');
+	$this->form_validation->set_rules('periodDate', 'perioddate', 'trim|required');
+	$this->form_validation->set_rules('approvalId', 'approvalid', 'trim|required');
+	$this->form_validation->set_rules('expenseId', 'expenseid', 'trim|required');
+	$this->form_validation->set_rules('expenseAmount', 'expenseamount', 'trim|required|numeric');
+	$this->form_validation->set_rules('expenseDate', 'expensedate', 'trim|required');
+	$this->form_validation->set_rules('expenseDesc', 'expensedesc', 'trim|required');
+	//$this->form_validation->set_rules('approvalStatusId', 'approvalstatusid', 'trim|required');
+	//$this->form_validation->set_rules('approvalBy', 'approvalby', 'trim|required');
+	//$this->form_validation->set_rules('approvalDate', 'approvaldate', 'trim|required');
+	//$this->form_validation->set_rules('approvalDesc', 'approvaldesc', 'trim|required');
+	//$this->form_validation->set_rules('userCreate', 'usercreate', 'trim|required');
+	//$this->form_validation->set_rules('createDate', 'createdate', 'trim|required');
+	//$this->form_validation->set_rules('userUpdate', 'userupdate', 'trim|required');
+	//$this->form_validation->set_rules('updateDate', 'updatedate', 'trim|required');
+
+	$this->form_validation->set_rules('id', 'id', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+      public function _rules_approval() 
+    {
+	$this->form_validation->set_rules('engagementId', 'engagementid', 'trim|required');
+	$this->form_validation->set_rules('employeeId', 'employeeId', 'trim|required');
 	$this->form_validation->set_rules('periodDate', 'perioddate', 'trim|required');
 	$this->form_validation->set_rules('approvalId', 'approvalid', 'trim|required');
 	$this->form_validation->set_rules('expenseId', 'expenseid', 'trim|required');
@@ -224,8 +266,8 @@ class Reimbursement extends CI_Controller
 	$this->form_validation->set_rules('expenseDesc', 'expensedesc', 'trim|required');
 	$this->form_validation->set_rules('approvalStatusId', 'approvalstatusid', 'trim|required');
 	$this->form_validation->set_rules('approvalBy', 'approvalby', 'trim|required');
-	$this->form_validation->set_rules('approvalDate', 'approvaldate', 'trim|required');
-	$this->form_validation->set_rules('approvalDesc', 'approvaldesc', 'trim|required');
+	//$this->form_validation->set_rules('approvalDate', 'approvaldate', 'trim|required');
+	//$this->form_validation->set_rules('approvalDesc', 'approvaldesc', 'trim|required');
 	//$this->form_validation->set_rules('userCreate', 'usercreate', 'trim|required');
 	//$this->form_validation->set_rules('createDate', 'createdate', 'trim|required');
 	//$this->form_validation->set_rules('userUpdate', 'userupdate', 'trim|required');

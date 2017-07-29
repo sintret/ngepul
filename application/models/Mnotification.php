@@ -16,7 +16,25 @@ class Mnotification extends CI_Model {
         parent::__construct();
     }
     
-    public static function notification($id, $title, $message)
+    public static function notification($id, $title, $message,$url=NULL)
+    {
+        $firebase = new \Firebase\FirebaseLib(self::DEFAULT_URL, self::DEFAULT_TOKEN);
+        $path = 'notification/' . $id;
+
+        $array = [
+            'id' => $id,
+            'title' => $title,
+            'message' => $message. '-'.$url,
+            'url' => $url,
+            'time' => time()
+        ];
+
+        $firebase->push($path, $array);
+
+        self::notificationDelete($id);
+    }
+        
+    public static function notification2($id, $title, $message)
     {
         $firebase = new \Firebase\FirebaseLib(self::DEFAULT_URL, self::DEFAULT_TOKEN);
         $path = 'notification/' . $id;

@@ -50,7 +50,13 @@ class Mreimbursement extends CI_Model
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
-
+    
+    
+    function mytotal_rows($q = NULL) {
+        $this->db->where('employeeId',  $this->session->userdata('employeeId'));
+	$this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
     // get data with limit and search
     function get_limit_data2($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
@@ -60,11 +66,24 @@ class Mreimbursement extends CI_Model
     }
     
     function get_limit_data($limit, $start = 0, $q = NULL) {
+	$this->db->select('a.*,b.name as engagementName, c.expenseName, CONCAT(d.firstName," ",d.lastName) as fullname, CONCAT(e.firstName," ",e.lastName) fromName');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('expense c', 'a.expenseId = c.id');
+        $this->db->join('employee d', 'a.approvalId = d.id');
+        $this->db->join('employee e', 'a.employeeId = e.id');
+        $this->db->order_by('updateDate', 'DESC');
+	$this->db->limit($limit, $start);
+        return $this->db->get("reimbursement a")->result();
+    }
+    
+    
+    function get_mylimit_data($limit, $start = 0, $q = NULL) {
 	$this->db->select('a.*,b.name as engagementName, c.expenseName, CONCAT(d.firstName," ",d.lastName) as fullname');
         $this->db->join('engagement b', 'a.engagementId = b.id');
         $this->db->join('expense c', 'a.expenseId = c.id');
         $this->db->join('employee d', 'a.approvalId = d.id');
         $this->db->order_by('updateDate', 'DESC');
+        $this->db->where('a.employeeId',  $this->session->userdata('employeeId'));
 	$this->db->limit($limit, $start);
         return $this->db->get("reimbursement a")->result();
     }

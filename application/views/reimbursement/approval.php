@@ -14,30 +14,11 @@ $accesslevelId = $this->session->userdata('userlevelId');
         <div class="row">
             <div class="col-lg-12">
                  <div class="row">
-                     <?php
-                     if($accesslevelId == 1 || $accesslevelId == 2){
-                     ?>
                       <div class="col-sm-12"> 
                                 <label for="int">employee <?php echo form_error('employeeId') ?></label>
-                               <select name="employeeId" class="form-control" >
-                                    <?php 
-                                    foreach($employees as $rsEmployee){
-                                    ?>
-                                        <option value="<?= $rsEmployee->id;?>" <?php if($rsEmployee->id == $employeeId) { echo "selected"; }?>>
-                                            <?= $rsEmployee->firstName;?>  <?= $rsEmployee->lastName;?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" name="employeeId" value="<?php echo $this->session->userdata('employeeId'); ?>" /> 
                         </div>
-                        <?php
-                            } else {
-                       ?>
-                       <input type="hidden" name="employeeId" value="<?php echo $this->session->userdata('employeeId'); ?>" /> 
-                       <?php         
-                            }
-                        ?>
+                        
                         <div class="col-sm-3">                          
                                 <label for="int">Engagement <?php echo form_error('engagementId') ?></label>
                                 <select name="engagementId" class="form-control" >
@@ -105,8 +86,46 @@ $accesslevelId = $this->session->userdata('userlevelId');
                         </div>
                         </div>
                         </div>
-                      
-                      
+                       
+                        <div class="col-lg-12">
+                            <div class="row"> <br/>
+                            <div class="col-sm-12">
+                                <h5><b>APPROVAL :</b></h5>
+                                </div>
+                             </div>
+                        </div>   
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                     <label for="tinyint">Approval Status <?php echo form_error('approvalStatusId') ?></label>
+                                    <select name="approvalStatusId" class="form-control" >
+                                        <option value="1" <?php if($approvalStatusId == 1) { echo "selected"; }?>>PENDING</option>
+                                        <option value="2" <?php if($approvalStatusId == 2) { echo "selected"; }?>>Approve</option>
+                                </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="int">Approval By <?php echo form_error('approvalBy') ?></label>
+                                   <select name="approvalBy" class="form-control" >
+                                    <?php 
+                                    foreach($employees as $rsEmployee){
+                                    ?>
+                                        <option value="<?= $rsEmployee->id;?>" <?php if($rsEmployee->id == $approvalBy) { echo "selected"; }?>>
+                                            <?= $rsEmployee->firstName;?>  <?= $rsEmployee->lastName;?>
+                                        </option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="date">Approval Date <?php echo form_error('approvalDate') ?></label>
+                                    <input type="text" class="form-control" name="approvalDate" id="date" placeholder="ApprovalDate" value="<?php if($id) { echo date('d/m/Y',strtotime($approvalDate));} else { echo date('d/m/Y'); } ?>" />
+                                </div>
+                                <div class="col-sm-12">
+                                     <label for="approvalDesc">Approval Desc <?php echo form_error('approvalDesc') ?></label>
+                                    <textarea class="form-control" rows="3" name="approvalDesc" id="approvalDesc" placeholder="ApprovalDesc"><?php echo $approvalDesc; ?></textarea>
+                                </div>
+                            </div>
                         </div>
             </div>
         <div>

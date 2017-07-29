@@ -261,7 +261,8 @@
                 //addCommentElement(postElement, data.key, data.val().text, data.val().author);
                 //child_removed child_changed child_added
                 //$.growl.error({title: data.val().title, message: data.val().message, duration: 5000, size: 'large'});
-                notifyMe(data.val().title, data.val().message);
+               var url = data.val().url || "<?=base_url();?>dashboard";
+                notifyMe(data.val().title, data.val().message,  data.val().url);
             });
 
             // request permission on page load
@@ -272,7 +273,7 @@
                 });
             //}
 
-            function notifyMe(title, message) {
+            function notifyMe(title, message,url) {
                 if (!Notification) {
                     alert('Notifikasi Desktop tidak tersedia di browser kamu! Coba browser yang lain.');
                     return;
@@ -283,12 +284,13 @@
                 else {
                     var notification = new Notification(title, {
                         icon: '<?= base_url();?>/assets/img/icon-notifikasi.png',
-                        body: message,
+                        body: message + url,
                     });
 
-//                    notification.onclick = function () {
-//                        window.open("http://finsrecipe.com/system/web/order");
-//                    };
+                 notification.onclick = function () {
+                     //window.open(url);
+                     window.open('http://localhost:8080/git/pts/pts-july/reimbursement/read/18');
+                  };
                 }
             }
         </script>

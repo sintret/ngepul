@@ -3,18 +3,12 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                <h4><strong>All Reimbursement List</strong></h4>
+                <h4><strong>Reimbursement List</strong></h4>
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                     <li>
                         <a href="<?= site_url('reimbursement/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
-                    </li> 
-                    <li>
-                        <a href="<?= site_url('reimbursement/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url('reimbursement/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
                    
                     <li></li>
@@ -28,7 +22,6 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>From:</th>
                 <th>Engagement</th>
                 <th>Period</th>
                 <th>Approval</th>
@@ -56,7 +49,6 @@
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><span class="btn btn-default btn-sm"><?php echo $reimbursement->fromName ?></span></td>
 			<td><span class="btn btn-default btn-sm"><?php echo $reimbursement->engagementName ?></span></td>
 			<td><?php echo $reimbursement->periodDate ?></td>
 			<td><span class="btn btn-inverse btn-sm"><?php echo $reimbursement->fullname ?></span></td>
@@ -67,13 +59,11 @@
 			<td><?php echo $btnApproval ?></td>
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
-                                          
+                                            <a href="<?= site_url('reimbursement/update/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                            </a>
                                             <a href="<?= site_url('reimbursement/read/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                          <!-- 
-                                                <a href="<?= site_url('reimbursement/update/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
-                                            </a>
-                                               <a href="<?= site_url('reimbursement/delete/' . $reimbursement->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                           <!-- <a href="<?= site_url('reimbursement/delete/' . $reimbursement->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>-->
                                         </span>
 			

@@ -8,8 +8,9 @@ class Personal extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Mpersonal','Musers'));
+        $this->load->model(array('Mpersonal','Musers','Mreimbursement'));
         $this->load->library(array('form_validation','template'));
+        $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
 
     public function index()
@@ -69,6 +70,37 @@ class Personal extends CI_Controller
         }
         $data['title'] = 'change password';
 
+    }
+    
+     public function myreimbursement()
+    {
+        $q = urldecode($this->input->get('q', TRUE));
+        $start = intval($this->input->get('start'));
+        
+        if ($q <> '') {
+            $config['base_url'] = base_url() . 'reimbursement/index.html?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'reimbursement/index.html?q=' . urlencode($q);
+        } else {
+            $config['base_url'] = base_url() . 'reimbursement/';
+            $config['first_url'] = base_url() . 'reimbursement/';
+        }
+
+        $config['per_page'] = 10;
+        $config['page_query_string'] = TRUE;
+        $config['total_rows'] = $this->Mreimbursement->mytotal_rows($q);
+        $reimbursement = $this->Mreimbursement->get_mylimit_data($config['per_page'], $start, $q);
+
+        $this->load->library('pagination');
+        $this->pagination->initialize($config);
+
+        $data = array(
+            'reimbursement_data' => $reimbursement,
+            'q' => $q,
+            'pagination' => $this->pagination->create_links(),
+            'total_rows' => $config['total_rows'],
+            'start' => $start,
+        );
+        $this->template->caplet('reimbursement/mylist/reimbursement_list', $data);
     }
    
 

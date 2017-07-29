@@ -28,7 +28,7 @@
             <tr>
                 <th>No</th>
 		<th>Leave Code</th>
-		<th>Entity</th>
+		<!--<th>Entity</th>-->
 		<th>Leave Name</th>
 		<th>Charges Type</th>
 		<th>Action</th>
@@ -49,8 +49,8 @@
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $leave->leaveCode ?></td>
-			<td><?php echo $leave->company_name ?></td>
+			<td><span class="btn btn-default btn-sm"><?php echo $leave->leaveCode ?></span></td>
+			<!--<td><?php echo $leave->company_name ?></td>-->
 			<td><?php echo $leave->leaveName ?></td>
 			<td><?php echo $spans ?></td>
 			

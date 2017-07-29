@@ -27,7 +27,7 @@
         <thead>
             <tr>
                 <th>No</th>
-		<th>Expense Code</th>
+		<th>Code</th>
 		<th>Expense Name</th>
 		<th>Expense Cost</th>
 		<th>Action</th>
@@ -43,7 +43,7 @@
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $expense->expenseCode ?></td>
+			<td><span  class="btn btn-default btn-sm"><?php echo $expense->expenseCode ?></span></td>
 			<td><?php echo $expense->expenseName ?></td>
 			<td><?php echo rupiah(ceil($expense->expenseCost)) ?></td>
 			<td style="text-align:center" width="200px">

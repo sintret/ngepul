@@ -51,9 +51,7 @@ class BaseController extends CI_Controller {
         else
             return false;
     }
-    
-  
-        
+
     function checkAccess($method = NULL) {
         $roleId = $this->session->userdata('userlevelId');
         $controller = $this->router->class;
