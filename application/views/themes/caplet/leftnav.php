@@ -10,6 +10,8 @@ $segmentPage2 = $this->uri->segment(2);
 ?>
     <li <?php if($segmentPage == 'dashboard'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>dashboard"><i class="icon  fa fa-th"></i> DASHBOARD </a></li>
 <?php //} ?>  
+        <li <?php if($segmentPage == 'report' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/report"><i class="icon glyphicon glyphicon-file"></i> Report </a></li>   
+
     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','index')){ ?>
     <li <?php if($segmentPage == 'entity'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>entity"><i class="icon  fa fa-building-o"></i> ENTITY </a></li>
     <?php } ?>
@@ -81,15 +83,6 @@ $segmentPage2 = $this->uri->segment(2);
             <li <?php if($segmentPage == 'userslist' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>userslist"><i class="icon  fa fa-th"></i> USER LIST </a></li>    
             <li <?php if($segmentPage == 'userlevel' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>userlevel"><i class="icon  fa fa-th"></i> USER LEVEL </a></li>
             <li <?php if($segmentPage == 'access' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>access"><i class="icon  fa fa-th"></i> ACCESS ROLE </a></li>
-
-        </ul>
-    </li>
-    <li <?php if($segmentPage == 'report' ){ ?>class="activelink"<?php } else { }?>>
-        <span><i class="icon glyphicon glyphicon-file"></i>REPORT</span>
-        <ul>
-            <li class="Label label-lg">ALL REPORT </li>
-            <li <?php if($segmentPage2 == 'engagement' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/engagement"><i class="icon  fa fa-th-large"></i> Engagement Report </a></li>    
-            <li <?php if($segmentPage2 == 'employee' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/employee"><i class="icon  fa fa-th-large"></i> Employee Report</a></li>
 
         </ul>
     </li>
