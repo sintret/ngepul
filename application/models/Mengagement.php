@@ -159,7 +159,7 @@ class Mengagement extends CI_Model {
         $sql = 'SELECT  DISTINCT a.*, b.serviceTitleName as serviceTitle, c.serviceName, '
                 . '(select sum(budgetHour) from engagementdetail where engagementId=a.id ) as budgetHour, '
                 . '(select sum(expenseAmount) from reimbursement where engagementId=a.id and expenseDate BETWEEN "' . $startDate . '" AND "' . $endDate . '") as current, '
-                . '(select clientName from client where id=a.clientId limit 1) as client, '
+                . '(select clientName from client where id=a.clientId limit 1) as clientName, '
                 . '(select firstName from employee where id=partnerId limit 1) as partnerName, '
                 . '(select firstName from employee where id=seniorId limit 1) as seniorName, '
                 . '(select firstName from employee where id=managerId limit 1) as managerName '
@@ -168,6 +168,7 @@ class Mengagement extends CI_Model {
                 . 'LEFT JOIN service c ON c.id=b.serviceId  '
                 . 'WHERE ' . $between1 . ' OR ' . $between2;
 
+        //echo $sql;exit(0);
         $query = $this->db->query($sql);
         return $query->result();
     }

@@ -4,10 +4,23 @@ $sheet = $objPHPExcel->setActiveSheetIndex(0);
 $sheet->setCellValue('A2', 'PERIODE : ' . $data['startDate'] . ' - ' . $data['endDate']);
 
 $num = 6;
-
+//echo "<pre>"; print_r($results); exit;
 if ($results)
     foreach ($results as $result) {
         $sheet->setCellValue('A' . $num, $result->name);
+        $sheet->setCellValue('B' . $num, $result->clientName);
+        $sheet->setCellValue('C' . $num, $result->serviceName);
+        $sheet->setCellValue('D' . $num, $result->serviceTitle);
+        $sheet->setCellValue('E' . $num, $result->agreedFees);
+        $sheet->setCellValue('F' . $num, $result->reportDate);
+
+        $sheet->setCellValue('G' . $num, $result->startDate);
+        $sheet->setCellValue('H' . $num, $result->endDate);
+        $sheet->setCellValue('I' . $num, $result->partnerName);
+        $sheet->setCellValue('J' . $num, $result->managerName);
+        $sheet->setCellValue('K' . $num, $result->estimatedCost);
+        $sheet->setCellValue('L' . $num, $result->budgetHour);
+        $sheet->setCellValue('M' . $num, $result->current);
 
         $num++;
     }
