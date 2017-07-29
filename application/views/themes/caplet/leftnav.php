@@ -10,7 +10,9 @@ $segmentPage2 = $this->uri->segment(2);
 ?>
     <li <?php if($segmentPage == 'dashboard'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>dashboard"><i class="icon  fa fa-th"></i> DASHBOARD </a></li>
 <?php //} ?>  
+    <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','index')){ ?>
     <li <?php if($segmentPage == 'entity'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>entity"><i class="icon  fa fa-building-o"></i> ENTITY </a></li>
+    <?php } ?>
 <!--    <li <?php if($segmentPage == 'client'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>client"><i class="icon  fa fa-th"></i> CLIENT </a></li>-->
     <li <?php if($segmentPage == 'client' || $segmentPage == 'sector'|| $segmentPage == 'industry'|| $segmentPage == 'bpkm' ||$segmentPage == 'closing_periode'  ){ ?>class="activelink"<?php } else { }?>>
         <span><i class="icon  fa fa-th"></i><b>CLIENT LIST</b>  </span>

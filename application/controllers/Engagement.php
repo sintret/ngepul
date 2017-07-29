@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Engagement extends CI_Controller {
+class Engagement extends MY_Controller {
 
     function __construct() {
         parent::__construct();

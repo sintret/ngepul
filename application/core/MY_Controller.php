@@ -1,16 +1,16 @@
 <?php
 
-class BaseController extends CI_Controller {
+class MY_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
         $this->load->model(array('Muserlevel', 'Maccess'));
-        
-        if(in_array($this->router->method, self::methods())){
+
+        if (in_array($this->router->method, self::methods())) {
             $this->checkAccess();
         }
     }
-    
+
     static function controllers() {
         return [
             'entity',
@@ -66,6 +66,14 @@ class BaseController extends CI_Controller {
 		</div>');
             redirect(site_url('dashboard'));
         }
+    }
+
+    public function checkRole($roleId, $controller, $method) {
+        $r = $this->Maccess->checked($roleId, $controller, $method);
+        if ($r)
+            return true;
+        else
+            return false;
     }
 
 }
