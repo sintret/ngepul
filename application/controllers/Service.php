@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Service extends CI_Controller
+class Service extends MY_Controller
 {
     function __construct()
     {

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Userslist extends CI_Controller
+class Userslist extends MY_Controller
 {
     function __construct()
     {

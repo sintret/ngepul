@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Entity extends CI_Controller
+class Entity extends MY_Controller
 {
     function __construct()
     {

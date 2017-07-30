@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Bpkm extends CI_Controller
+class Bpkm extends MY_Controller
 {
     function __construct()
     {

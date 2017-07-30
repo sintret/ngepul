@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Non_chargeable extends CI_Controller
+class Non_chargeable extends MY_Controller
 {
     function __construct()
     {

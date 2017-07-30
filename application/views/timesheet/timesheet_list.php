@@ -7,15 +7,21 @@
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
+                     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','create')){ ?>  
                     <li>
                         <a href="<?= site_url('timesheet/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
+                    <?php } ?>
+                     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','excel')){ ?>  
                     <li>
                         <a href="<?= site_url('timesheet/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
+                    <?php } ?>
+                     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','word')){ ?>  
                     <li>
                         <a href="<?= site_url('timesheet/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
+                    <?php } ?>
                     <li></li>
                     <li><a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
                     <li><a href="javascript:void(0)" class="btn btn-reload"  title="Reload"><i class="fa fa-retweet"></i></a></li>
@@ -54,12 +60,18 @@
 			<td><?php echo date("d M, Y |<b> H:i:s</b>",strtotime($timesheet->updateDate )) ?></td>
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
+                     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','update')){ ?>
                                             <a href="<?= site_url('timesheet/update/' . $timesheet->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
+                                            <?php } ?>
+                                            <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','read')){ ?>
                                             <a href="<?= site_url('timesheet/read/' . $timesheet->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
+                                            <?php } ?>
+                                            <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'timesheet','delete')){ ?>
                                             <a href="<?= site_url('timesheet/delete/' . $timesheet->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
+                                            <?php } ?>
                                         </span>
 			</td>
 		</tr>

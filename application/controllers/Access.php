@@ -11,7 +11,7 @@ class Access extends CI_Controller {
             redirect('site');
         }
     }
-
+/*
     static function controllers() {
         return [
             'entity',
@@ -21,7 +21,8 @@ class Access extends CI_Controller {
             'global',
             'employee',
             'user',
-            'engagement'
+            'engagement',
+            'industry'
         ];
     }
 
@@ -36,7 +37,7 @@ class Access extends CI_Controller {
             'word',
         ];
     }
-
+*/
     function index() {
         //  $data['title']="Access";
         //  $data['userlevels']= $this->Muserlevel->get_all();
@@ -62,8 +63,8 @@ class Access extends CI_Controller {
             'action' => site_url('access/create'),
             'userlevels' => $this->Muserlevel->get_all(),
             'access' => $this->Muserlevel->get_all(),
-            'controllers' => self::controllers(),
-            'methods' => self::methods(),
+            'controllers' => MY_Controller::controllers(),
+            'methods' => MY_Controller::methods(),
             'modelAccess' => $this->Maccess,
             'roleId' => $roleId,
         );
@@ -77,7 +78,7 @@ class Access extends CI_Controller {
         foreach ($_POST['Role'] as $key => $val) {
             $controllersVal = $key;
             if ($val)
-                foreach (self::methods() as $v) {
+                foreach (MY_Controller::methods() as $v) {
                     if (isset($val[$v])) {
                         $data = [
                             'roleId' => $userlevelId,

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Position extends CI_Controller
+class Position extends MY_Controller
 {
     function __construct()
     {

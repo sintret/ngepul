@@ -9,15 +9,21 @@
             -->
             <div class="panel-tools fully " align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
+                  <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','create')){ ?>  
                     <li>
                         <a href="<?= site_url('entity/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
+                 <?php } ?>
+                <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','excel')){ ?>
                     <li>
                         <a href="<?= site_url('entity/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
+                <?php } ?>
+                <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','word')){ ?>
                     <li>
                         <a href="<?= site_url('entity/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
+               <?php } ?>
                     <li></li>
                     <li>
                         <a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a>
@@ -60,12 +66,18 @@
                                     <td><?= $entity->fax ?></td>
                                     <td>
                                         <span class="tooltip-area">
+                                            <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','view')){ ?>
                                             <a href="<?= site_url('entity/update/' . $entity->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
-                                            </a>
+                                            </a>    
+                                            <?php } ?>
+                                            <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','update')){ ?>
                                             <a href="<?= site_url('entity/read/' . $entity->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
+                                            <?php } ?>
+                                             <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','delete')){ ?>
                                             <a href="<?= site_url('entity/delete/' . $entity->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
+                                            <?php } ?>
                                         </span>
                                     </td>
                                 </tr>

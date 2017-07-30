@@ -13,14 +13,20 @@ class MY_Controller extends CI_Controller {
 
     static function controllers() {
         return [
+            'access',
             'entity',
+            'engagement',
+            'timesheet',
+            'non_chargeable',
+            'reimbursement',
             'client',
             'employee',
             'service',
-            'global',
+            'servicetitle',
+            'global_setting',
             'employee',
-            'user',
-            'engagement'
+            'report',
+            'userlist'
         ];
     }
 
