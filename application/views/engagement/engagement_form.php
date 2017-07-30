@@ -358,7 +358,7 @@ $segmentPage2 = $this->uri->segment(2);
         <center>    
             <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
             <a href="<?php echo site_url('engagement') ?>" class="btn btn-default">Cancel</a>
-            <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
+            <button type="submit" class="btn btn-primary submit-btn"><?php echo $button ?></button> 
         </center>
     </form>
 
@@ -423,9 +423,11 @@ $segmentPage2 = $this->uri->segment(2);
                                     if (sum <= estimatedCost) {
                                         $(".budgetLabel").html("UNDER");
                                         $(".add-employee").show();
+                                        $(".submit-btn").show();
                                     } else {
                                         $(".budgetLabel").html("OVER BUDGET");
                                         $(".add-employee").hide();
+                                        $(".submit-btn").hide();
                                     }
                                     $("input.number-ajax").number(true, 0);
                                 }
