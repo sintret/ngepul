@@ -24,7 +24,7 @@ class Mnotification extends CI_Model {
         $array = [
             'id' => $id,
             'title' => $title,
-            'message' => $message. '-'.$url,
+            'message' => $message,
             'url' => $url,
             'time' => time()
         ];
