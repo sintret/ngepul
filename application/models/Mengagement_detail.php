@@ -177,8 +177,9 @@ class Mengagement_detail extends CI_Model {
         }
         $between1 = '( b.startDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
         $between2 = '(b.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
+        $between3 = '(date BETWEEN "' . $startDate . '" AND "' . $endDate .'")';
 
-        $sql = 'SELECT  DISTINCT b.id, b.name,b.description FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
+        $sql = 'SELECT  DISTINCT b.id, b.startDate,b.endDate, a.budgetHour, b.name,b.description ,(select sum(hour) from timesheet where employeeId = "'.$employeeId.'"  and ' . $between3.') as total FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
         //echo $sql;exit(0);
         $query = $this->db->query($sql);
         $result = $query->result();

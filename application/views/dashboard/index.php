@@ -115,8 +115,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Project Name</th>
-                                <th>Description</th>
-                                <th>Approval</th>
+                                <th>Budget Hour</th>
+                                <th>Periode</th>
                                 <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
                                     <th><?php echo $i < 10 ? '0' . $i : $i; ?></th>
                                 <?php } ?>
@@ -135,8 +135,8 @@
                                     <tr>
                                         <td><?php echo $no; ?></td>
                                         <td><?php echo $timesheet->name; ?></td>
-                                        <td><?php echo $timesheet->description; ?></td>
-                                        <td>Approval</td>
+                                        <td><?php echo $timesheet->budgetHour; ?></td>
+                                        <td><?php echo $timesheet->startDate. '' .$timesheet->endDate; ?></td>
                                         <?php
                                         for ($i = $results['time1']; $i <= $results['time2']; $i++) {
                                             if($i <10){
@@ -148,7 +148,7 @@
                                             ?>
                                             <td><button id="ts<?php echo $timesheet->id . '_' . $d; ?>" type="button" data-engagementId="<?= $timesheet->id; ?>" data-title="<?= str_replace('"', "", $timesheet->name . ' with' . $d); ?>" data-no="<?= $no; ?>" data-description="<?= isset($ids[$timesheet->id][$d]['description']) ? str_replace('"', '', $ids[$timesheet->id][$d]['description']) : ''; ?>" data-date="<?= $d; ?>" class="btn btn-link tInput"><?= isset($ids[$timesheet->id][$d]['hour']) ? $ids[$timesheet->id][$d]['hour'] : 0 ?></button></td>
                                         <?php } ?>
-                                        <td id="total<?php echo $timesheet->id; ?>"></td>
+                                        <td id="total<?php echo $timesheet->id; ?>"><?php echo $timesheet->total;?></td>
                                     </tr>
                                     <?php
                                     $no++;
@@ -189,7 +189,7 @@
                                     <tr>
                                         <td><?php echo $no; ?></td>
                                         <td><?php echo $todolist->name; ?></td>
-                                        <td><?php echo $todolist->startDate . ' until ' . $todolist->endDate; ?></td>
+                                        <td><?php echo $todolist->startDate . ' - ' . $todolist->endDate; ?></td>
                                         <td><?php echo $todolist->clientName; ?></td>
                                         <td><button type="button" class="btn btn-xs btn-success btn-transparent"><?php echo $todolist->partner; ?> </button></td>
                                         <td><button type="button" class="btn btn-xs btn-theme btn-transparent"><?php echo $todolist->manager; ?></button></td>
@@ -261,7 +261,7 @@
 
         if ($("#option2").is(":checked")) {
             c = 2;
-            var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
+            var head = '<tr><th>#</th><th>Project Name</th><th>Budget Hour</th><th>Periode</th>';
             for (i = 16; i <= l; i++) {
                 head += '<th>' + i + '</th>';
             }
@@ -269,7 +269,7 @@
             $("#table-timesheet thead").html(head);
         } else {
             c = 1;
-            var head = '<tr><th>#</th><th>Project Name</th><th>Description</th><th>Approval</th>';
+            var head = '<tr><th>#</th><th>Project Name</th><th>Budget Hour</th><th>Periode</th>';
             for (i = 1; i <= 15; i++) {
                 if (i < 10)
                     p = '0' + i;
