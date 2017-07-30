@@ -157,8 +157,10 @@ class Mengagement extends CI_Model {
         $between2 = '(a.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '")';
 
         $sql = 'SELECT  DISTINCT a.*, b.serviceTitleName as serviceTitle, c.serviceName, '
+                . '(select sum(hour) from timesheet where engagementId=a.id ) as varianceHour, '
+                . '(select sum(amount) from timesheet where engagementId=a.id ) as varianceAmount, '
                 . '(select sum(budgetHour) from engagementdetail where engagementId=a.id ) as budgetHour, '
-                . '(select sum(expenseAmount) from reimbursement where engagementId=a.id and expenseDate BETWEEN "' . $startDate . '" AND "' . $endDate . '") as current, '
+                . '(select sum(expenseAmount) from reimbursement where engagementId=a.id) as current, '
                 . '(select clientName from client where id=a.clientId limit 1) as clientName, '
                 . '(select firstName from employee where id=partnerId limit 1) as partnerName, '
                 . '(select firstName from employee where id=seniorId limit 1) as seniorName, '

@@ -299,11 +299,16 @@
             success: function (data) {
                 $('.loading-image').hide();
                 var json = JSON.parse(data);
-                var engagementId = $("#tEngagementId").val();
-                var date = $("#tDate").val();
-                var elm = "ts" + engagementId + "_" + date;
-                $("#" + elm).html(json.value);
-                $("#total" + engagementId).html(json.total);
+                if (json.error) {
+                    alert(json.error);
+                } else {
+                    var engagementId = $("#tEngagementId").val();
+                    var date = $("#tDate").val();
+                    var elm = "ts" + engagementId + "_" + date;
+                    $("#" + elm).html(json.value);
+                    $("#total" + engagementId).html(json.total);
+                }
+
                 $('#tModal').modal('hide');
             }
         });
@@ -332,7 +337,7 @@
                         <input type="hidden" id="tEngagementId">
                         <input type="hidden" id="tDate">
                     </div>
-                    <img class="loading-image img-responsive" style="display:none" src="<?php echo base_url().'assets/img/Spinner.gif';?>" >
+                    <img class="loading-image img-responsive" style="display:none" src="<?php echo base_url() . 'assets/img/Spinner.gif'; ?>" >
                 </form>
             </div>
             <div class="modal-footer">

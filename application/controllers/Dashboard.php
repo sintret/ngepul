@@ -55,14 +55,52 @@ class Dashboard extends CI_Controller {
         $engagementId = (int) $_POST['engagementId'];
         $hour = $_POST['hour'];
         $description = $_POST['description'];
+
+        if (empty($hour) || empty($description)) {
+            $array = [
+                'value' => '',
+                'total' => '',
+                'error' => 'Hour and Description can not be empty!'
+            ];
+
+            echo json_encode($array);
+            exit(0);
+        }
         $date = $_POST['date'];
         $employeeId = $this->session->userdata('employeeId');
+
+        $rat = $this->Mengagement_detail->rate($engagementId, $employeeId);
+        $rate = empty($rat->costrate) ? 0 : $rat->costrate;
+        $sum = $this->Mtimesheet->sum($engagementId, $employeeId);
+        $sum = empty($sum) ? 0 : $sum;
+
+        $tData = $this->Mtimesheet->getData($engagementId, $employeeId, $date);
+        $tHour = empty($tData->hour) ? 0 : $tData->hour;
+
+        $budgetHour = $rat->budgetHour;
+
+        $sumHour = $sum + $hour - $tHour;
+
+        if ($sumHour > $budgetHour) {
+            $array = [
+                'value' => '',
+                'total' => '',
+                'error' => 'Budget Hour ' . $budgetHour . ' maximum reach!'
+            ];
+
+            echo json_encode($array);
+            exit(0);
+        }
+
+
+        $amount = $hour * $rate;
         $data = [
             'engagementId' => $engagementId,
             'hour' => $hour,
             'description' => $description,
             'date' => $date,
-            'employeeId' => $employeeId
+            'employeeId' => $employeeId,
+            'amount' => $amount
         ];
         $this->Mtimesheet->insert($data);
         //push to firebase
@@ -73,7 +111,8 @@ class Dashboard extends CI_Controller {
         $r = $this->Mtimesheet->total($date, $employeeId);
         $array = [
             'value' => $hour,
-            'total' => $r->total
+            'total' => $r->total,
+            'error' => ''
         ];
 
         echo json_encode($array);

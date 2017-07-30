@@ -25,7 +25,49 @@ class Mtimesheet extends CI_Model {
 
     // insert data
     function insert($data) {
+        $this->deleteTimesheet($data);
         $this->db->insert($this->table, $data);
+    }
+
+    function deleteTimesheet($data) {
+        $where = [
+            'engagementId' => $data['engagementId'],
+            'employeeId' => $data['employeeId'],
+            'date' => $data['date']
+        ];
+        $this->db->where($where);
+        $this->db->delete($this->table);
+    }
+
+    function sum($engagementId, $employeeId) {
+        $r = 0;
+        $where = [
+            'engagementId' => $engagementId,
+            'employeeId' => $employeeId,
+        ];
+
+        $sql = ' select sum(hour) as hour from timesheet where employeeId = "' . $employeeId . '" and engagementId = "' . $engagementId . '"';
+        $qr = $this->db->query($sql);
+        $rs = $qr->row();
+
+        if ($rs)
+            $r = $rs->hour;
+
+        return $r;
+    }
+
+    function getData($engagementId, $employeeId, $date) {
+        $where = [
+            'engagementId' => $engagementId,
+            'employeeId' => $employeeId,
+            'date' => $date
+        ];
+
+        $sql = ' select * from timesheet where employeeId = "' . $employeeId . '" and engagementId = "' . $engagementId . '" and date = "' . $date . '"';
+        $qr = $this->db->query($sql);
+        $rs = $qr->row();
+
+        return $rs;
     }
 
     // update data
@@ -60,24 +102,22 @@ class Mtimesheet extends CI_Model {
         $qr = $this->db->query($sql);
         return $qr->row();
     }
-    
-     function get_all()
-    {
+
+    function get_all() {
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }
 
     // get data by id
-    function get_by_id($id)
-    {
+    function get_by_id($id) {
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-    
+
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('id', $q);
-	$this->db->from($this->table);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -87,10 +127,9 @@ class Mtimesheet extends CI_Model {
         $this->db->join('engagement b', 'a.engagementId = b.id');
         $this->db->join('employee d', 'a.employeeId = d.id');
         $this->db->order_by('updateDate', 'DESC');
-	    $this->db->limit($limit, $start);
-        
+        $this->db->limit($limit, $start);
+
         return $this->db->get("timesheet a")->result();
-        
     }
 
 }

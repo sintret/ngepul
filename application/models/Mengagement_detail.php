@@ -224,7 +224,7 @@ class Mengagement_detail extends CI_Model {
                     $title = 'Engagement - Timesheets News';
                     $user = $this->getUser($result->employeeId);
 
-                    Mnotification::notification($user->id, $title, $message);
+                    Mnotification::notification($user->id, $title, $message,'http://128.199.241.0/new-pts');
 
                     $data = [
                         'userId' => $user->id,
@@ -236,6 +236,23 @@ class Mengagement_detail extends CI_Model {
                     $this->db->insert('notification', $data);
                 }
         }
+    }
+
+    function rate($engagementId, $employeeId) {
+        $r = null;
+        $where = [
+            'engagementId' => $engagementId,
+            'employeeId' => $employeeId,
+        ];
+
+        $this->db->where($where);
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $r = $query->row();
+        }
+
+        return $r;
     }
 
 }

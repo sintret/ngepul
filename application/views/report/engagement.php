@@ -2,25 +2,50 @@
 
 $sheet = $objPHPExcel->setActiveSheetIndex(0);
 $sheet->setCellValue('A2', 'PERIODE : ' . $data['startDate'] . ' UNTIL  ' . $data['endDate']);
+$sheet->setCellValue('L1', 'Printed By : ' . $this->session->userdata('username'));
+$sheet->setCellValue('L2', 'Printed On : ' . date('d F Y H:m:s'));
 
-$num = 6;
+$num = 7;
 //echo "<pre>"; print_r($results); exit;
 if ($results)
     foreach ($results as $result) {
+        $cummulativeHour = $result->budgetHour - $result->varianceHour;
+        $cummulativeAmount = $result->agreedFees - $result->varianceAmount;
+
         $sheet->setCellValue('A' . $num, $result->name);
         $sheet->setCellValue('B' . $num, $result->clientName);
         $sheet->setCellValue('C' . $num, $result->serviceName);
         $sheet->setCellValue('D' . $num, $result->serviceTitle);
         $sheet->setCellValue('E' . $num, $result->agreedFees);
         $sheet->setCellValue('F' . $num, $result->reportDate);
-
         $sheet->setCellValue('G' . $num, $result->startDate);
         $sheet->setCellValue('H' . $num, $result->endDate);
         $sheet->setCellValue('I' . $num, $result->partnerName);
         $sheet->setCellValue('J' . $num, $result->managerName);
-        $sheet->setCellValue('K' . $num, $result->estimatedCost);
+
+        $sheet->setCellValue('K' . $num, $cummulativeHour);
         $sheet->setCellValue('L' . $num, $result->budgetHour);
-        $sheet->setCellValue('M' . $num, $result->current);
+        $sheet->setCellValue('M' . $num, $result->varianceHour);
+
+        $per = 0;
+        if ($result->budgetHour && $result->varianceHour) {
+            $per = ($result->varianceHour / $result->budgetHour );
+        }
+
+        $sheet->setCellValue('N' . $num, $per);
+
+        $sheet->setCellValue('O' . $num, $cummulativeAmount);
+        $sheet->setCellValue('P' . $num, $result->agreedFees);
+        $sheet->setCellValue('Q' . $num, $result->varianceAmount);
+
+        $per4 = 0;
+        if ($result->varianceAmount && $result->agreedFees) {
+            $per4 = ($result->varianceAmount / $result->agreedFees );
+        }
+
+        $sheet->setCellValue('R' . $num, $per4);
+
+        $sheet->setCellValue('S' . $num, $result->current);
 
         $num++;
     }
