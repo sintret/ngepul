@@ -73,7 +73,7 @@
             -->
             <div id="main">
 
-             <ol class="breadcrumb">
+                <ol class="breadcrumb">
                     <!-- <li><a href="#">Home</a></li>
                     <li><a href="#">Library</a></li>
                     <li class="active">Data</li>-->
@@ -242,6 +242,8 @@
         </script>
         <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
         <script>
+            var sessionId = $("#sess_id").html();
+
             // Initialize Firebase
             var config = {
                 apiKey: "AIzaSyDQ67Z29vxn45Jm06fG-ci0Xhxg9RQuBWY",
@@ -251,29 +253,24 @@
                 storageBucket: "ptsonline-213b4.appspot.com",
                 messagingSenderId: "315687782259"
             };
-            firebase.initializeApp(config);
-            var sessionId = $("#sess_id").html();
-            var databaseFirebase = firebase.database();
-            var notificationPath = "notification/" + sessionId;
-            var notificationRef = databaseFirebase.ref(notificationPath);
 
-            notificationRef.on('child_removed', function (data) {
-                //addCommentElement(postElement, data.key, data.val().text, data.val().author);
-                //child_removed child_changed child_added
-                //$.growl.error({title: data.val().title, message: data.val().message, duration: 5000, size: 'large'});
-               var url = data.val().url || "<?=base_url();?>dashboard";
-                notifyMe(data.val().title, data.val().message,  data.val().url);
-            });
+            if (sessionId) {
+                firebase.initializeApp(config);
+                var databaseFirebase = firebase.database();
+                var notificationPath = "notification/" + sessionId;
+                var notificationRef = databaseFirebase.ref(notificationPath);
 
-            // request permission on page load
-            //if (sessionId) {
+                notificationRef.on('child_removed', function (data) {
+                    var url = data.val().url || "<?= base_url(); ?>dashboard";
+                    notifyMe(data.val().title, data.val().message, url);
+                });
+
                 document.addEventListener('DOMContentLoaded', function () {
                     if (Notification.permission !== "granted")
                         Notification.requestPermission();
                 });
-            //}
-
-            function notifyMe(title, message,url) {
+            }
+            function notifyMe(title, message, url) {
                 if (!Notification) {
                     alert('Notifikasi Desktop tidak tersedia di browser kamu! Coba browser yang lain.');
                     return;
@@ -283,14 +280,14 @@
                     Notification.requestPermission();
                 else {
                     var notification = new Notification(title, {
-                        icon: '<?= base_url();?>/assets/img/icon-notifikasi.png',
-                        body: message + url,
+                        icon: '<?= base_url(); ?>/assets/img/icon-notifikasi.png',
+                        body: message
                     });
 
-                 notification.onclick = function () {
-                     //window.open(url);
-                     window.open('http://localhost:8080/git/pts/pts-july/reimbursement/read/18');
-                  };
+                    notification.onclick = function () {
+                        //window.open(url);
+                        window.open(url);
+                    };
                 }
             }
         </script>
