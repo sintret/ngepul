@@ -53,7 +53,7 @@
                                         <td><?php echo rupiah($todolist->billingRate); ?></td>
                                         <td>
                                             <span class="tooltip-area">
-                                                <a href="http://128.199.241.0/new-pts" class="btn btn-default btn-sm" title="" data-original-title="Edit">
+                                                <a href="<?php echo base_url()?>engagement/update/<?php echo $todolist->engagementId;?>" class="btn btn-default btn-sm" title="" data-original-title="Edit">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 
@@ -192,7 +192,7 @@
                                         <td><?php echo rupiah($todolist->billingRate); ?></td>
                                         <td>
                                             <span class="tooltip-area">
-                                                <a href="http://128.199.241.0/new-pts" class="btn btn-default btn-sm" title="" data-original-title="Edit">
+                                                <a href="<?php echo base_url()?>engagement/update/<?php echo $todolist->engagementId;?>" class="btn btn-default btn-sm" title="" data-original-title="Edit">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 
