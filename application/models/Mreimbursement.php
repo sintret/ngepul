@@ -29,24 +29,24 @@ class Mreimbursement extends CI_Model
         return $this->db->get($this->table)->row();
     }
     
+    
+    function get_joinby_id($id)
+    {
+        
+        $this->db->select('a.*,b.name as engagementName, c.expenseName, CONCAT(d.firstName," ",d.lastName) as approvalName, CONCAT(e.firstName," ",e.lastName) fromName');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('expense c', 'a.expenseId = c.id');
+        $this->db->join('employee d', 'a.approvalId = d.id');
+        $this->db->join('employee e', 'a.employeeId = e.id');
+        $this->db->order_by('updateDate', 'DESC');
+        
+        $this->db->where('a.id', $id);
+         return $this->db->get("reimbursement a")->row();
+        //return $this->db->get($this->table)->row();
+    }
+    
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-	$this->db->or_like('engagementId', $q);
-	$this->db->or_like('periodDate', $q);
-	$this->db->or_like('approvalId', $q);
-	$this->db->or_like('expenseId', $q);
-	$this->db->or_like('expenseAmount', $q);
-	$this->db->or_like('expenseDate', $q);
-	$this->db->or_like('expenseDesc', $q);
-	$this->db->or_like('approvalStatusId', $q);
-	$this->db->or_like('approvalBy', $q);
-	$this->db->or_like('approvalDate', $q);
-	$this->db->or_like('approvalDesc', $q);
-	$this->db->or_like('userCreate', $q);
-	$this->db->or_like('createDate', $q);
-	$this->db->or_like('userUpdate', $q);
-	$this->db->or_like('updateDate', $q);
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }

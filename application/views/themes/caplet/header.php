@@ -60,7 +60,7 @@
                 <a href="#" class="nav-collapse avatar-header">
                  <!--   <img alt="" src="<?= base_url() ?>assets/img/avatar.png"  class="circle">-->
                        <img alt="" src="<?= $picturePath;?>"  class="circle">
-                    <span class="badge">3</span>
+                    <!--<span class="badge">3</span>-->
                 </a>
             </li>
             <li class="dropdown">

@@ -26,7 +26,7 @@ class MY_Controller extends CI_Controller {
             'global_setting',
             'employee',
             'report',
-            'userlist'
+            'userslist'
         ];
     }
 

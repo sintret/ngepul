@@ -7,8 +7,9 @@ class Report extends MY_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('Mpersonal', 'Musers','Mengagement'));
-        $this->load->library(array('form_validation', 'template'));
+        $this->load->model(array('Mreport','Mpersonal', 'Musers','Mengagement','Mreimbursement','Mnon_chargeable'));
+        $this->load->library(array('form_validation', 'template'));  
+        $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
 
     public function index() {
@@ -46,9 +47,19 @@ class Report extends MY_Controller {
 
         if ($type == 1) {
             $this->engagement($data);
+             $this->template->caplet('report/report', $data);
+        } else  if ($type == 2){
+             $this->employee($data);
+        } else  if ($type == 3){
+             $this->reimbursement($data);
+            
+        } else  if ($type == 4){
+             $this->non_charge($data);
+        } else {
+            
+        $this->template->caplet('report/report', $data);
         }
 
-        $this->template->caplet('report/report', $data);
     }
 
     public function engagement($data) {
@@ -75,6 +86,41 @@ class Report extends MY_Controller {
             'title' => 'test',
         );
         $this->template->caplet('report/employee', $data);
+    }
+    
+    public function reimbursement($data) {
+     //  echo "<pre>"; print_r($data); exit(0);
+        $results = $this->Mreport->get_reimburse($data['startDate'],$data['endDate']);
+       //echo "<pre>"; print_r($results); exit(0);
+        $data2 = array(
+            'results' =>  $results,
+             'title' => 'report find',
+            'button' => 'SEARCH',
+            'reportTypeId' => $data['reportTypeId'],
+            'startDate' => $data['startDate'],
+            'endDate' => $data['endDate'],
+            'action' => site_url('report/find'),
+            'id' => set_value('id'),
+        );
+        $this->template->caplet('report/reimburse', $data2);
+    }
+    
+    
+    public function non_charge($data) {
+    $results = $this->Mreport->get_noncahargeable($data['startDate'],$data['endDate']);
+  //echo "<pre>"; print_r($results); exit(0);
+     $data2 = array(
+           'results' =>  $results,
+             'title' => 'report find',
+            'button' => 'SEARCH',
+            'reportTypeId' => $data['reportTypeId'],
+            'startDate' => $data['startDate'],
+            'endDate' => $data['endDate'],
+            'action' => site_url('report/find'),
+            'id' => set_value('id'),
+        );
+       // $this->template->caplet('report/reimburse', $data2);
+        $this->template->caplet('report/non_charge', $data2);
     }
 
 }

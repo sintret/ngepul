@@ -48,7 +48,8 @@ $segmentPage2 = $this->uri->segment(2);
                 </div>
                 <div class="col-sm-4">
                     <label for="int">Client Name <?php echo form_error('clientId') ?></label>
-                    <select name="clientId" class="form-control">
+                    <select name="clientId" class="selectpicker form-control col-sm-4" data-size="8"  data-live-search="true" >
+                        <option data-divider="true"></option>
                         <?php
                         if ($clients)
                             foreach ($clients as $rsclient) {
@@ -61,7 +62,8 @@ $segmentPage2 = $this->uri->segment(2);
                 </div>
                 <div class="col-sm-4">
                     <label for="int">Service Title <?php echo form_error('serviceTitleId') ?></label>
-                    <select name="clientId" class="form-control">
+                    <select name="serviceTitleId" class="selectpicker form-control col-sm-4" data-size="8"  data-live-search="true" >
+                        <option data-divider="true"></option>
                         <?php
                         if ($serviceTitles)
                             foreach ($serviceTitles as $rsService) {
@@ -78,29 +80,12 @@ $segmentPage2 = $this->uri->segment(2);
                
                 <div class="col-sm-4">
                     <label for="varchar">Service Period</label>
-                    <input id="ChromeMonthPicker" type="month" class="form-control" />
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <div class="form-group"></div>
-                        </div>
-
-                        <div class="col-xs-6">                            
-                            <div class="form-group">                              
-
-                            </div>
-                            <script>
-                                var start = 1900;
-                                var end = new Date().getFullYear();
-                                var options = "";
-                                for (var year = start; year <= end; year++) {
-                                    options += "<option>" + year + "</option>";
-                                }
-                                document.getElementById("year").innerHTML = options;
-                            </script>
-
-                        </div>
-                    </div>
-
+                    <input type="month" name="yearService" class="form-control" id="myMonth" value="<?php if($yearService) { echo $yearService;} else { echo date('Y-m'); } ?>" />
+                    <script>
+                    function myFunction() {
+                        document.getElementById("myMonth").defaultValue = "2017-08";
+                    }
+                    </script>
                 </div>
                  <div class="col-sm-4">
                     <label for="startDate">Engagement Start Date <?php echo form_error('startDate') ?></label>
@@ -116,34 +101,41 @@ $segmentPage2 = $this->uri->segment(2);
                 <div class="col-sm-4">
                     <div class="col-sm-12">
                         <label for="int">Partner <?php echo form_error('partnerId') ?></label>
-                        <select name="partnerId" class="form-control" id="partnerId" >
+                        <select name="partnerId"  class="selectpicker form-control" data-size="8"  data-live-search="true" id="partnerId" >
+                          <option data-divider="true"></option>
                             <?php
                             if ($employees)
                                 foreach ($employees as $employee) {
                                     ?>
-                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                    <option value="<?= $employee->id; ?>" <?php if($partnerId == $employee->id) { echo "selected"; } else {} ?>>
+                                    <?= $employee->firstName . ' ' . $employee->lastName; ?>
+                                    </option>
                                 <?php } ?>
                         </select>
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Manager <?php echo form_error('managerId') ?></label>
-                        <select name="managerId" class="form-control" id="managerId" >
+                        <select name="managerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="managerId" >
+                           <option data-divider="true"></option>
                             <?php
                             if ($employees)
                                 foreach ($employees as $employee) {
                                     ?>
-                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                    <option value="<?= $employee->id; ?>" <?php if($managerId == $employee->id) { echo "selected"; } else {} ?>>
+                                    <?= $employee->firstName . ' ' . $employee->lastName; ?></option>
                                 <?php } ?>
                         </select>
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Senior <?php echo form_error('seniorId') ?></label>
-                        <select name="seniorId" class="form-control" id="seniorId">
+                        <select name="seniorId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="seniorId">
+                           <option data-divider="true"></option>
                             <?php
                             if ($employees)
                                 foreach ($employees as $employee) {
                                     ?>
-                                    <option value="<?= $employee->id; ?>"><?= $employee->firstName . ' ' . $employee->lastName; ?></option>
+                                    <option value="<?= $employee->id; ?>" <?php if($seniorId == $employee->id) { echo "selected"; } else {} ?>>
+                                    <?= $employee->firstName . ' ' . $employee->lastName; ?></option>
                                 <?php } ?>
                         </select>
                     </div>
@@ -152,22 +144,23 @@ $segmentPage2 = $this->uri->segment(2);
                 <div class="col-sm-4">
                     <div class="col-sm-12">
                         <label for="decimal">Agreed Fees <?php echo form_error('agreedFees') ?></label>
-                        <input type="text" class="form-control number" name="agreedFees" id="agreedFees" placeholder="AgreedFees" value="<?php echo $agreedFees; ?>" />
+                        <input type="text" required="required" class="form-control number" name="agreedFees" id="agreedFees" placeholder="AgreedFees" value="<?php echo $agreedFees; ?>" />
                     </div>
                     <div class="col-sm-12">
                         <label for="decimal">Agreed Expenses <?php echo form_error('agreedExpenses') ?></label>
-                        <input type="text" class="form-control number" name="agreedExpenses" id="agreedExpenses" placeholder="AgreedExpenses" value="<?php echo $agreedExpenses; ?>" />
+                        <input type="text" required="required" class="form-control number" name="agreedExpenses" id="agreedExpenses" placeholder="AgreedExpenses" value="<?php echo $agreedExpenses; ?>" />
                     </div>
                     <div class="col-sm-12">
                         <label for="decimal">Estimated Cost <?php echo form_error('estimatedCost') ?></label>
-                        <input type="text" class="form-control number" name="estimatedCost" id="estimatedCost" placeholder="EstimatedCost" value="<?php echo $estimatedCost; ?>" />
+                        <input type="text" required="required" class="form-control number" name="estimatedCost" id="estimatedCost" placeholder="EstimatedCost" value="<?php echo $estimatedCost; ?>" />
                     </div>
                 </div> 
                 <div class="col-sm-4">
 
                     <div class="col-sm-12">
                         <label for="int">Signing Partner <?php echo form_error('signingPartnerId') ?></label>
-                       <select name="signingPartnerId" class="form-control" id="signingPartnerId" >
+                       <select name="signingPartnerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="signingPartnerId" >
+                           <option data-divider="true"></option>
                             <?php
                             if ($employees)
                                 foreach ($employees as $employee) {
@@ -180,7 +173,8 @@ $segmentPage2 = $this->uri->segment(2);
                     </div>
                     <div class="col-sm-12">
                         <label for="int">Engagement Partner <?php echo form_error('engagementPartnerId') ?></label>
-                       <select name="engagementPartnerId" class="form-control" id="engagementPartnerId" >
+                       <select name="engagementPartnerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="engagementPartnerId" >
+                           <option data-divider="true"></option>
                             <?php
                             if ($employees)
                                 foreach ($employees as $employee) {
@@ -234,7 +228,7 @@ $segmentPage2 = $this->uri->segment(2);
                                     <thead>
                                         <tr>
                                             <th>Employee</th>
-                                            <th>Level</th>
+                                            <th>Position</th>
                                             <th>Billing Rate</th>
                                             <th>Budget Hour</th>
                                             <th>Subtotal</th>
@@ -256,7 +250,7 @@ $segmentPage2 = $this->uri->segment(2);
                                                             foreach ($employees as $rsEmployee) {
                                                                 $selected = $rsEmployee->id == $detail->employeeId ? 'selected':'';
                                                                 ?>
-                                                                <option <?php echo $selected;?> value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
+                                                                <option <?php echo $selected;?> value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>"  data-jabatan="<?= $rsEmployee->positionName; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
                                                                     <?= $rsEmployee->firstName . '' . $rsEmployee->lastName; ?>
                                                                 </option>
                                                                 <?php
@@ -266,7 +260,8 @@ $segmentPage2 = $this->uri->segment(2);
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
+                                                        <input type="text" name="detail[jabatanId][]"  class="form-control jabatanId" readonly="readonly" />
+                                                        <input type="hidden" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
                                                     </td>
                                                     <td>
                                                         <input type="text" name="detail[costRate][]"class="form-control costRate number" value="<?php echo $detail->costrate;?>" id="costRate<?php echo $counter; ?>" readonly="readonly" placeholder="select employee first"/>
@@ -385,14 +380,19 @@ $segmentPage2 = $this->uri->segment(2);
                                         }
                                     });
                                 });
-
+                                
+                                
+                               
+                                     
                                 $(document).on("change", ".dropDownEmployee", function () {
                                     var price = $(this).find("option:selected").data("price");
                                     var userlevelId = $(this).find("option:selected").data("level");
+                                    var jabatanId = $(this).find("option:selected").data("jabatan");
                                     $(this).closest("tr").find(".costRate").val(price);
                                     var budgetHour = $(this).closest("tr").find(".budgetHour").val();
                                     $(this).closest("tr").find(".subTotal").val(price * budgetHour);
                                     $(this).closest("tr").find(".userlevelId").val(userlevelId);
+                                     $(this).closest("tr").find(".jabatanId").val(jabatanId);
                                     calc();
                                 });
 

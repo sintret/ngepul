@@ -53,10 +53,11 @@ class Reimbursement extends MY_Controller
 
     public function read($id) 
     {
-        $row = $this->Mreimbursement->get_by_id($id);
+        $row = $this->Mreimbursement->get_joinby_id($id);
         if ($row) {
             $data = array(
 		'id' => $row->id,
+                'read' => $row,
 		'engagementId' => $row->engagementId,
 		'employeeId' => $row->employeeId,
 		'periodDate' => $row->periodDate,
@@ -80,6 +81,78 @@ class Reimbursement extends MY_Controller
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('reimbursement'));
         }
+    }
+    
+    public function approve($id) 
+    {
+        $row = $this->Mreimbursement->get_joinby_id($id);
+        if ($row) {
+            $data = array(
+		'id' => $row->id,
+                'read' => $row,
+                'action' => site_url('reimbursement/do_approve'),
+		'engagementId' => $row->engagementId,
+		'employeeId' => $row->employeeId,
+		'periodDate' => $row->periodDate,
+		'approvalId' => $row->approvalId,
+		'expenseId' => $row->expenseId,
+		'expenseAmount' => $row->expenseAmount,
+		'expenseDate' => $row->expenseDate,
+		'expenseDesc' => $row->expenseDesc,
+		'approvalStatusId' => $row->approvalStatusId,
+		'approvalBy' => $row->approvalBy,
+		'approvalDate' => $row->approvalDate,
+		'approvalDesc' => $row->approvalDesc,
+		'userCreate' => $row->userCreate,
+		'createDate' => $row->createDate,
+		'userUpdate' => $row->userUpdate,
+		'updateDate' => $row->updateDate,
+	    );
+       
+             $this->template->caplet('reimbursement/reimbursement_approve', $data);
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('reimbursement'));
+        }
+    }
+    
+   public function do_approve() 
+    {
+       $id = $this->input->post('id',TRUE);
+       $fromId = $this->input->post('fromId',TRUE);
+       $approvalStatusId = $this->input->post('approvalStatusId',TRUE);
+       $approvalDesc = $this->input->post('approvalDesc',TRUE);
+       $inputDate = date('Y-m-d');
+       $inputUser = $this->session->userdata('employeeId');
+            $data = array(
+                            'id' => $id,
+                            'approvalStatusId' => $approvalStatusId,
+                            'approvalBy' => $inputUser,
+                            'approvalDate' => $inputDate,
+                            'approvalDesc' => $approvalDesc,
+                          );
+        
+         //echo "<pre>"; print_r($data); exit(0);
+         
+         $this->Mreimbursement->update($id, $data);
+         
+         $userId = $this->session->userdata('id');   
+            $title = 'REIMBURSEMENT APPROVE';
+            $message = 'Reimbursement Approved';
+            $urlNotif = base_url().'reimbursement/read/'. $id;
+                        
+            Mnotification::notification(21,$message,$message,$urlNotif);
+             $dataNotification = [
+                    'userId' => $fromId,
+                    'title' => $title,
+                    'message' => $message,
+                    'url' => $urlNotif,
+                ];
+            $this->db->insert('notification', $dataNotification);
+         
+         $this->session->set_flashdata('message', 'You Have Approved This Reimbursement, and it will notif to the user');
+     
+         redirect(site_url('notification'));
     }
 
     public function create() 
@@ -114,6 +187,8 @@ class Reimbursement extends MY_Controller
     public function create_action() 
     {
         $this->_rules();
+        
+        
 
         if ($this->form_validation->run() == FALSE) {
             $this->create();
@@ -141,8 +216,23 @@ class Reimbursement extends MY_Controller
        // echo "<pre>"; print_r($data); exit(0);
             $this->Mreimbursement->insert($data);
 			$lastId = $this->db->insert_id();
-
-			Mnotification::notification(3,'test','description',base_url().'reimbursement/read/'. $lastId);
+           
+            $userId = $this->session->userdata('id');   
+            $notifToUser = $this->Musers->get_byemployee($this->input->post('approvalId',TRUE));
+          //echo "<pre>"; print_r($notifToUser); exit(0);
+            $title = 'REIMBURSEMENT';
+            $message = 'Reimbursement Add';
+            $urlNotif = base_url().'reimbursement/approve/'. $lastId;
+                        
+            Mnotification::notification($notifToUser->id,$message,$message,$urlNotif);
+             $dataNotification = [
+                    'userId' => $notifToUser->id,
+                    'title' => $title,
+                    'message' => $message,
+                    'url' => $urlNotif,
+                ];
+            $this->db->insert('notification', $dataNotification);
+            
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('reimbursement'));
           //  redirect(site_url('personal/my_reimbursement'));

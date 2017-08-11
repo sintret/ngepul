@@ -29,7 +29,7 @@
                 <th>No</th>
 		<th>Title</th>
 		<th>Message</th>
-		<th>Url</th>
+		<th>Approval Link</th>
 		<th>Read</th>
 		<th>UpdatedAt</th>
 		<th>Action</th>
@@ -55,7 +55,11 @@
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $notification->title ?></td>
 			<td><?php echo $notification->message ?></td>
-			<td><?php echo $notification->url ?></td>
+			<td>
+                            <a href="<?php echo $notification->url ?>">
+                                <span class="btn btn-info btn-sm">Visit To Approve</span>
+                            </a>
+                        </td>
                         <td><?php echo $spanClass ?></td>
 			<td><?php echo $notification->updatedAt ?></td>
 			<td style="text-align:center" width="200px">

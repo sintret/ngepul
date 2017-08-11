@@ -25,6 +25,20 @@ class Memployee extends CI_Model
     
      function get_dropdown()
     {
+         $this->db->select('id, firstName, lastName, costRate, (select positionName from position where position.Id = employee.positionId limit 1) as positionName, (select userlevelId from users where employeeId = employee.id limit 1) as userlevelId');
+            $this->db->from('employee');           
+            $this->db->where('deleted',0);
+            $this->db->order_by('firstName','ASC'); 
+            $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+       // return $this->db->get($this->table)->result();
+    }
+    
+     function get_dropdown2()
+    {
          $this->db->select('id, firstName, lastName, costRate, (select userlevelId from users where employeeId = employee.id limit 1) as userlevelId');
             $this->db->from('employee');           
             $this->db->where('deleted',0);
@@ -36,7 +50,7 @@ class Memployee extends CI_Model
             }
        // return $this->db->get($this->table)->result();
     }
-
+    
     // get data by id
     function get_by_id($id)
     {

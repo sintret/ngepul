@@ -108,7 +108,7 @@ class Engagement extends MY_Controller {
         $serviceTitles = $this->Mservicetitle->get_all();
         $employees = $this->Memployee->get_dropdown();
         $closingPeriodes = $this->Mclosing_periode->get_all();
-        //echo "<pre>"; print_r($employees); exit(0);
+      //echo "<pre>"; print_r($employees); exit(0);
 
         $data = array(
             'details' => null,
@@ -164,7 +164,7 @@ class Engagement extends MY_Controller {
     }
 
     public function create_action() {
-     //echo "<pre>"; print_r($_POST); exit(0);
+    //echo "<pre>"; print_r($_POST); exit(0);
         ///$this->_rules();
         $this->load->helper('rupiah_helper');
 
@@ -178,7 +178,7 @@ class Engagement extends MY_Controller {
             'engagementDate' => date("Y-m-d", strtotime(strtr($this->input->post('engagementDate', TRUE), '/', '-') )),
             'clientId' => $this->input->post('clientId', TRUE),
             'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
-            'yearService' => $this->input->post('yearService', TRUE),
+            'yearService' => date('Y-m',strtotime($this->input->post('yearService', TRUE))),
             'description' => $this->input->post('description', TRUE),
             'partnerId' => $this->input->post('partnerId', TRUE),
             'managerId' => $this->input->post('managerId', TRUE),
@@ -298,7 +298,7 @@ class Engagement extends MY_Controller {
             'engagementDate' => date('Y-m-d', strtotime(strtr($this->input->post('engagementDate', TRUE), '/', '-') )),
             'clientId' => $this->input->post('clientId', TRUE),
             'serviceTitleId' => $this->input->post('serviceTitleId', TRUE),
-            'yearService' => $this->input->post('yearService', TRUE),
+            'yearService' => date('Y-m',strtotime($this->input->post('yearService', TRUE))),
             'description' => $this->input->post('description', TRUE),
             'partnerId' => $this->input->post('partnerId', TRUE),
             'managerId' => $this->input->post('managerId', TRUE),
@@ -355,12 +355,12 @@ class Engagement extends MY_Controller {
     }
 
     public function _rules() {
-        $this->form_validation->set_rules('entityId', 'Entity', 'trim|required');
-        $this->form_validation->set_rules('code', 'code', 'trim|required');
-        $this->form_validation->set_rules('engagementDate', 'Engagement Date', 'trim|required');
+       // $this->form_validation->set_rules('entityId', 'Entity', 'trim|required');
+       // $this->form_validation->set_rules('code', 'code', 'trim|required');
+      // $this->form_validation->set_rules('engagementDate', 'Engagement Date', 'trim|required');
         $this->form_validation->set_rules('clientId', 'Client', 'trim|required');
         //$this->form_validation->set_rules('serviceTitleId', 'servicetitleid', 'trim|required');
-        $this->form_validation->set_rules('yearService', 'yearservice', 'trim|required');
+       // $this->form_validation->set_rules('yearService', 'yearservice', 'trim|required');
         $this->form_validation->set_rules('description', 'Description', 'trim|required');
         $this->form_validation->set_rules('partnerId', 'Partner', 'trim|required');
         $this->form_validation->set_rules('managerId', 'Manager', 'trim|required');
@@ -373,23 +373,23 @@ class Engagement extends MY_Controller {
         $this->form_validation->set_rules('signingPartnerId', 'signingpartnerid', 'trim|required');
         $this->form_validation->set_rules('engagementPartnerId', 'engagementpartnerid', 'trim|required');
         $this->form_validation->set_rules('asset', 'asset', 'trim|required|numeric');
-        $this->form_validation->set_rules('rl', 'rl', 'trim|required|numeric');
-        $this->form_validation->set_rules('reportNo', 'reportno', 'trim|required');
-        $this->form_validation->set_rules('reportDate', 'reportdate', 'trim|required');
-        $this->form_validation->set_rules('opinion', 'opinion', 'trim|required');
-        $this->form_validation->set_rules('jobFromEmployeeId', 'jobfromemployeeid', 'trim|required');
-        $this->form_validation->set_rules('finishStatusId', 'finishstatusid', 'trim|required');
-        $this->form_validation->set_rules('finishDate', 'finishdate', 'trim|required');
-        $this->form_validation->set_rules('finishApproveBy', 'finishapproveby', 'trim|required');
-        $this->form_validation->set_rules('closing', 'closing', 'trim|required');
-        $this->form_validation->set_rules('closingDate', 'closingdate', 'trim|required');
-        $this->form_validation->set_rules('deleted', 'deleted', 'trim|required');
-        $this->form_validation->set_rules('inputby', 'inputby', 'trim|required');
-        $this->form_validation->set_rules('version', 'version', 'trim|required');
-        $this->form_validation->set_rules('userCreate', 'usercreate', 'trim|required');
-        $this->form_validation->set_rules('createDate', 'createdate', 'trim|required');
-        $this->form_validation->set_rules('userUpdate', 'userupdate', 'trim|required');
-        $this->form_validation->set_rules('updateDate', 'updatedate', 'trim|required');
+        //$this->form_validation->set_rules('rl', 'rl', 'trim|required|numeric');
+        //$this->form_validation->set_rules('reportNo', 'reportno', 'trim|required');
+      //  $this->form_validation->set_rules('reportDate', 'reportdate', 'trim|required');
+      //  $this->form_validation->set_rules('opinion', 'opinion', 'trim|required');
+        //$this->form_validation->set_rules('jobFromEmployeeId', 'jobfromemployeeid', 'trim|required');
+       // $this->form_validation->set_rules('finishStatusId', 'finishstatusid', 'trim|required');
+       // $this->form_validation->set_rules('finishDate', 'finishdate', 'trim|required');
+      //  $this->form_validation->set_rules('finishApproveBy', 'finishapproveby', 'trim|required');
+        //$this->form_validation->set_rules('closing', 'closing', 'trim|required');
+       // $this->form_validation->set_rules('closingDate', 'closingdate', 'trim|required');
+       // $this->form_validation->set_rules('deleted', 'deleted', 'trim|required');
+       // $this->form_validation->set_rules('inputby', 'inputby', 'trim|required');
+       // $this->form_validation->set_rules('version', 'version', 'trim|required');
+       // $this->form_validation->set_rules('userCreate', 'usercreate', 'trim|required');
+       // $this->form_validation->set_rules('createDate', 'createdate', 'trim|required');
+       // $this->form_validation->set_rules('userUpdate', 'userupdate', 'trim|required');
+       // $this->form_validation->set_rules('updateDate', 'updatedate', 'trim|required');
 
         $this->form_validation->set_rules('id', 'id', 'trim');
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

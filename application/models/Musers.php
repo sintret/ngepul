@@ -22,6 +22,13 @@ class musers extends CI_Model {
         return $this->db->get("users");
     }
     
+   public function get_byemployee($employeeId){
+        $this->db->where('employeeId',$employeeId);
+        $query = $this->db->get("users");
+       // return 
+        return $query->row();
+    }
+    
     public function cekKode($kode){
         $this->db->where("user",$kode);
         return $this->db->get("users");
@@ -40,7 +47,10 @@ class musers extends CI_Model {
     public function simpan($info){
         $this->db->insert("users",$info);
     }
-    
+    function getUser($employeeId) {
+        $query = $this->db->get_where('users', array('employeeId' => $employeeId));
+        return $query->row();
+    }
     public function hapus($kode){
         $this->db->where("id",$kode);
         $this->db->delete("users");

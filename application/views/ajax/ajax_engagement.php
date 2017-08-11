@@ -1,11 +1,11 @@
 <tr class="input-employee" id="appendTr<?php echo $counter;?>">
     <td>
-        <select name="detail[employeeId][]" class="form-control dropDownEmployee" id="dropDownEmployee<?php echo $counter;?>">
-            <option>Pelase Select Employee first..</option>
+        <select name="detail[employeeId][]" class="selectpicker form-control dropDownEmployee" data-size="8" data-live-search="true"  id="dropDownEmployee<?php echo $counter;?>">
+            <option data-divider="true"></option>
             <?php
             foreach ($employees as $rsEmployee) {
                 ?>
-                <option value="<?= $rsEmployee->id; ?>" data-level="<?php echo $rsEmployee->userlevelId; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
+                <option value="<?= $rsEmployee->id; ?>" data-level="<?= $rsEmployee->userlevelId; ?>" data-jabatan="<?= $rsEmployee->positionName; ?>" data-price="<?php echo $rsEmployee->costRate; ?>">
                     <?= $rsEmployee->firstName . '' . $rsEmployee->lastName; ?>
                 </option>
                 <?php
@@ -14,7 +14,8 @@
         </select>
     </td>
      <td>
-         <input type="text" name="detail[userlevelId][]"  class="userlevelId" readonly="readonly"  value="2"/>
+         <input type="text" name="detail[jabatanId][]"  class="form-control jabatanId" readonly="readonly"  value="select employee first"/>
+         <input type="hidden" name="detail[userlevelId][]"  class="form-control userlevelId" readonly="readonly"  value="select employee first"/>
     </td>
     <td>
         <input type="text" name="detail[costRate][]"class="form-control costRate number-ajax" id="costRate<?php echo $counter;?>" readonly="readonly" placeholder="select employee first"/>

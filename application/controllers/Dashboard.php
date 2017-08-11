@@ -88,8 +88,8 @@ class Dashboard extends CI_Controller {
                 'error' => 'Budget Hour ' . $budgetHour . ' maximum reach!'
             ];
 
-            echo json_encode($array);
-            exit(0);
+           // echo json_encode($array);
+            //exit(0);
         }
 
 

@@ -72,7 +72,7 @@
 			<td><?php echo $btnApproval ?></td>
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
-                                          <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','read')){ ?>  
+                                          <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','view')){ ?>  
                                             <a href="<?= site_url('reimbursement/read/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
                                            <?php } ?> 
