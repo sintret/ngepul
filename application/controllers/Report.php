@@ -96,7 +96,7 @@ class Report extends MY_Controller {
     }
     
     public function employee_find() {
-
+  //echo "<pre>"; print_r($_POST); exit(0);
         $typeId = $this->input->post('typeId', TRUE);
         $employeeId = $this->input->post('employeeId', TRUE);
         $startDate = date('Y-m-d', strtotime(strtr($this->input->post('startDate', TRUE), '/', '-')));
@@ -106,13 +106,26 @@ class Report extends MY_Controller {
             'button' => 'SEARCH',
             'employees' => $this->Memployee->get_dropdown(),
             'employeeId' => $employeeId,
+            'employeeName' => $this->Memployee->get_by_id($employeeId),
             'reportTypeId' => $typeId,
             'startDate' => $startDate,
             'endDate' => $endDate,
-            'action' => site_url('report/employee_find'),
+            'action' => base_url('report/employee_find'),
             'id' => set_value('id'),
         );
-        $this->template->caplet('report/employee', $data);
+        
+        
+         if ($typeId == 1) {
+            $this->employee_timesheet($data);
+        } else  if ($typeId == 2){
+             $this->employee_reimbursement($data);
+        } else  if ($typeId == 3){
+             $this->employee_non_charge($data);
+        } else {            
+         $this->template->caplet('report/employee', $data);
+        }
+        
+       // $this->template->caplet('report/employee', $data);
     }
     
     public function reimbursement($data) {
@@ -149,5 +162,30 @@ class Report extends MY_Controller {
        // $this->template->caplet('report/reimburse', $data2);
         $this->template->caplet('report/non_charge', $data2);
     }
+    
+    public function employee_timesheet($data) {
+//echo "<pre>"; print_r($data); exit(0);
+    $results = $this->Mreport->get_employee_timesheet($data['employeeId'], $data['startDate'],$data['endDate']);
+    //echo "<pre>"; print_r($results); exit(0);
+    $data['results'] = $results;
+        $this->template->caplet('report/personal/timesheet', $data);
+    }
+    
+    public function employee_reimbursement($data) {
+//echo "<pre>"; print_r($data); exit(0);
+    $results = $this->Mreport->get_employee_reimbursement($data['employeeId'], $data['startDate'],$data['endDate']);
+   //echo "<pre>"; print_r($results); exit(0);
+    $data['results'] = $results;
+        $this->template->caplet('report/personal/reimbursement', $data);
+    }
+    public function employee_non_charge($data) {
+//echo "<pre>"; print_r($data); exit(0);
+    $results = $this->Mreport->get_employee_non_charge($data['employeeId'], $data['startDate'],$data['endDate']);
+    //echo "<pre>"; print_r($results); exit(0);
+    $data['results'] = $results;
+        $this->template->caplet('report/personal/non_charge', $data);
+    }
+    
+     
 
 }

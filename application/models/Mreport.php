@@ -55,6 +55,44 @@ class Mreport extends CI_Model
         $this->db->where('a.id', $id);
         return $this->db->get('sector a')->row();
     }
+   
+    function get_employee_timesheet($id, $startDate, $endDate) {
+        $this->db->select('a.*,b.name as engagementName, CONCAT(d.firstName," ",d.lastName) as fullname');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('employee d', 'a.employeeId = d.id');
+        $this->db->order_by('updateDate', 'DESC');
+        $this->db->where('a.employeeId', $id);
+         $this->db->where('a.date >=', $startDate);
+        $this->db->where('a.date <=', $endDate);
+        $this->db->order_by('a.date', 'DESC');
+
+        return $this->db->get("timesheet a")->result();
+    }
+    
+    function get_employee_reimbursement($id, $startDate, $endDate) {
+	$this->db->select('a.*,b.name as engagementName, c.expenseName, CONCAT(d.firstName," ",d.lastName) as fullname, CONCAT(e.firstName," ",e.lastName) fromName');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('expense c', 'a.expenseId = c.id');
+        $this->db->join('employee d', 'a.approvalId = d.id');
+        $this->db->join('employee e', 'a.employeeId = e.id');
+        $this->db->where('a.employeeId', $id);
+         $this->db->where('a.expenseDate >=', $startDate);
+        $this->db->where('a.expenseDate <=', $endDate);
+        $this->db->order_by('updateDate', 'DESC');
+        return $this->db->get("reimbursement a")->result();
+    }
+    
+     function get_employee_non_charge($id, $startDate, $endDate) {
+          $this->db->select('a.*,CONCAT(b.firstName," ",b.lastName) as fullname, c.leaveCode,c.leaveName');          
+            $this->db->join('employee b', 'a.employeeId = b.id');     
+            $this->db->join('leave c', 'a.leaveId = c.id');
+            $this->db->where('a.employeeId', $id);
+            $this->db->where('a.date >=', $startDate);
+            $this->db->where('a.date <=', $endDate);
+            $this->db->order_by('a.updateDate', 'DESC');
+        return $this->db->get("non_chargeable a")->result();
+    }
+
     
 
 }

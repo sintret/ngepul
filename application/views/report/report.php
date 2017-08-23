@@ -13,7 +13,6 @@
                     <label for="varchar">Report Type</label>
                     <select name="type" class="form-control" >
                         <option value="1">Engagement</option>
-                        <option value="2">Employee</option>
                         <option value="3">Reimbursement</option>
                         <option value="4">Non Chargeable</option>
                     </select>

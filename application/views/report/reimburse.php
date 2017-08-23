@@ -12,19 +12,18 @@
                 <div class="col-sm-4">
                     <label for="varchar">Report Type</label>
                     <select name="type" class="form-control" >
-                        <option value="1">Engagement</option>
-                        <option value="2">Employee</option>
-                        <option value="3">Reimbursement</option>
-                        <option value="4">Non Chargeable</option>
+                        <option value="1" <?php if($reportTypeId == 1){ echo "selected"; } else {}?>>Engagement</option>
+                        <option value="3" <?php if($reportTypeId == 3){ echo "selected"; } else {}?>>Reimbursement</option>
+                        <option value="4" <?php if($reportTypeId == 4){ echo "selected"; } else {}?>>Non Chargeable</option>
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <label for="varchar">Start Date</label>
-                    <input type="text" class="form-control" name="startDate" id="date" placeholder="Start Date"  />
+                    <input type="text" class="form-control" name="startDate" id="date" value="<?= date('d/m/Y',strtotime($startDate) );?>" />
                 </div>
                 <div class="col-sm-4">
                     <label for="varchar">End Date</label>
-                    <input type="text" class="form-control" name="endDate" id="date" placeholder="End Date"  />
+                    <input type="text" class="form-control" name="endDate" id="date" value="<?= date('d/m/Y',strtotime($endDate));?>"  />
                 </div>
             </div>
             <hr/>
