@@ -29,7 +29,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+         <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
         <thead>
             <tr>
                 <th>No</th>
@@ -45,20 +45,20 @@
             
 		</thead>
             
-		<tbody align="center">
+		<tbody>
             <?php
             foreach ($non_chargeable_data as $non_chargeable)
             {
                 ?>
                 <tr>
-			<td width="80px"><?php echo ++$start ?></td>
+			<td><?php echo ++$start ?></td>
 			<td><?php echo $non_chargeable->periode ?></td>
 			<td><?php echo $non_chargeable->fullname ?></td>
 			<td><span class="btn btn-default btn-sm"><?php echo $non_chargeable->leaveName ?></span></td>
 			<td><?php echo $non_chargeable->nonChargeDesc ?></td>
 			<td><?php echo $non_chargeable->date ?></td>
 			<td style="background-color:whitesmoke"><?php echo $non_chargeable->hour ?></td>
-			<td style="text-align:center" width="200px">
+			<td >
                 <span class="tooltip-area">
                      <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'non_chargeable','update')){ ?> 
                     <a href="<?= site_url('non_chargeable/update/' . $non_chargeable->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>

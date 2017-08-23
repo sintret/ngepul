@@ -58,6 +58,7 @@ class Muserslist extends CI_Model
             $this->db->join('employee d', 'a.employeeId = d.id');
             $this->db->where('a.active', 1);
             $this->db->limit($limit, 0);
+        $this->db->order_by('updateDate', 'DESC');
         //cek apakah ada ba
       $query = $this->db->get('users a');
         if ($query->num_rows() > 0) {

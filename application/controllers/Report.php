@@ -7,7 +7,7 @@ class Report extends MY_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('Mreport','Mpersonal', 'Musers','Mengagement','Mreimbursement','Mnon_chargeable'));
+        $this->load->model(array('Mreport','Memployee','Mpersonal', 'Musers','Mengagement','Mreimbursement','Mnon_chargeable'));
         $this->load->library(array('form_validation', 'template'));  
         $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
@@ -84,6 +84,33 @@ class Report extends MY_Controller {
 
         $data = array(
             'title' => 'test',
+        );
+         $data = array(
+            'title' => 'report employee',
+            'employees' => $this->Memployee->get_dropdown(),
+            'button' => 'SEARCH',
+            'action' => site_url('report/employee_find'),
+            'id' => set_value('id'),
+        );
+        $this->template->caplet('report/employee', $data);
+    }
+    
+    public function employee_find() {
+
+        $typeId = $this->input->post('typeId', TRUE);
+        $employeeId = $this->input->post('employeeId', TRUE);
+        $startDate = date('Y-m-d', strtotime(strtr($this->input->post('startDate', TRUE), '/', '-')));
+        $endDate = date('Y-m-d', strtotime(strtr($this->input->post('endDate', TRUE), '/', '-')));
+        $data = array(
+            'title' => 'report find',
+            'button' => 'SEARCH',
+            'employees' => $this->Memployee->get_dropdown(),
+            'employeeId' => $employeeId,
+            'reportTypeId' => $typeId,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'action' => site_url('report/employee_find'),
+            'id' => set_value('id'),
         );
         $this->template->caplet('report/employee', $data);
     }

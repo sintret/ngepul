@@ -104,8 +104,8 @@ $segmentPage2 = $this->uri->segment(2);
                         <select name="partnerId"  class="selectpicker form-control" data-size="8"  data-live-search="true" id="partnerId" >
                           <option data-divider="true"></option>
                             <?php
-                            if ($employees)
-                                foreach ($employees as $employee) {
+                            if ($partners)
+                                foreach ($partners as $employee) {
                                     ?>
                                     <option value="<?= $employee->id; ?>" <?php if($partnerId == $employee->id) { echo "selected"; } else {} ?>>
                                     <?= $employee->firstName . ' ' . $employee->lastName; ?>
@@ -118,8 +118,8 @@ $segmentPage2 = $this->uri->segment(2);
                         <select name="managerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="managerId" >
                            <option data-divider="true"></option>
                             <?php
-                            if ($employees)
-                                foreach ($employees as $employee) {
+                            if ($managers)
+                                foreach ($managers as $employee) {
                                     ?>
                                     <option value="<?= $employee->id; ?>" <?php if($managerId == $employee->id) { echo "selected"; } else {} ?>>
                                     <?= $employee->firstName . ' ' . $employee->lastName; ?></option>
@@ -131,8 +131,8 @@ $segmentPage2 = $this->uri->segment(2);
                         <select name="seniorId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="seniorId">
                            <option data-divider="true"></option>
                             <?php
-                            if ($employees)
-                                foreach ($employees as $employee) {
+                            if ($seniors)
+                                foreach ($seniors as $employee) {
                                     ?>
                                     <option value="<?= $employee->id; ?>" <?php if($seniorId == $employee->id) { echo "selected"; } else {} ?>>
                                     <?= $employee->firstName . ' ' . $employee->lastName; ?></option>
@@ -162,8 +162,8 @@ $segmentPage2 = $this->uri->segment(2);
                        <select name="signingPartnerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="signingPartnerId" >
                            <option data-divider="true"></option>
                             <?php
-                            if ($employees)
-                                foreach ($employees as $employee) {
+                            if ($partners)
+                                foreach ($partners as $employee) {
                                     ?>
                                     <option value="<?= $employee->id; ?>" <?php if($signingPartnerId == $employee->id) { echo "selected"; } else {} ?>>
                                     <?= $employee->firstName . ' ' . $employee->lastName; ?>
@@ -176,8 +176,8 @@ $segmentPage2 = $this->uri->segment(2);
                        <select name="engagementPartnerId" class="selectpicker form-control " data-size="8"  data-live-search="true" id="engagementPartnerId" >
                            <option data-divider="true"></option>
                             <?php
-                            if ($employees)
-                                foreach ($employees as $employee) {
+                            if ($partners)
+                                foreach ($partners as $employee) {
                                     ?>
                                     <option value="<?= $employee->id; ?>" <?php if($engagementPartnerId == $employee->id) { echo "selected"; } else {} ?>>
                                     <?= $employee->firstName . ' ' . $employee->lastName; ?>

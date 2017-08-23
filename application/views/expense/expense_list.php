@@ -30,6 +30,7 @@
 		<th>Code</th>
 		<th>Expense Name</th>
 		<th>Expense Cost</th>
+		<th>Amount Status</th>
 		<th>Action</th>
             
 		</tr>
@@ -40,12 +41,18 @@
             <?php
             foreach ($expense_data as $expense)
             {
+                if($expense->fixStatusId == 1){
+                    $fixStatus = '<span class="btn btn-info btn-sm" >Editable</span>';
+                } else if($expense->fixStatusId == 2){
+                     $fixStatus = '<span class="btn btn-warning btn-sm" >Fix</span>';
+                }
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><span  class="btn btn-default btn-sm"><?php echo $expense->expenseCode ?></span></td>
 			<td><?php echo $expense->expenseName ?></td>
 			<td><?php echo rupiah(ceil($expense->expenseCost)) ?></td>
+			<td><?php echo $fixStatus ?></td>
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
                                             <a href="<?= site_url('expense/update/' . $expense->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>

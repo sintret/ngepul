@@ -95,6 +95,88 @@ class Memployee extends CI_Model
             }
     }
     
+    public function dropdown_level($level)
+    {
+        //$level = 4;
+         $this->db->select('a.*,b.positionName,b.positionGroup,c.groupName');
+            $this->db->from('employee a');      
+            $this->db->join('position b', 'a.positionId = b.id', 'left');
+            $this->db->join('position_group c', 'b.positionGroup = c.id', 'left');
+            $this->db->where("b.positionGroup", $level);     
+           // $this->db->where("a.active", 1);            
+            $this->db->group_by('a.id'); 
+            $this->db->order_by('a.firstName','DESC');   
+            
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+    }
+    
+    public function dropdown_partner()
+    {
+         $this->db->select('a.username,a.userlevelId,CONCAT(b.firstName,b.lastName) as fullname, b.costRate');
+            $this->db->from('users a');      
+            $this->db->join('employee b', 'a.employeeId = b.id', 'left');
+            $this->db->where("a.userlevelId", 3);     
+            $this->db->where("a.active", 1);            
+            $this->db->order_by('username','DESC'); 
+            
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+    }
+    
+     public function dropdown_manager()
+    {
+         $this->db->select('a.username,a.userlevelId,CONCAT(b.firstName,b.lastName) as fullname, b.costRate');
+            $this->db->from('users a');      
+            $this->db->join('employee b', 'a.employeeId = b.id', 'left');
+            $this->db->where("a.userlevelId", 4);     
+            $this->db->where("a.active", 1);            
+            $this->db->order_by('username','DESC'); 
+            
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+    }
+    
+     public function dropdown_hrd()
+    {
+         $this->db->select('a.username,a.userlevelId,CONCAT(b.firstName,b.lastName) as fullname, b.costRate');
+            $this->db->from('users a');      
+            $this->db->join('employee b', 'a.employeeId = b.id', 'left');
+            $this->db->where("a.userlevelId", 5);     
+            $this->db->where("a.active", 1);            
+            $this->db->order_by('username','DESC'); 
+            
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+    }
+    public function dropdown_staff()
+    {
+         $this->db->select('a.username,a.userlevelId,CONCAT(b.firstName,b.lastName) as fullname, b.costRate');
+            $this->db->from('users a');      
+            $this->db->join('employee b', 'a.employeeId = b.id', 'left');
+            $this->db->where("a.userlevelId", 6);     
+            $this->db->where("a.active", 1);            
+            $this->db->order_by('username','DESC'); 
+            
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) 
+            {
+                 return $query->result();
+            }
+    }
+    
     public function getDropDown()
     {
          $this->db->select('id,firstname,lastname');

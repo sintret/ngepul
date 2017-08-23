@@ -73,6 +73,7 @@ class Expense extends CI_Controller
 	    'expenseCode' => set_value('expenseCode'),
 	    'expenseName' => set_value('expenseName'),
 	    'expenseCost' => set_value('expenseCost'),
+	    'fixStatusId' => set_value('fixStatusId'),
 	    'expenseDeleted' => set_value('expenseDeleted'),
 	);
         $this->template->caplet('expense/expense_form', $data);
@@ -90,6 +91,7 @@ class Expense extends CI_Controller
 		'expenseCode' => $this->input->post('expenseCode',TRUE),
 		'expenseName' => $this->input->post('expenseName',TRUE),
 		'expenseCost' => $this->input->post('expenseCost',TRUE),
+		'fixStatusId' => $this->input->post('fixStatusId',TRUE),
 		//'expenseDeleted' => $this->input->post('expenseDeleted',TRUE),
 	    );
 
@@ -112,6 +114,7 @@ class Expense extends CI_Controller
 		'expenseCode' => set_value('expenseCode', $row->expenseCode),
 		'expenseName' => set_value('expenseName', $row->expenseName),
 		'expenseCost' => set_value('expenseCost', $row->expenseCost),
+		'fixStatusId' => set_value('fixStatusId', $row->fixStatusId),
 		'expenseDeleted' => set_value('expenseDeleted', $row->expenseDeleted),
 	    );
             $this->template->caplet('expense/expense_form', $data);
@@ -133,6 +136,7 @@ class Expense extends CI_Controller
 		'expenseCode' => $this->input->post('expenseCode',TRUE),
 		'expenseName' => $this->input->post('expenseName',TRUE),
 		'expenseCost' => $this->input->post('expenseCost',TRUE),
+		'fixStatusId' => $this->input->post('fixStatusId',TRUE),
 		//'expenseDeleted' => $this->input->post('expenseDeleted',TRUE),
 	    );
 

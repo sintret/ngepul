@@ -22,7 +22,16 @@ class Mservice extends CI_Model
         $this->db->where('serviceDeleted',0);
         return $this->db->get($this->table)->result();
     }
-
+    function get_joinall()
+    {
+        $this->db->select('a.*, b.company_name');
+         $this->db->from('service a');
+         $this->db->join('entity b', 'a.entityId = b.id');
+         //$this->db->join('service c', 'a.serviceId = c.id');
+         $this->db->where('a.serviceDeleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
     // get data by id
     function get_by_id($id)
     {

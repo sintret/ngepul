@@ -11,7 +11,18 @@ $segmentPage2 = $this->uri->segment(2);
     <li <?php if($segmentPage == 'dashboard'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>dashboard"><i class="icon  fa fa-th"></i> DASHBOARD </a></li>
 <?php //} ?>  
  <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'report','index')){ ?> 
-        <li <?php if($segmentPage == 'report' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/report"><i class="icon glyphicon glyphicon-file"></i> REPORT </a></li>   
+<!--        <li <?php if($segmentPage == 'report' ){ ?>class="activelink"<?php } else { }?>>
+            <a href="<?= base_url() ?>report/report"><i class="icon glyphicon glyphicon-file"></i> REPORT </a></li>  -->
+        <li <?php if($segmentPage == 'report'){ ?>class="activelink"<?php } else { }?>>
+        <span><i class="icon  fa fa-th"></i><b>REPORT LIST</b>  </span>
+                <ul>
+                    <li class="Label label-lg"><b>REPORT PARAMETER</b></li>
+                    <li <?php if($segmentPage2 == 'report' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/report"><i class="icon glyphicon glyphicon-file"></i> General Report </a></li> 
+                    <li <?php if($segmentPage2 == 'employee' ){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>report/employee"><i class="icon glyphicon glyphicon-file"></i> Employee Report</a></li>   
+                </ul>
+    </li> 
+        
+        
 <?php } ?>
     <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'entity','index')){ ?>
     <li <?php if($segmentPage == 'entity'){ ?>class="activelink"<?php } else { }?>><a href="<?= base_url() ?>entity"><i class="icon  fa fa-building-o"></i> ENTITY </a></li>

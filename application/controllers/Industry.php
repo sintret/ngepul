@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Industry extends MY_Controller
+class Industry extends CI_Controller
 {
     function __construct()
     {

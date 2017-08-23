@@ -157,6 +157,74 @@ class Service extends MY_Controller
             redirect(site_url('service'));
         }
     }
+    
+    public function excel()
+    {
+         $allService = $this->Mservice->get_joinall();
+        $this->load->helper('exportexcel');
+        $namaFile = "service.xls";
+        $judul = "service";
+        $tablehead = 0;
+        $tablebody = 1;
+        $nourut = 1;
+        //penulisan header
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename=" . $namaFile . "");
+        header("Content-Transfer-Encoding: binary ");
+
+        xlsBOF();
+
+        $kolomhead = 0;
+        xlsWriteLabel($tablehead, $kolomhead++, "No");
+	xlsWriteLabel($tablehead, $kolomhead++, "Entity");
+	xlsWriteLabel($tablehead, $kolomhead++, "ServiceCode");
+	xlsWriteLabel($tablehead, $kolomhead++, "ServiceName");
+	xlsWriteLabel($tablehead, $kolomhead++, "Service Description");
+	xlsWriteLabel($tablehead, $kolomhead++, "Status");
+	xlsWriteLabel($tablehead, $kolomhead++, "UpdateDate");
+
+	foreach ($allService as $data) {
+            if($data->serviceDeleted >= 0){
+                $deletedStat = "active";
+            } else {
+                $deletedStat = "disable";
+            }
+            $kolombody = 0;
+
+            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
+            xlsWriteNumber($tablebody, $kolombody++, $nourut);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->company_name);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceCode);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceName);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceDescription);
+	    xlsWriteLabel($tablebody, $kolombody++, $deletedStat);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->updateDate);
+
+	    $tablebody++;
+            $nourut++;
+        }
+
+        xlsEOF();
+        exit();
+    }
+
+    public function word()
+    {
+        header("Content-type: application/vnd.ms-word");
+        header("Content-Disposition: attachment;Filename=service.doc");
+
+        $data = array(
+            'service_data' => $this->Mservice->get_all(),
+            'start' => 0
+        );
+        
+        $this->load->view('service/service_doc',$data);
+    }
 
     public function _rules() 
     {

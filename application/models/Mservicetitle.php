@@ -22,6 +22,17 @@ class Mservicetitle extends CI_Model
         $this->db->where('serviceTitleDeleted',0);
         return $this->db->get($this->table)->result();
     }
+    function get_joinall()
+    {
+         $this->db->select('a.*, b.company_name,c.serviceName');
+         $this->db->from('servicetitle a');
+         $this->db->join('entity b', 'a.entityId = b.id');
+         $this->db->join('service c', 'a.serviceId = c.id');
+         $this->db->where('a.serviceTitleDeleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+        
+    }
 
     // get data by id
     function get_by_id($id)
@@ -35,6 +46,7 @@ class Mservicetitle extends CI_Model
         return $query->row();
         
     }
+    
     
     // get total rows
     function total_rows($q = NULL) {

@@ -19,9 +19,16 @@ $segmentPage2 = $this->uri->segment(2);
             <label for="varchar">Expense Name <?php echo form_error('expenseName') ?></label>
             <input type="text" class="form-control" name="expenseName" id="expenseName" placeholder="ExpenseName" value="<?php echo $expenseName; ?>" />
         </div>
-	    <div class="form-group">
+	<div class="form-group">
             <label for="decimal">Expense Cost <?php echo form_error('expenseCost') ?></label>
             <input type="text" class="form-control" name="expenseCost" id="expenseCost" placeholder="ExpenseCost" value="<?php echo $expenseCost; ?>" />
+        </div>
+	<div class="form-group">
+            <label for="fixStatusId">Is Amount Can Edit? <?php echo form_error('fixStatusId') ?></label>
+            <select name="fixStatusId" class="form-control">
+                <option value="1" <?php if($fixStatusId == 1) { echo "selected"; } { }?>> Yes</option>
+                <option value="2" <?php if($fixStatusId == 2) { echo "selected"; } { }?>> No</option>
+            </select>
         </div>
             
             <hr/>

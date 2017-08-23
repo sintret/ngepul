@@ -163,7 +163,77 @@ class Servicetitle extends MY_Controller
             redirect(site_url('servicetitle'));
         }
     }
+    
+     public function excel()
+    {
+        $allService = $this->Mservicetitle->get_joinall();
+      //echo "<pre>"; print_r($allService); exit(0);
+        $this->load->helper('exportexcel');
+        $namaFile = "servicetitle.xls";
+        $judul = "servicetitle";
+        $tablehead = 0;
+        $tablebody = 1;
+        $nourut = 1;
+        //penulisan header
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename=" . $namaFile . "");
+        header("Content-Transfer-Encoding: binary ");
 
+        xlsBOF();
+
+        $kolomhead = 0;
+        xlsWriteLabel($tablehead, $kolomhead++, "No");
+	xlsWriteLabel($tablehead, $kolomhead++, "Entity");
+	xlsWriteLabel($tablehead, $kolomhead++, "Service Area");
+	xlsWriteLabel($tablehead, $kolomhead++, "Service Name");
+	xlsWriteLabel($tablehead, $kolomhead++, "Description");
+	xlsWriteLabel($tablehead, $kolomhead++, "Status");
+	xlsWriteLabel($tablehead, $kolomhead++, "UpdateDate");
+
+	foreach ($allService as $data) {
+            if($data->serviceTitleDeleted >= 0){
+                $deletedStat = "active";
+            } else {
+                $deletedStat = "disable";
+            }
+            $kolombody = 0;
+
+            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
+            xlsWriteNumber($tablebody, $kolombody++, $nourut);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->company_name);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceName);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceTitleName);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->serviceTitleDescription);
+	    xlsWriteLabel($tablebody, $kolombody++, $deletedStat);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->updateDate);
+
+	    $tablebody++;
+            $nourut++;
+        }
+
+        xlsEOF();
+        exit();
+    }
+
+    public function word()
+    {
+        header("Content-type: application/vnd.ms-word");
+        header("Content-Disposition: attachment;Filename=servicetitle.doc");
+
+        $data = array(
+            'servicetitle_data' => $this->Mservicetitle->get_all(),
+            'start' => 0
+        );
+        
+        $this->load->view('servicetitle/servicetitle_doc',$data);
+    }
+    
+    
     public function _rules() 
     {
 	$this->form_validation->set_rules('entityId', 'entityid', 'trim|required');

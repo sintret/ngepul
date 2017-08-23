@@ -30,7 +30,9 @@ class Employee extends MY_Controller
         $config['total_rows'] = $this->Memployee->total_rows($q);
         //$employee = $this->Memployee->get_limit_data($config['per_page'], $start, $q);
         $employee = $this->Memployee->getData($config['per_page'], $start, $q);
-
+        
+        $dropDown = $this->Memployee->dropdown_level(1);
+      //echo "<pre>"; print_r($dropDown); exit(0);
         $this->load->library('pagination');
         $this->pagination->initialize($config);
 

@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
         <thead>
             <tr>
                 <th>No</th>
@@ -37,13 +37,13 @@
             
 		</thead>
             
-		<tbody align="center">
+		<tbody>
             <?php
             foreach ($servicetitle_data as $servicetitle)
             {
                 ?>
                 <tr>
-			<td width="80px"><?php echo ++$start ?></td>
+			<td><?php echo ++$start ?></td>
 			<td><span class="btn btn-info btn-sm"><?php echo $servicetitle->company_name ?></span></td>
                         <td><span class="btn btn-default btn-sm"><?php echo $servicetitle->serviceName ?></span></td>
 			<td><?php echo $servicetitle->serviceTitleName ?></td>

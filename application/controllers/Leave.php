@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Leave extends MY_Controller
+class Leave extends CI_Controller
 {
     function __construct()
     {

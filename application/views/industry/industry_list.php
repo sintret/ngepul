@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
         <thead>
             <tr>
                 <th>No</th>
