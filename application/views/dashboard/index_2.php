@@ -5,22 +5,39 @@
                 <h4><strong>My Work Dashboard</strong></h4>
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
-                <ul  class="nav nav-pills">
-                    <li class="active">
-                        <a  href="#1a" data-toggle="tab">Todo List</a>
-                    </li>
-                    <li>
-                        <a href="#timesheets" data-toggle="tab">TimeSheet</a>
-                    </li>
-                    <li>
-                        <a href="#2a" data-toggle="tab">On Closed</a>
-                    </li>
-                </ul>
+                
             </div>
         <div class="panel-body">    
         
+        </div>
         <div class="row">
-          <div class="tab-content clearfix">
+           tetst
+        </div>
+            
+    </div>
+    </div>
+
+
+
+<div class="container">
+    <h1>Your Work Dashboard</h1>
+</div>
+
+<div id="exTab1" class="container">
+    <ul  class="nav nav-pills">
+        <li class="active">
+            <a  href="#1a" data-toggle="tab">Todo List</a>
+        </li>
+        <li>
+            <a href="#timesheets" data-toggle="tab">TimeSheet</a>
+        </li>
+        <li>
+            <a href="#2a" data-toggle="tab">On Closed</a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content clearfix">
         <div class="tab-pane active" id="1a">
             <div class="row">
                 <div class="col-md-11">
@@ -220,14 +237,7 @@
             </div>
         </div>
     </div>
-        </div>
-            
-    </div>
-    </div>
-
 </div>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
 
 <script type="text/javascript">
@@ -265,7 +275,7 @@
         var iMonth = $("#tsMonth").find("option:selected").val();
         var iYear = $("#tsYear").find("option:selected").val();
         var l = daysInMonth(m, iYear);
-        
+
         var c = 1;
         var p = 0;
 
@@ -341,7 +351,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="target">
+                <form>
                     <div class="form-group">
                         <label for="tHour" class="form-control-label">Hour:</label>
                         <input type="number" class="form-control" id="tHour">

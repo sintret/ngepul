@@ -72,5 +72,6 @@
                 <?php echo $pagination ?>
             </div>
         </div>
-    </body>
-</html>
+            
+    </div>
+    </div>

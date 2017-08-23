@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Bank extends MY_Controller
+class Bank extends CI_Controller
 {
     function __construct()
     {

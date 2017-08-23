@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class City extends MY_Controller
+class City extends CI_Controller
 {
     function __construct()
     {

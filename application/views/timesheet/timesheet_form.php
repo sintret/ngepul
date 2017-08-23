@@ -5,10 +5,10 @@ $segmentPage2 = $this->uri->segment(2);
 ?>
 <section class="panel" style="background-color: whitesmoke">
     <header class="panel-heading btn-inverse">
-        <h4><strong>Userlist</strong> /<?= $button ?></h4>
+        <h4><strong>TIMESHEET</strong> /<?= $button ?></h4>
     </header>
     <div class="panel-body">
-        <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data">
+        <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data" id="target">
                  
         <div class="form-group">
             <label for="int">EngagementId <?php echo form_error('engagementId') ?></label>
@@ -61,4 +61,7 @@ $segmentPage2 = $this->uri->segment(2);
         </form>
 
 </section>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<script type="text/javascript">
+  $("#target :input").prop("disabled", false);  
+ </script>
