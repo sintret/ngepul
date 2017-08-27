@@ -28,7 +28,7 @@
             <tr>
                 <th>No</th>
 		<th>Avatar</th>
-		<th>User level</th>
+		<th>level</th>
 		<th>Employee Name</th>
 		<th>Username</th>
 		<th>Email</th>
@@ -40,7 +40,7 @@
             
 		</thead>
             
-		<tbody align="center">
+		<tbody>
             <?php
             foreach ($userslist_data as $userslist)
             {
@@ -51,7 +51,7 @@
                 }
                 ?>
                 <tr>
-			<td width="80px"><?php echo ++$start ?></td>
+			<td><?php echo ++$start ?></td>
                         <td><img width="80px" height="80px" src="<?=base_url();?>assets/uploads/employee/<?php echo $userslist->avatar ?>" class="circle"></td>
 			<td><?= $userslist->userlevel_name ?></td>
 			<td><?= $userslist->firstName ;?> <?=$userslist->lastName; ?></td>
@@ -59,7 +59,7 @@
 			<td><?= $userslist->email ?></td>
 <!--			<td><?= $userslist->password ?></td>-->
                         <td><?=$spans ?></td>
-			<td style="text-align:center" width="200px">
+			<td>
                              <span class="tooltip-area">
                                         <a href="<?= base_url() ?>userslist/update/<?= $userslist->id; ?>" class="btn btn-default btn-sm" title="Edit">
                                             <i class="fa fa-pencil"></i>
