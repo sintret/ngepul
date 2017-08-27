@@ -163,23 +163,39 @@ class Mengagement_detail extends CI_Model {
     function timesheet($month, $year, $index, $employeeId) {
         $date = $year . '-' . $month . '-11';
         $t = date("t", strtotime($date));
+        $array = [];
+        $dates = [];
 
         if ($index == 1) {
-            $time1 = 1;
-            $time2 = 15;
-            $startDate = $year . '-' . $month . '-01';
-            $endDate = $year . '-' . $month . '-15';
+            $time1 = 11;
+            $time2 = 25;
+            $startDate = $year . '-' . $month . '-11';
+            $endDate = $year . '-' . $month . '-25';
+            for ($i = 11; $i <= 25; $i++) {
+                $array[] = $i;
+                $dates[] = $year.'-'.$month.'-'.$i;
+            }
         } else {
-            $time1 = 16;
-            $time2 = $t;
-            $startDate = $year . '-' . $month . '-16';
-            $endDate = $year . '-' . $month . '-' . $t;
+            $time1 = 26;
+            $time2 = 10;
+            $startDate = $year . '-' . $month . '-26';
+            $endDateb = $year . '-' . $month . '-10';
+            $endDate = date("Y-m-d", strtotime("+1 month", strtotime($endDateb)));
+            $m = date("m", strtotime("+1 month", strtotime($endDateb)));
+            for ($i = 26; $i <= $t; $i++) {
+                $array[] = $i;
+                $dates[] = $year.'-'.$month.'-'.$i;
+            }
+            for ($i = 1; $i <= 10; $i++) {
+                $array[] = $i < 10 ? '0' . $i : $i;
+                $dates[] = $year.'-'.$m.'-'.$i;
+            }
         }
         $between1 = '( b.startDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
         $between2 = '(b.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
-        $between3 = '(date BETWEEN "' . $startDate . '" AND "' . $endDate .'")';
+        $between3 = '(date BETWEEN "' . $startDate . '" AND "' . $endDate . '")';
 
-        $sql = 'SELECT  DISTINCT b.id, b.startDate,b.endDate, a.budgetHour, b.name,b.description ,(select sum(hour) from timesheet where employeeId = "'.$employeeId.'"  and ' . $between3.') as total FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
+        $sql = 'SELECT  DISTINCT b.id, b.startDate,b.endDate, a.budgetHour, b.name,b.description ,(select sum(hour) from timesheet where employeeId = "' . $employeeId . '"  and ' . $between3 . ') as total FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2;
         //echo $sql;exit(0);
         $query = $this->db->query($sql);
         $result = $query->result();
@@ -208,7 +224,9 @@ class Mengagement_detail extends CI_Model {
             'ids' => $ids,
             'time1' => $time1,
             'time2' => $time2,
-            'ym' => $year . '-' . $month . '-'
+            'ym' => $year . '-' . $month . '-',
+            'array' => $array,
+            'dates' =>$dates
         ];
     }
 
@@ -225,7 +243,7 @@ class Mengagement_detail extends CI_Model {
                     $title = 'Engagement - Timesheets News';
                     $user = $this->getUser($result->employeeId);
 
-                    Mnotification::notification($user->id, $title, $message,'http://128.199.241.0/new-pts');
+                    Mnotification::notification($user->id, $title, $message, 'http://128.199.241.0/new-pts');
 
                     $data = [
                         'userId' => $user->id,

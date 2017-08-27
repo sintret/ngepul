@@ -76,6 +76,8 @@
             </div>
 
         </div>
+              
+              
         <div class="tab-pane" id="timesheets">
             <h3>Select Periode :</h3>
             <p>
@@ -104,8 +106,8 @@
                     </select>
                 </div>
                 <div class="checkbox"  style="margin: 0 5px">
-                    <label style="margin: 0 5px"><input type="radio" checked="" id="option1" name="option" class="form-control"><span id="span-option1"> 1-15 </span></label>
-                    <label style="margin: 0 5px"><input type="radio" id="option2" name="option" class="form-control"><span id="span-option2"> 16-31 </span></label>
+                    <label style="margin: 0 5px"><input type="radio" checked="" id="option1" name="option" class="form-control"><span id="span-option1"> 11-25 </span></label>
+                    <label style="margin: 0 5px"><input type="radio" id="option2" name="option" class="form-control"><span id="span-option2"> 26-10 </span></label>
                 </div>
                 <button type="button" id="goTimesheets" class="btn btn-success"> Go!</button>
             </form>
@@ -120,8 +122,8 @@
                                 <th>Project Name</th>
                                 <th>Budget Hour</th>
                                 <th>Periode</th>
-                                <?php for ($i = $results['time1']; $i <= $results['time2']; $i++) { ?>
-                                    <th><?php echo $i < 10 ? '0' . $i : $i; ?></th>
+                                <?php foreach($results['array'] as $arr) { ?>
+                                    <th><?php echo $arr ?></th>
                                 <?php } ?>
                                 <th>Total</th>
                             </tr>
@@ -140,16 +142,8 @@
                                         <td><?php echo $timesheet->name; ?></td>
                                         <td><?php echo $timesheet->budgetHour; ?></td>
                                         <td><?php echo $timesheet->startDate. '' .$timesheet->endDate; ?></td>
-                                        <?php
-                                        for ($i = $results['time1']; $i <= $results['time2']; $i++) {
-                                            if($i <10){
-                                                $dt = '0'.$i;
-                                            }else{
-                                                $dt = $i;
-                                            }
-                                            $d = $ym . $dt;
-                                            ?>
-                                            <td><button id="ts<?php echo $timesheet->id . '_' . $d; ?>" type="button" data-engagementId="<?= $timesheet->id; ?>" data-title="<?= str_replace('"', "", $timesheet->name . ' with' . $d); ?>" data-no="<?= $no; ?>" data-description="<?= isset($ids[$timesheet->id][$d]['description']) ? str_replace('"', '', $ids[$timesheet->id][$d]['description']) : ''; ?>" data-date="<?= $d; ?>" class="btn btn-link tInput"><?= isset($ids[$timesheet->id][$d]['hour']) ? $ids[$timesheet->id][$d]['hour'] : 0 ?></button></td>
+                                        <?php foreach($results['dates'] as $arr) { ?>
+                                            <td><button id="ts<?php echo $timesheet->id . '_' . $arr; ?>" type="button" data-engagementId="<?= $timesheet->id; ?>" data-title="<?= str_replace('"', "", $timesheet->name . ' with' . $arr); ?>" data-no="<?= $no; ?>" data-description="<?= isset($ids[$timesheet->id][$arr]['description']) ? str_replace('"', '', $ids[$timesheet->id][$arr]['description']) : ''; ?>" data-date="<?= $arr; ?>" class="btn btn-link tInput"><?= isset($ids[$timesheet->id][$arr]['hour']) ? $ids[$timesheet->id][$arr]['hour'] : 0 ?></button></td>
                                         <?php } ?>
                                         <td id="total<?php echo $timesheet->id; ?>"><?php echo $timesheet->total;?></td>
                                     </tr>
@@ -242,24 +236,23 @@
             url: '<?= base_url(); ?>dashboard/ajax_timesheet',
             data: {month: month, year: year, index: index},
             success: function (html) {
-                $("#table-timesheet tbody").html(html);
+                $("#table-timesheet").html(html);
             }
         });
     }
 
     var iMonth = $("#tsMonth").find("option:selected").data("id");
     var iYear = $("#tsYear").find("option:selected").val();
-    $("#span-option2").html('16-' + daysInMonth(iMonth, iYear));
 
-    $("#tsMonth").on("change", function () {
-        var iMonth = $(this).find("option:selected").data("id");
-        var iYear = $("#tsYear").val();
-        $("#span-option2").html('16-' + daysInMonth(iMonth, iYear));
-    });
-    $("#tsYear").on("change", function () {
-        var iMonth = $("#tsMonth").find("option:selected").data("id");
-        $("#span-option2").html('16-' + daysInMonth(iMonth, $(this).val()));
-    });
+//    $("#tsMonth").on("change", function () {
+//        var iMonth = $(this).find("option:selected").data("id");
+//        var iYear = $("#tsYear").val();
+//        $("#span-option2").html('16-' + daysInMonth(iMonth, iYear));
+//    });
+//    $("#tsYear").on("change", function () {
+//        var iMonth = $("#tsMonth").find("option:selected").data("id");
+//        $("#span-option2").html('16-' + daysInMonth(iMonth, $(this).val()));
+//    });
     $("#goTimesheets").on("click", function () {
         var m = $("#tsMonth").find("option:selected").data("id");
         var iMonth = $("#tsMonth").find("option:selected").val();
@@ -271,24 +264,8 @@
 
         if ($("#option2").is(":checked")) {
             c = 2;
-            var head = '<tr><th>#</th><th>Project Name</th><th>Budget Hour</th><th>Periode</th>';
-            for (i = 16; i <= l; i++) {
-                head += '<th>' + i + '</th>';
-            }
-            head += '<th>Total</th></tr>';
-            $("#table-timesheet thead").html(head);
         } else {
-            c = 1;
-            var head = '<tr><th>#</th><th>Project Name</th><th>Budget Hour</th><th>Periode</th>';
-            for (i = 1; i <= 15; i++) {
-                if (i < 10)
-                    p = '0' + i;
-                else
-                    p = i;
-                head += '<th>' + p + '</th>';
-            }
-            head += '<th>Total</th></tr>';
-            $("#table-timesheet thead").html(head);
+            c = 1;           
         }
         timesheets(iMonth, iYear, c);
     });
