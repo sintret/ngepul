@@ -134,6 +134,7 @@
                             $timesheets = $results['results'];
                             $ym = $results['ym'];
                             $ids = $results['ids'];
+                            $totals = $results['totals'];
                             if ($timesheets)
                                 foreach ($timesheets as $timesheet) {
                                     ?>
@@ -145,7 +146,7 @@
                                         <?php foreach($results['dates'] as $arr) { ?>
                                             <td><button id="ts<?php echo $timesheet->id . '_' . $arr; ?>" type="button" data-engagementId="<?= $timesheet->id; ?>" data-title="<?= str_replace('"', "", $timesheet->name . ' with' . $arr); ?>" data-no="<?= $no; ?>" data-description="<?= isset($ids[$timesheet->id][$arr]['description']) ? str_replace('"', '', $ids[$timesheet->id][$arr]['description']) : ''; ?>" data-date="<?= $arr; ?>" class="btn btn-link tInput"><?= isset($ids[$timesheet->id][$arr]['hour']) ? $ids[$timesheet->id][$arr]['hour'] : 0 ?></button></td>
                                         <?php } ?>
-                                        <td id="total<?php echo $timesheet->id; ?>"><?php echo $timesheet->total;?></td>
+                                            <td id="total<?php echo $timesheet->id; ?>"><?php echo $totals[$timesheet->id];?></td>
                                     </tr>
                                     <?php
                                     $no++;

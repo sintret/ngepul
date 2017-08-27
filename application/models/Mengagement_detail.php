@@ -173,7 +173,7 @@ class Mengagement_detail extends CI_Model {
             $endDate = $year . '-' . $month . '-25';
             for ($i = 11; $i <= 25; $i++) {
                 $array[] = $i;
-                $dates[] = $year.'-'.$month.'-'.$i;
+                $dates[] = $year . '-' . $month . '-' . $i;
             }
         } else {
             $time1 = 26;
@@ -184,25 +184,27 @@ class Mengagement_detail extends CI_Model {
             $m = date("m", strtotime("+1 month", strtotime($endDateb)));
             for ($i = 26; $i <= $t; $i++) {
                 $array[] = $i;
-                $dates[] = $year.'-'.$month.'-'.$i;
+                $dates[] = $year . '-' . $month . '-' . $i;
             }
             for ($i = 1; $i <= 10; $i++) {
                 $array[] = $i < 10 ? '0' . $i : $i;
-                $dates[] = $year.'-'.$m.'-'.$i;
+                $dates[] = $year . '-' . $m . '-' . $i;
             }
         }
         $between1 = '( b.startDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
         $between2 = '(b.endDate BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND a.`employeeId` = "' . $employeeId . '")';
         $between3 = '(date BETWEEN "' . $startDate . '" AND "' . $endDate . '")';
 
-        $sql = 'SELECT  DISTINCT b.id, b.startDate,b.endDate, a.budgetHour, b.name,b.description ,(select sum(hour) from timesheet where employeeId = "' . $employeeId . '"  and ' . $between3 . ') as total FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2. ' group by b.id' ;
+        $sql = 'SELECT  DISTINCT b.id, b.startDate,b.endDate, a.budgetHour, b.name,b.description ,(select sum(hour) from timesheet where employeeId = "' . $employeeId . '"  and ' . $between3 . ') as total FROM engagementdetail a INNER JOIN engagement b WHERE ' . $between1 . ' OR ' . $between2 . ' group by b.id';
         //echo $sql;exit(0);
         $query = $this->db->query($sql);
         $result = $query->result();
 
         $ids = [];
+        $totals = [];
         if ($result) {
             foreach ($result as $res) {
+                $totals[$res->id] = 0;
                 $sql = 'SELECT * FROM timesheet WHERE (`date` BETWEEN "' . $startDate . '" AND "' . $endDate . '" AND engagementId = "' . $res->id . '")';
                 //echo $sql;exit(0);
                 $qr = $this->db->query($sql);
@@ -211,6 +213,7 @@ class Mengagement_detail extends CI_Model {
                     foreach ($rs as $r) {
                         $ids[$res->id][$r->date]['hour'] = $r->hour;
                         $ids[$res->id][$r->date]['description'] = $r->description;
+                        $totals[$res->id] += $r->hour;
                     }
                 } else {
                     $ids[$res->id] = NULL;
@@ -226,7 +229,8 @@ class Mengagement_detail extends CI_Model {
             'time2' => $time2,
             'ym' => $year . '-' . $month . '-',
             'array' => $array,
-            'dates' =>$dates
+            'dates' => $dates,
+            'totals' => $totals
         ];
     }
 
