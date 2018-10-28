@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -56,11 +56,11 @@
 			
                          <td>
                                         <span class="tooltip-area">
-                                            <a href="<?= site_url('leave/update/' . $leave->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                            <a href="<?= base_url('leave/update/' . $leave->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="<?= site_url('leave/read/' . $leave->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= base_url('leave/read/' . $leave->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('leave/delete/' . $leave->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= base_url('leave/delete/' . $leave->id) ?>page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
                                     </td>
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <a href="#" class="btn btn-primary">Total Record : <?php echo $total_rows ?></a>
+               <!-- <a href="#" class="btn btn-primary">Total Record : <?php echo $total_rows ?></a>-->
 	    </div>
             <div class="col-md-6 text-right">
                 <?php echo $pagination ?>

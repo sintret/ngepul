@@ -8,15 +8,30 @@ class Userslist extends MY_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Muserslist','Muserlevel','Memployee','Mentity'));
+        $this->load->model(array('Muserslist','Musers','Muserlevel','Memployee','Mentity'));
         $this->load->library(array('form_validation','template'));
     }
+    
+      public function index8()
+    {	
+	$q = urldecode($this->input->get('q', TRUE));
+        $start = intval($this->input->get('start'));
+		
+        $userslist = $this->Muserslist->get_all_tbl();
 
+        $data = array(
+            'userslist_data' => $userslist
+        );
+
+        $this->template->caplet('userslist/users_list', $data);
+    }
+
+    
     public function index()
     {
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
-        
+        //echo "<pre>"; print_r($start); exit(0);
         if ($q <> '') {
             $config['base_url'] = base_url() . 'userslist/index.html?q=' . urlencode($q);
             $config['first_url'] = base_url() . 'userslist/index.html?q=' . urlencode($q);
@@ -29,7 +44,7 @@ class Userslist extends MY_Controller
         $config['page_query_string'] = TRUE;
         $config['total_rows'] = $this->Muserslist->total_rows($q);
         $userslist = $this->Muserslist->get_limit_data($config['per_page'], $start, $q);
-
+        //echo "<pre>"; print_r($userslist); exit(0);
         $this->load->library('pagination');
         $this->pagination->initialize($config);
 
@@ -40,7 +55,8 @@ class Userslist extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('userslist/users_list', $data);
+        
+        $this->template->capletfull('userslist/users_list', $data);
     }
 
     public function read($id) 
@@ -95,7 +111,7 @@ class Userslist extends MY_Controller
 	    'userUpdate' => set_value('userUpdate'),
 	    'updateDate' => set_value('updateDate'),
 	);
-         $this->template->caplet('userslist/users_form', $data);
+         $this->template->caplettable('userslist/users_form', $data);
     }
     
     public function create_action() 
@@ -153,7 +169,11 @@ class Userslist extends MY_Controller
             }  
        //echo "<pre>"; print_r($data); exit(0);     
             $this->Muserslist->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
+             $this->session->set_flashdata('message', '<div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <span><strong>Notice: </strong> Userlist has been updated..</span>
+                                </div>');
+            //$this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('userslist'));
 //        }
     }
@@ -163,13 +183,13 @@ class Userslist extends MY_Controller
         $row = $this->Muserslist->get_by_id($id);
 
         if ($row) {
-            $data = array(
+            $data = array( 
                 'button' => 'Update',
                 'action' => site_url('userslist/update_action'),
 		'id' => set_value('id', $row->id),
-            'userlevels' => $this->Muserlevel->get_all(),
-            'employees' => $this->Memployee->get_all(),
-            'entities' => $this->Mentity->get_all(),
+                'userlevels' => $this->Muserlevel->get_all(),
+                'employees' => $this->Memployee->get_all(),
+                'entities' => $this->Mentity->get_all(),
 		'entityId' => set_value('entityId', $row->entityId),
 		'userlevelId' => set_value('userlevelId', $row->userlevelId),
 		'avatar' => set_value('avatar', $row->avatar),
@@ -184,7 +204,7 @@ class Userslist extends MY_Controller
 		'userUpdate' => set_value('userUpdate', $row->userUpdate),
 		'updateDate' => set_value('updateDate', $row->updateDate),
 	    );
-             $this->template->caplet('userslist/users_form', $data);
+             $this->template->caplettable('userslist/users_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('userslist'));
@@ -223,7 +243,7 @@ class Userslist extends MY_Controller
                 echo "gagal: ";
             }
         }
-          
+          $pageId = $this->input->post('pageId',TRUE);
           
             $data = array(
 		'entityId' => $this->input->post('entityId',TRUE),
@@ -238,7 +258,7 @@ class Userslist extends MY_Controller
 		//'userCreate' => $this->input->post('userCreate',TRUE),
 		//'createDate' => $this->input->post('createDate',TRUE),
 		'userUpdate' => 1,
-		//'updateDate' => $this->input->post('updateDate',TRUE),
+		'updateDate' => date('Y-m-d H:i:s'),
 	    );
 
              if ($_FILES['avatar']['name'] != ''){
@@ -247,24 +267,80 @@ class Userslist extends MY_Controller
                 unlink("./assets/uploads/employee/".$oldAvatar);
             }  
             
-            $this->Muserslist->update($this->input->post('id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('userslist'));
+            $updated = $this->Muserslist->update($this->input->post('id', TRUE), $data);
+           
+                $this->session->set_flashdata('message', '<div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <span><strong>Notice: </strong> Userlist has been updated..</span>
+                                </div>');
+           
+             
+           
+            
+            //$this->session->set_flashdata('message', 'Update Record Success');
+            redirect(site_url('userslist?start='.$pageId));
 //        }
     }
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
+        //echo "<pre>"; print_r($page); exit(0);
         $row = $this->Muserslist->get_by_id($id);
 
         if ($row) {
-            $this->Muserslist->delete($id);
+            
+           // $this->Muserslist->delete($id);
+            $data['deleted'] = 1;
+            $this->Muserslist->update($id, $data);
+            
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('userslist'));
+            redirect(site_url('userslist/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('userslist'));
+            redirect(site_url('userslist/?start='.$page));
+        } 
+    }
+      public function reset() 
+    {
+         $employee =$this->Memployee->get_all();
+        $data = array(
+            'employee' => $employee,
+        );
+
+        $this->template->caplet('userslist/reset', $data);
+  
+       
+    }
+    public function reset_password_do() {
+    //echo "<pre>"; print_r($_POST); exit(0);
+        $employeeId        = $this->input->post('employeeId', TRUE);
+        $newPassword        = $this->input->post('newPassword', TRUE);
+        $retypeNewPassword  = $this->input->post('retypeNewPassword', TRUE);
+   
+  
+        if($newPassword != $retypeNewPassword){
+            //new passwor not match
+            $this->session->set_flashdata('eroor_set', '<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<span><strong>Notice: </strong> new password not match, please retype again..</span>
+		</div>');
+            redirect("userslist/reset/error");
+            exit(0);
+        } else {
+            
+            $data = array(
+                            'password' => md5($newPassword),
+                          );
+            $inserting = $this->Musers->update_employee_pass($data,$employeeId);            
+            $this->session->set_flashdata('eroor_set', '<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<span><strong>Notice: </strong>new password has been updated..</span>
+		</div>');
+            redirect("userslist/reset/success");
         }
+        $data['title'] = 'reset password';
+
     }
 
     public function _rules() 
@@ -286,6 +362,7 @@ class Userslist extends MY_Controller
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
+   
 
     public function excel()
     {

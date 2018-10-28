@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Timesheet extends MY_controller
+class Timesheet extends CI_Controller
 {
     function __construct()
     {
@@ -17,7 +17,7 @@ class Timesheet extends MY_controller
     {
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
-        
+        $accesslevelId = $this->session->userdata('userlevelId');
         if ($q <> '') {
             $config['base_url'] = base_url() . 'timesheet/index.html?q=' . urlencode($q);
             $config['first_url'] = base_url() . 'timesheet/index.html?q=' . urlencode($q);
@@ -41,7 +41,42 @@ class Timesheet extends MY_controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('timesheet/timesheet_list', $data);
+        if($accesslevelId == 1 || $accesslevelId == 2){
+            $this->template->caplettable('timesheet/timesheet_list', $data);
+        } else {
+            $this->mytimesheet();
+        }
+    }
+    
+    public function mytimesheet()
+    {
+        $q = urldecode($this->input->get('q', TRUE));
+        $start = intval($this->input->get('start'));
+        
+        if ($q <> '') {
+            $config['base_url'] = base_url() . 'timesheet/index.html?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'timesheet/index.html?q=' . urlencode($q);
+        } else {
+            $config['base_url'] = base_url() . 'timesheet/';
+            $config['first_url'] = base_url() . 'timesheet/';
+        }
+
+        $config['per_page'] = 10;
+        $config['page_query_string'] = TRUE;
+        $config['total_rows'] = $this->Mtimesheet->total_rows($q);
+        $timesheet = $this->Mtimesheet->get_mytimesheet($config['per_page'], $start, $q);
+
+        $this->load->library('pagination');
+        $this->pagination->initialize($config);
+
+        $data = array(
+            'timesheet_data' => $timesheet,
+            'q' => $q,
+            'pagination' => $this->pagination->create_links(),
+            'total_rows' => $config['total_rows'],
+            'start' => $start,
+        );
+        $this->template->caplettable('timesheet/timesheet_list', $data);
     }
 
     public function read($id) 
@@ -50,6 +85,7 @@ class Timesheet extends MY_controller
         if ($row) {
             $data = array(
 		'id' => $row->id,
+                'row' => $row,
 		'engagementId' => $row->engagementId,
 		'employeeId' => $row->employeeId,
 		'date' => $row->date,
@@ -57,7 +93,7 @@ class Timesheet extends MY_controller
 		'description' => $row->description,
 		'updateDate' => $row->updateDate,
 	    );
-          $this->template->caplet('timesheet/timesheet_read', $data);
+          $this->template->caplettable('timesheet/timesheet_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('timesheet'));
@@ -69,7 +105,7 @@ class Timesheet extends MY_controller
         $data = array(
             'button' => 'Create',
             'action' => site_url('timesheet/create_action'),
-	    'engagements' =>  $this->Mengagement->get_all(),
+	    'engagements' =>  $this->Mengagement->get_by_lock(),
 	    'employees' =>  $this->Memployee->get_all(),
 	    'id' => set_value('id'),
 	    'engagementId' => set_value('engagementId'),
@@ -79,12 +115,12 @@ class Timesheet extends MY_controller
 	    'description' => set_value('description'),
 	    'updateDate' => set_value('updateDate'),
 	);
-      $this->template->caplet('timesheet/timesheet_form', $data);
+      $this->template->capletform('timesheet/timesheet_form', $data);
     }
     
     public function create_action() 
     {
-        $this->_rules();
+        $this->_rules(); 
 
         if ($this->form_validation->run() == FALSE) {
             $this->create();
@@ -156,7 +192,9 @@ class Timesheet extends MY_controller
         $row = $this->Mtimesheet->get_by_id($id);
 
         if ($row) {
-            $this->Mtimesheet->delete($id);
+//            $this->Mtimesheet->delete($id);
+            $data['deleted'] = 1; 
+            $this->Mtimesheet->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('timesheet'));
         } else {

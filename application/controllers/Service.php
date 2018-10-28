@@ -40,7 +40,7 @@ class Service extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('service/service_list', $data);
+        $this->template->capletfull('service/service_list', $data);
     }
 
     public function read($id) 
@@ -140,21 +140,24 @@ class Service extends MY_Controller
 
             $this->Mservice->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('service'));
+            redirect(site_url('service/?start='.$page));
 //        }
     }
     
     public function delete($id) 
     {
+         $page =  $this->uri->segment(5);
         $row = $this->Mservice->get_by_id($id);
 
         if ($row) {
-            $this->Mservice->delete($id);
+            $data['serviceDeleted'] = 1;
+            $this->Mservice->update($id, $data);
+            //$this->Mservice->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('service'));
+            redirect(base_url('service/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('service'));
+            redirect(base_url('service/?start='.$page));
         }
     }
     

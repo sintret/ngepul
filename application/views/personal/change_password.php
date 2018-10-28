@@ -1,5 +1,5 @@
 
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>CHANGE YOUR PASSWORD</strong> </h4>
     </header>

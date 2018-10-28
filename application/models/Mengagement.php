@@ -8,6 +8,8 @@ class Mengagement extends CI_Model {
     public $table = 'engagement';
     public $id = 'id';
     public $order = 'DESC';
+    public $lockActive = 1;
+    public $lockNotSet = 0;
 
     function __construct() {
         parent::__construct();
@@ -17,6 +19,18 @@ class Mengagement extends CI_Model {
     function get_all() {
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
+    }     
+    
+    function get_by_lock() {
+        $this->db->order_by($this->id, $this->order);
+        $this->db->where('lockStatusId',$this->lockNotSet);
+        $this->db->where('finishStatusId',$this->lockNotSet);
+        return $this->db->get($this->table)->result();
+    }
+     
+      function get_engagement_task($id) {
+        $this->db->where($this->id, $id);
+        return $this->db->get($this->table)->row();
     }
 
     // get data by id
@@ -24,45 +38,15 @@ class Mengagement extends CI_Model {
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-
+    
+    
+    function total_byuser($q = NULL) {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+    
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-        $this->db->or_like('entityId', $q);
-        $this->db->or_like('code', $q);
-        $this->db->or_like('engagementDate', $q);
-        $this->db->or_like('clientId', $q);
-        $this->db->or_like('serviceTitleId', $q);
-        $this->db->or_like('yearService', $q);
-        $this->db->or_like('description', $q);
-        $this->db->or_like('partnerId', $q);
-        $this->db->or_like('managerId', $q);
-        $this->db->or_like('seniorId', $q);
-        $this->db->or_like('complexity', $q);
-        $this->db->or_like('risk', $q);
-        $this->db->or_like('agreedFees', $q);
-        $this->db->or_like('agreedExpenses', $q);
-        $this->db->or_like('estimatedCost', $q);
-        $this->db->or_like('signingPartnerId', $q);
-        $this->db->or_like('engagementPartnerId', $q);
-        $this->db->or_like('asset', $q);
-        $this->db->or_like('rl', $q);
-        $this->db->or_like('reportNo', $q);
-        $this->db->or_like('reportDate', $q);
-        $this->db->or_like('opinion', $q);
-        $this->db->or_like('jobFromEmployeeId', $q);
-        $this->db->or_like('finishStatusId', $q);
-        $this->db->or_like('finishDate', $q);
-        $this->db->or_like('finishApproveBy', $q);
-        $this->db->or_like('closing', $q);
-        $this->db->or_like('closingDate', $q);
-        $this->db->or_like('deleted', $q);
-        $this->db->or_like('inputby', $q);
-        $this->db->or_like('version', $q);
-        $this->db->or_like('userCreate', $q);
-        $this->db->or_like('createDate', $q);
-        $this->db->or_like('userUpdate', $q);
-        $this->db->or_like('updateDate', $q);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -109,15 +93,33 @@ class Mengagement extends CI_Model {
         $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
+    
+    
+     function getData2($limit, $start = 0, $q = NULL,$idEmployee) {
+        $this->db->limit($limit, $start);
 
+        $this->db->select('a.*,b.clientName,c1.firstName as partner, c2.firstName as manager,c3.firstName as senior');
+        $this->db->from('engagement a');
+        $this->db->join('client b', 'b.id = a.clientId', 'left');
+        $this->db->join('employee c1', 'c1.id = a.partnerId', 'left');
+        $this->db->join('employee c2', 'c2.id=a.managerId', 'left');
+        $this->db->join('employee c3', 'c3.id=a.seniorId', 'left');
+        $this->db->join('engagementdetail d3', 'a.id = d3.engagementId', 'left');
+        $this->db->where('d3.employeeId',$idEmployee);
+        $this->db->group_by("d3.engagementId");
+        $this->db->order_by('a.engagementDate', 'DESC');
+        
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+    
     function getData($limit, $start = 0, $q = NULL) {
         //$this->db->order_by($this->id, $this->order);
         $this->db->limit($limit, $start);
-
-        //$query = $this->db->get($this->table);
-//        $this->db->select('*');
-//        $this->db->from('engagement');
-//        $this->db->join('client', 'client.id = engagement.clientId');
 
         $this->db->select('a.*,b.clientName,c1.firstName as partner, c2.firstName as manager,c3.firstName as senior');
         $this->db->from('engagement a');

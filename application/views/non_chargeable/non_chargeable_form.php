@@ -3,7 +3,7 @@
 $segmentPage = $this->uri->segment(1);
 $segmentPage2 = $this->uri->segment(2);
 ?>
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>NON CHARGEABLE</strong> /<?= $button ?></h4>
     </header>

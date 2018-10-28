@@ -8,13 +8,13 @@
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                     <li>
-                        <a href="<?= site_url('bank/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
+                        <a href="<?= base_url('bank/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('bank/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
+                        <a href="<?= base_url('bank/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('bank/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
+                        <a href="<?= base_url('bank/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
                     <li></li>
                     <li><a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -52,11 +52,11 @@
                         
                                     <td>
                                         <span class="tooltip-area">
-                                            <a href="<?= site_url('bank/update/' . $bank->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                            <a href="<?= base_url('bank/update/' . $bank->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="<?= site_url('bank/read/' . $bank->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= base_url('bank/read/' . $bank->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('bank/delete/' . $bank->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= base_url('bank/delete/' . $bank->id) ?>page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
                                     </td>
@@ -75,5 +75,4 @@
                 <?php echo $pagination ?>
             </div>
         </div>
-    </body>
-</html>
+  

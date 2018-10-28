@@ -8,13 +8,13 @@
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                     <li>
-                        <a href="<?= site_url('position/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
+                        <a href="<?= base_url('position/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('position/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
+                        <a href="<?= base_url('position/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
                     <li>
-                        <a href="<?= site_url('position/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
+                        <a href="<?= base_url('position/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
                     <li></li>
                     <li><a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
@@ -23,7 +23,7 @@
                 </ul>
             </div>
             <div class="panel-body">    
-                <table class="table table-bordered" style="margin-bottom: 10px">
+                <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -57,7 +57,7 @@
                                         <a href="<?= base_url() ?>position/read/<?= $position->id; ?>" class="btn btn-default btn-sm" title="detail">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="<?= base_url() ?>position/delete/<?= $position->id; ?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
+                                        <a href="<?= base_url() ?>position/delete/<?= $position->id; ?>/page/<?=$start;?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
                                             <i class="fa fa-trash-o"></i>
                                         </a>
                                     </span>    

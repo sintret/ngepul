@@ -8,7 +8,7 @@ class Personal extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Mpersonal','Musers','Mreimbursement'));
+        $this->load->model(array('Mpersonal','Musers','Mreimbursement','Mengagement_detail','Mtimesheet'));
         $this->load->library(array('form_validation','template'));
         $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
@@ -28,7 +28,7 @@ class Personal extends CI_Controller
         $data = array(
             'title' => 'test',
         );
-        $this->template->caplet('personal/change_password', $data);
+        $this->template->caplettable('personal/change_password', $data);
     }
     
     public function change_password_add() {
@@ -100,7 +100,49 @@ class Personal extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('reimbursement/mylist/reimbursement_list', $data);
+        $this->template->caplettable('reimbursement/mylist/reimbursement_list', $data);
+    }
+    
+    public function my_task() {
+        $q = urldecode($this->input->get('q', TRUE));
+        $start = intval($this->input->get('start'));
+
+        if ($q <> '') {
+            $config['base_url'] = base_url() . 'engagement/index.html?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'engagement/index.html?q=' . urlencode($q);
+        } else {
+            $config['base_url'] = base_url() . 'engagement/';
+            $config['first_url'] = base_url() . 'engagement/';
+        }
+
+        $config['per_page'] = 10;
+        $config['page_query_string'] = TRUE;
+        $userId = $this->session->userdata('id');
+        $userLevelId = $this->session->userdata('userlevelId');
+        $idEmployee = $this->session->userdata('employeeId');
+        
+   
+        $config['total_rows'] = $this->Mengagement_detail->total_byuser($q,$idEmployee);
+        
+        $engagement = $this->Mengagement_detail->get_mytask($config['per_page'], $start, $q, $idEmployee,$userLevelId);
+    
+        //echo "<pre>"; print_r($engagement); exit(0);
+        //$client = $this->Mclient->get_all();
+
+        $this->load->library('pagination');
+        $this->pagination->initialize($config);
+
+        $data = array(
+            'engagement_data' => $engagement,
+            'q' => $q,
+            'pagination' => $this->pagination->create_links(),
+            'total_rows' => $config['total_rows'],
+            'start' => $start,
+        );
+     
+          
+            $this->template->caplettable('personal/my_task', $data);
+     
     }
    
 

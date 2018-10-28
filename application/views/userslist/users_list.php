@@ -23,16 +23,19 @@
                 </ul>
             </div>
         <div class="panel-body">    
-       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
-        <thead>
+            
+       
+        <?= $this->session->flashdata('message');?>     
+       <table  id="mytable" class="stripe row-border order-column" style="width:100%">
+            <thead>
             <tr>
-                <th>No</th>
 		<th>Avatar</th>
 		<th>level</th>
 		<th>Employee Name</th>
 		<th>Username</th>
 		<th>Email</th>
-<!--		<th>Password</th>-->
+		<th>phone</th>
+		<th>Updated</th>
 		<th>Active</th>
 		<th>Action</th>
             
@@ -42,7 +45,9 @@
             
 		<tbody>
             <?php
-            foreach ($userslist_data as $userslist)
+            $no=1;
+            //echo "<pre>"; print_r($start); exit(0);
+            foreach ($userslist_data as $userslist) 
             {
                 if($userslist->active == 1){
                     $spans = '<span class="btn btn-inverse">Active</span>';
@@ -51,35 +56,37 @@
                 }
                 ?>
                 <tr>
-			<td><?php echo ++$start ?></td>
                         <td><img width="80px" height="80px" src="<?=base_url();?>assets/uploads/employee/<?php echo $userslist->avatar ?>" class="circle"></td>
 			<td><?= $userslist->userlevel_name ?></td>
 			<td><?= $userslist->firstName ;?> <?=$userslist->lastName; ?></td>
 			<td><?= $userslist->username ?></td>
 			<td><?= $userslist->email ?></td>
-<!--			<td><?= $userslist->password ?></td>-->
+                        <td><?php if(empty($userslist->phone)){ $userslist->phone." / "; } ;?><?= $userslist->handphone ?></td>
+                        <td><?= date('d-m-Y H:i', strtotime($userslist->updateDate)); ?></td>
                         <td><?=$spans ?></td>
 			<td>
                              <span class="tooltip-area">
-                                        <a href="<?= base_url() ?>userslist/update/<?= $userslist->id; ?>" class="btn btn-default btn-sm" title="Edit">
+                                        <a href="<?= base_url() ?>userslist/update/<?= $userslist->id; ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="Edit">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a href="<?= base_url() ?>userslist/read/<?= $userslist->id; ?>" class="btn btn-default btn-sm" title="detail">
+                                        <a href="<?= base_url() ?>userslist/read/<?= $userslist->id; ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="detail">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="<?= base_url() ?>userslist/delete/<?= $userslist->id; ?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
+                                        <a href="<?= base_url() ?>userslist/delete/<?= $userslist->id; ?>/page/<?=$start;?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
                                             <i class="fa fa-trash-o"></i>
                                         </a>
                                     </span> 
 			</td>
 		</tr>
                 <?php
+                 $no++;
             }
             ?>
             </tbody>
         </table>
+       
         </div>
-        <div class="row">
+            <div class="row">
             <div class="col-md-6">
                 <a href="#" class="btn btn-primary">Total Record : <?php echo $total_rows ?></a>
 	    </div>
@@ -87,5 +94,7 @@
                 <?php echo $pagination ?>
             </div>
         </div>
-    </body>
-</html>
+        </div>
+        </section>
+    </div>
+	

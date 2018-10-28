@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table id="mytable" class="table table-bordered" style="margin-bottom: 10px">
         <thead>
             <tr>
                 <th>No</th>

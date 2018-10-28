@@ -40,7 +40,7 @@ class Position_group extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('position_group/position_group_list', $data);
+        $this->template->capletfull('position_group/position_group_list', $data);
     }
 
     public function read($id) 
@@ -133,15 +133,18 @@ class Position_group extends CI_Controller
     
     public function delete($id) 
     {
+         $page =  $this->uri->segment(5);
         $row = $this->Mposition_group->get_by_id($id);
 
         if ($row) {
-            $this->Mposition_group->delete($id);
+//            $this->Mposition_group->delete($id);
+             $data['deleted'] = 1;
+            $this->Mposition_group->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('position_group'));
+            redirect(base_url('position_group/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('position_group'));
+            redirect(base_url('position_group/?start='.$page));
         }
     }
 

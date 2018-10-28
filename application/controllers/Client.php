@@ -25,7 +25,7 @@ class Client extends MY_Controller
             $config['first_url'] = base_url() . 'client/';
         }
 
-        $config['per_page'] = 10;
+        $config['per_page'] = 15;
         $config['page_query_string'] = TRUE;
         $config['total_rows'] = $this->Mclient->total_rows($q);
         $client = $this->Mclient->get_limit_data($config['per_page'], $start, $q);
@@ -40,12 +40,12 @@ class Client extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('client/client_list', $data);
+        $this->template->capletfull('client/client_list', $data);
     }
 
     public function read($id) 
     {
-        $row = $this->Client_model->get_by_id($id);
+        $row = $this->Mclient->get_by_id($id);
         if ($row) {
             $data = array(
 		'id' => $row->id,
@@ -95,7 +95,7 @@ class Client extends MY_Controller
 		'userUpdate' => $row->userUpdate,
 		'updateDate' => $row->updateDate,
 	    );
-             $this->template->caplet('client_read', $data);
+             $this->template->caplet('client/client_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('client'));
@@ -404,10 +404,13 @@ class Client extends MY_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mclient->get_by_id($id);
 
         if ($row) {
-            $this->Mclient->delete($id);
+//            $this->Mclient->delete($id);
+            $data['clientDeleted'] = 1;
+            $this->Mprovince->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('client'));
         } else {

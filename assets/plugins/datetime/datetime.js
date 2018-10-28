@@ -79,7 +79,7 @@ $.fn.capletTimeline = function(options) {
  * =========================================================
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
- * Improvements by Sébastien Malot
+ * Improvements by Sï¿½bastien Malot
  * Improvements by Yun Lai
  * Project URL : http://www.malot.fr/bootstrap-datetimepicker
  *

@@ -7,11 +7,28 @@ class musers extends CI_Model {
         parent::__construct();
     }
     
-    public function cek($username,$password){
+    public function cekWork($username,$password){
         $this->db->where("username",$username);
         //$this->db->where("email",$username);
         $this->db->where("password",$password);
 		$query = $this->db->get($this->tabel);
+		if($query->num_rows()>0)
+		{			
+			return $query->result_array();
+		}
+    }
+     public function cek($username,$password){
+         
+            $this->db->select('a.*,b.employee_code,CONCAT(b.firstName," ", b.lastName) as fullName, b.positionId,b.departmentId,b.phone,b.handphone');
+            $this->db->from('users a'); 
+            $this->db->join('employee b', 'a.employeeId = b.id', 'left');
+            
+            
+        $this->db->where("a.username",$username);
+        //$this->db->where("email",$username);
+        $this->db->where("a.password",$password);
+        $query = $this->db->get();
+		//$query = $this->db->get($this->tabel);
 		if($query->num_rows()>0)
 		{			
 			return $query->result_array();
@@ -72,6 +89,13 @@ class musers extends CI_Model {
     
      function update_password($data,$userId){
        $this->db->where('id', $userId);
+       $this->db->update("users", $data);   
+       $lastInsert_id = $this->db->insert_id();
+       //return TRUE;
+       //return $lastInsert_id;
+    }
+     function update_employee_pass($data,$employeeId){
+       $this->db->where('employeeId', $employeeId);
        $this->db->update("users", $data);   
        $lastInsert_id = $this->db->insert_id();
        //return TRUE;

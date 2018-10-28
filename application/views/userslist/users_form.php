@@ -3,7 +3,7 @@
 $segmentPage = $this->uri->segment(1);
 $segmentPage2 = $this->uri->segment(2);
 ?>
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>Userlist</strong> /<?= $button ?></h4>
     </header>
@@ -32,7 +32,7 @@ $segmentPage2 = $this->uri->segment(2);
             <div class="form-group">
                 <label for="int">Userlevel <?php echo form_error('userlevelId') ?></label>
 
-                <select name="userlevelId" class="form-control">
+                <select name="userlevelId" class="selectpicker show-tick form-control" data-size="10" data-live-search="true">
                     <?php
                     foreach ($userlevels as $userlevel) {
                         ?>
@@ -42,7 +42,7 @@ $segmentPage2 = $this->uri->segment(2);
             </div>
             <div class="form-group">
                 <label for="int">Employee <?php echo form_error('employeeId') ?></label>
-                <select name="employeeId" class="form-control">
+                <select name="employeeId" class="selectpicker show-tick form-control" data-size="10" data-live-search="true">
                     <?php
                     foreach ($employees as $rsEmployee) {
                         ?>
@@ -111,6 +111,7 @@ $segmentPage2 = $this->uri->segment(2);
             <hr/>
             <center>    
                 <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
+                <input type="hidden" name="pageId" value="<?php echo $this->uri->segment(5); ?>" /> 
                 <a href="<?php echo site_url('userslist') ?>" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
             </center>

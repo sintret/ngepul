@@ -27,7 +27,11 @@ class Engagement extends MY_Controller {
 
         $config['per_page'] = 10;
         $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Mengagement->total_rows($q);
+        $userId = $this->session->userdata('id');
+        $idEmployee = $this->session->userdata('employeeId');
+        
+        $config['total_rows'] = $this->Mengagement->total_byuser($q,$idEmployee);
+        
         $engagement = $this->Mengagement->getData($config['per_page'], $start, $q);
         //$client = $this->Mclient->get_all();
 
@@ -41,7 +45,7 @@ class Engagement extends MY_Controller {
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('engagement/engagement_list', $data);
+        $this->template->capletfull('engagement/engagement_list', $data);
     }
 
     public function read($id) {
@@ -91,7 +95,56 @@ class Engagement extends MY_Controller {
             redirect(site_url('engagement'));
         }
     }
-
+    
+     public function notify($id) {
+        $row = $this->Mengagement->get_engagement_task($id);
+        if ($row) {
+            $data = array(
+                'id' => $row->id,
+                'entityId' => $row->entityId,
+                'code' => $row->code,
+                'engagementDate' => $row->engagementDate,
+                'clientId' => $row->clientId,
+                'serviceTitleId' => $row->serviceTitleId,
+                'yearService' => $row->yearService,
+                'description' => $row->description,
+                'partnerId' => $row->partnerId,
+                'managerId' => $row->managerId,
+                'seniorId' => $row->seniorId,
+                'complexity' => $row->complexity,
+                'risk' => $row->risk,
+                'agreedFees' => $row->agreedFees,
+                'agreedExpenses' => $row->agreedExpenses,
+                'estimatedCost' => $row->estimatedCost,
+                'signingPartnerId' => $row->signingPartnerId,
+                'engagementPartnerId' => $row->engagementPartnerId,
+                'asset' => $row->asset, 
+                'rl' => $row->rl,
+                'reportNo' => $row->reportNo,
+                'reportDate' => $row->reportDate,
+                'opinion' => $row->opinion,
+                'jobFromEmployeeId' => $row->jobFromEmployeeId,
+                'finishStatusId' => $row->finishStatusId,
+                'finishDate' => $row->finishDate,
+                'finishApproveBy' => $row->finishApproveBy,
+                'closing' => $row->closing,
+                'closingDate' => $row->closingDate,
+                'deleted' => $row->deleted,
+                'inputby' => $row->inputby,
+                'version' => $row->version,
+                'userCreate' => $row->userCreate,
+                'createDate' => $row->createDate,
+                'userUpdate' => $row->userUpdate,
+                'updateDate' => $row->updateDate,
+            );
+            $this->template->caplet('engagement/engagement_notify', $data);
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('engagement'));
+        }
+    }
+    
+    
     public function ajax_employee() {
         $employees = $this->Memployee->get_dropdown();
         $counter = $_POST['counter'];
@@ -163,7 +216,7 @@ class Engagement extends MY_Controller {
             'startDate' => set_value('startDate'),
             'endDate' => set_value('endDate'),
         );
-        $this->template->caplet('engagement/engagement_form', $data);
+        $this->template->caplettable('engagement/engagement_form', $data);
     }
 
     public function create_action() {
@@ -348,10 +401,13 @@ class Engagement extends MY_Controller {
     }
 
     public function delete($id) {
+         $page =  $this->uri->segment(5);
         $row = $this->Mengagement->get_by_id($id);
 
         if ($row) {
-            $this->Mengagement->delete($id);
+//            $this->Mengagement->delete($id);
+            $data['deleted'] = 1;
+            $this->Mengagement->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('engagement'));
         } else {

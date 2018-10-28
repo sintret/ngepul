@@ -40,7 +40,7 @@ class Leave extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('leave/leave_list', $data);
+        $this->template->capletfull('leave/leave_list', $data);
     }
 
     public function read($id) 
@@ -140,16 +140,19 @@ class Leave extends CI_Controller
 
             $this->Mleave->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('leave'));
+            redirect(base_url('leave/?start='.$page));
 //        }
     }
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mleave->get_by_id($id);
 
         if ($row) {
-            $this->Mleave->delete($id);
+            $data['leaveDeleted'] = 1;
+            $this->Mleave->update($id, $data);
+            //$this->Mleave->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('leave'));
         } else {

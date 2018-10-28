@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table class="table table-bordered" style="margin-bottom: 10px">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -55,11 +55,11 @@
 			<td><?php echo $fixStatus ?></td>
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
-                                            <a href="<?= site_url('expense/update/' . $expense->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                            <a href="<?= base_url('expense/update/' . $expense->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="<?= site_url('expense/read/' . $expense->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= base_url('expense/read/' . $expense->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('expense/delete/' . $expense->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= base_url('expense/delete/' . $expense->id) ?>page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
 			</td>

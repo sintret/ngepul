@@ -18,8 +18,9 @@ class Memployee extends CI_Model
     // get all
     function get_all()
     {
-        $this->db->order_by($this->id, $this->order);
+        //$this->db->order_by($this->id, $this->order);
         $this->db->where('deleted',0);
+        $this->db->order_by('firstName','ASC'); 
         return $this->db->get($this->table)->result();
     }
     
@@ -81,10 +82,11 @@ class Memployee extends CI_Model
 	$this->db->limit($limit, $start);
         
 
-         $this->db->select('a.*,b.employeeStatus,b.employeeStatusColors,c.positionName');
+         $this->db->select('a.*,d.groupName,b.employeeStatus,b.employeeStatusColors,c.positionName');
             $this->db->from('employee a'); 
             $this->db->join('employee_status b', 'b.id = a.employeeStatusId', 'left');
             $this->db->join('position c', 'c.id = a.positionId', 'left');
+            $this->db->join('position_group d', 'c.positionGroup = d.id', 'left');
             //$this->db->join('employee c2', 'c2.id=a.managerId', 'left');             
             $this->db->order_by('a.updateDate','DESC'); 
             

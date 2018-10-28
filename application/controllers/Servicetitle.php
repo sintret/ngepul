@@ -40,7 +40,7 @@ class Servicetitle extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('servicetitle/servicetitle_list', $data);
+        $this->template->capletfull('servicetitle/servicetitle_list', $data);
     }
 
     public function read($id) 
@@ -152,15 +152,18 @@ class Servicetitle extends MY_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mservicetitle->get_by_id($id);
 
         if ($row) {
-            $this->Mservicetitle->delete($id);
+            $data['serviceTitleDeleted'] = 1;
+            $this->Mservicetitle->update($id, $data);
+          //  $this->Mservicetitle->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('servicetitle'));
+            redirect(base_url('servicetitle/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('servicetitle'));
+            redirect(base_url('servicetitle/?start='.$page));
         }
     }
     

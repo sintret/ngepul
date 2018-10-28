@@ -39,10 +39,10 @@ class Non_chargeable extends MY_Controller
             'q' => $q,
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
-            'start' => $start,
+            'start' => $start, 
         );
-        $this->template->caplet('non_chargeable/non_chargeable_list', $data);
-    }
+        $this->template->caplettable('non_chargeable/non_chargeable_list', $data);
+    } 
 
     public function read($id) 
     {
@@ -91,7 +91,7 @@ class Non_chargeable extends MY_Controller
 	    'userUpdate' => set_value('userUpdate'),
 	    'updateDate' => set_value('updateDate'),
 	);
-        $this->template->caplet('non_chargeable/non_chargeable_form', $data);
+        $this->template->caplettable('non_chargeable/non_chargeable_form', $data);
     }
     
     public function create_action() 
@@ -180,11 +180,14 @@ class Non_chargeable extends MY_Controller
     }
     
     public function delete($id) 
-    {
+    { 
+        $page =  $this->uri->segment(5);
         $row = $this->Mnon_chargeable->get_by_id($id);
 
         if ($row) {
-            $this->Mnon_chargeable->delete($id);
+//            $this->Mnon_chargeable->delete($id);
+              $data['deleted'] = 1; 
+            $this->Mnon_chargeable->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('non_chargeable'));
         } else {

@@ -43,12 +43,14 @@ class Employee extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('employee/employee_list', $data);
+        $this->template->capletfull('employee/employee_list', $data);
     }
 
     public function read($id) 
     {
+      
         $row = $this->Memployee->get_by_id($id);
+       // echo "<pre>"; print_r($row); exit(0);
         if ($row) {
             $data = array(
 		'id' => $row->id,
@@ -71,10 +73,10 @@ class Employee extends MY_Controller
 		'school' => $row->school,
 		'degree' => $row->degree,
 		'sertificateNo' => $row->sertificateNo,
-		'accountant' => $row->accountant,
+		'accountant' => $row->accountantStatusId,
 		'regAccountantNo' => $row->regAccountantNo,
-		'CPA' => $row->CPA,
-		'CPANo' => $row->CPANo,
+		'CPA' => $row->cpaStatusId,
+		'CPANo' => $row->cpaNo,
 		'entry' => $row->entry,
 		'resign' => $row->resign,
 		'resignDate' => $row->resignDate,
@@ -317,15 +319,18 @@ class Employee extends MY_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Memployee->get_by_id($id);
 
         if ($row) {
-            $this->Memployee->delete($id);
+//            $this->Memployee->delete($id);
+            $data['deleted'] = 1;
+            $this->Mbpkm->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('employee'));
+            redirect(base_url('employee/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('employee'));
+            redirect(base_url('employee/?start='.$page));
         }
     }
 

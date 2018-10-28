@@ -23,10 +23,10 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
-                <th>No</th>
+            
 		<th>COMPANY</th>
 		<th>AREA</th>
 		<th>SERVICE NAME</th>
@@ -43,7 +43,7 @@
             {
                 ?>
                 <tr>
-			<td><?php echo ++$start ?></td>
+		
 			<td><span class="btn btn-info btn-sm"><?php echo $servicetitle->company_name ?></span></td>
                         <td><span class="btn btn-default btn-sm"><?php echo $servicetitle->serviceName ?></span></td>
 			<td><?php echo $servicetitle->serviceTitleName ?></td>
@@ -54,7 +54,7 @@
                                             </a>
                                             <a href="<?= site_url('servicetitle/read/' . $servicetitle->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('servicetitle/delete/' . $servicetitle->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= site_url('servicetitle/delete/' . $servicetitle->id) ?>/page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
                                     </td>

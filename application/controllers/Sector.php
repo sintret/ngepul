@@ -40,7 +40,7 @@ class Sector extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('sector/sector_list', $data);
+        $this->template->capletfull('sector/sector_list', $data);
     }
 
     public function read($id) 
@@ -144,15 +144,18 @@ class Sector extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Msector->get_by_id($id);
 
         if ($row) {
-            $this->Msector->delete($id);
+//            $this->Msector->delete($id);
+            $data['sectorDeleted'] = 1;
+            $this->Msector->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('sector'));
+            redirect(site_url('sector/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('sector'));
+            redirect(site_url('sector/?start='.$page));
         }
     }
 

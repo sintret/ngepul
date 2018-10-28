@@ -1,4 +1,4 @@
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>REIMBURSEMENT DETAIL</strong> /READ</h4>
     </header>

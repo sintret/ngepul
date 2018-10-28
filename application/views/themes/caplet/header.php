@@ -69,6 +69,8 @@
                 </a>
                 <ul class="dropdown-menu pull-right icon-right arrow">
                     <li><a href="<?= base_url();?>notification"><i class="fa fa-globe"></i> My notification </a></li>
+                    
+                    <li><a href="<?= base_url();?>personal/my_task"><i class="fa fa-file"></i> My Task </a></li>
                    <!-- <li><a href="<?= base_url();?>profile"><i class="fa fa-user"></i>My Profile</a></li>-->
                     <li><a href="<?= base_url();?>personal/change_password"><i class="fa fa-cog"></i> Change Password </a></li>
                     <!--<li><a href="#"><i class="fa fa-bookmark"></i> Bookmarks</a></li>

@@ -40,7 +40,7 @@ class City extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('city/city_list', $data);
+        $this->template->capletfull('city/city_list', $data);
     }
 
     public function read($id) 
@@ -139,15 +139,18 @@ class City extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mcity->get_by_id($id);
 
         if ($row) {
-            $this->Mcity->delete($id);
+//            $this->Mcity->delete($id);
+           $data['cityDeleted'] = 1;
+            $this->Mcity->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('city'));
+            redirect(base_url('city/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('city'));
+            redirect(base_url('city/?start='.$page));
         }
     }
 

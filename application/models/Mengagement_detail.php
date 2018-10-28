@@ -23,10 +23,47 @@ class Mengagement_detail extends CI_Model {
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }
+    
+   function get_mytask($limit, $start = 0, $q = NULL,$idEmployee, $userLevelId) {
+       
+       $this->db->select('a1.*,b.clientName,c1.firstName as partner, c2.firstName as manager,c3.firstName as senior');
+        $this->db->from('engagementdetail a');
+        $this->db->join('engagement a1', 'a.engagementId= a1.id', 'left');
+        $this->db->join('client b', 'b.id = a1.clientId', 'left');
+        $this->db->join('employee c1', 'c1.id = a1.partnerId', 'left');
+        $this->db->join('employee c2', 'c2.id=a1.managerId', 'left');
+        $this->db->join('employee c3', 'c3.id=a1.seniorId', 'left');
+        
+        $this->db->where('a.employeeId',$idEmployee);
+        $this->db->where('a1.finishStatusId',0);
+        $this->db->order_by('a1.engagementDate', 'DESC');
 
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+       
+       // $this->db->where($this->id, $id);
+       // return $this->db->get("engagementdetail")->row();
+        
+        
+        
+    }
+    
     // get data by id
     function get_by_id($id) {
         $this->db->where($this->id, $id);
+        return $this->db->get($this->table)->row();
+    }
+    
+    function total_byuser($q = NULL) {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+    
+    function get_my_engagement($id) {
+        $this->db->where('employeeId', $id);
         return $this->db->get($this->table)->row();
     }
 
@@ -62,6 +99,7 @@ class Mengagement_detail extends CI_Model {
                 //push to firebase
                 $user = $this->getUser($v['employeeId']);
                 $engagement = $this->getEngagement($v['engagementId']);
+                $urlNotif = base_url().'engagement/notify/'. $id;
                 //print_r($engagement); exit(0);
                 //echo 'employeeId '.$v['employeeId'].' engagementId '.$v['engagementId']; exit(0);
                 $title = "Engagement News";
@@ -75,6 +113,7 @@ class Mengagement_detail extends CI_Model {
                     'userId' => $user->id,
                     'title' => $title,
                     'message' => $message,
+                    'url' => $urlNotif,
                 ];
                 $this->insertNotification($dataNotification);
             }

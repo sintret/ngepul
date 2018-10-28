@@ -40,7 +40,7 @@ class Bpkm extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('bpkm/bpkm_list', $data);
+        $this->template->capletfull('bpkm/bpkm_list', $data);
     }
 
     public function read($id) 
@@ -123,15 +123,18 @@ class Bpkm extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mbpkm->get_by_id($id);
 
         if ($row) {
-            $this->Mbpkm->delete($id);
+            //$this->Mbpkm->delete($id);
+            $data['deleted'] = 1;
+            $this->Mbpkm->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('bpkm'));
+            redirect(base_url('bpkm/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('bpkm'));
+            redirect(base_url('bpkm/?start='.$page));
         }
     }
 

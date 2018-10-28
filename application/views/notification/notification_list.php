@@ -7,9 +7,9 @@
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
-                    <li>
+<!--                    <li>
                         <a href="<?= site_url('notification/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
-                    </li>
+                    </li>-->
                     <li>
                         <a href="<?= site_url('notification/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>

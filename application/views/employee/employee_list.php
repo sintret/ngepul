@@ -39,7 +39,7 @@
 
 
 
-                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover text-center" data-provide="data-table" id="toggle-column">
+                 <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -47,8 +47,11 @@
                             <th>fullname</th>
                             <th>Handphone</th>
                             <th>Position</th>
+                            <th>Department</th>
+                            <th>Cost Rate</th>
+                            <th>npwp</th>
                             <th>Status</th>
-                            <th>Sex</th>
+                            <th>Gender</th>
                             <th>Action</th>
 
                         </tr>
@@ -70,23 +73,27 @@
                                 <td><?= $employee->employee_code ?></td>
                                 <td><?= $employee->firstName . ' ' . $employee->lastName ?></td>
                                 <td><?= $employee->handphone ?></td>
-                                <td><span class="<?= $employee->employeeStatusColors ?>"><?= $employee->employeeStatus ?></span></td>
                                 <td><?= $employee->positionName; ?></td>
+                                <td><?= $employee->groupName; ?></td>
+                                 <td><?= $employee->costRate; ?></td>
+                                <td><?= $employee->npwp; ?></td>
+                                <td><span class="<?= $employee->employeeStatusColors ?>"><?= $employee->employeeStatus ?></span></td>
+                                
                                 <td><?= $gender ?></td>
                                 <td style="text-align:center">
                                     <span class="tooltip-area">
                                         <?php if ($this->template->checkRole($this->session->userdata('userlevelId'), 'employee', 'update')) { ?>   
-                                            <a href="<?= base_url() ?>employee/update/<?= $employee->id; ?>" class="btn btn-default btn-sm" title="Edit">
+                                            <a href="<?= base_url() ?>employee/update/<?= $employee->id; ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="Edit">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         <?php } ?>
-                                        <?php if ($this->template->checkRole($this->session->userdata('userlevelId'), 'employee', 'read')) { ?>  
-                                            <a href="<?= base_url() ?>employee/read/<?= $employee->id; ?>" class="btn btn-default btn-sm" title="detail">
+                                        <?php if ($this->template->checkRole($this->session->userdata('userlevelId'), 'employee', 'view')) { ?>  
+                                            <a href="<?= base_url() ?>employee/read/<?= $employee->id; ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="detail">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         <?php } ?>
                                         <?php if ($this->template->checkRole($this->session->userdata('userlevelId'), 'employee', 'delete')) { ?>  
-                                            <a href="<?= base_url() ?>employee/delete/<?= $employee->id; ?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
+                                            <a href="<?= base_url() ?>employee/delete/<?= $employee->id; ?>/page/<?=$start;?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
                                         <?php } ?>

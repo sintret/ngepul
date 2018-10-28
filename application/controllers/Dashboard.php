@@ -29,9 +29,18 @@ class Dashboard extends CI_Controller {
         $data['results'] = $results;
         ///$data['rupiah'] = $this->load->rupiah_helper;
 
-        $this->template->caplet('dashboard/index', $data);
+        $this->template->caplettable('dashboard/index', $data);
     }
+	
+	function test() {
+        
 
+        $data = [];
+       
+
+        $this->template->fixtable('dashboard/test', $data);
+    }
+	
     public function ajax_timesheet() {
         $m = empty($_POST['month']) ? date("m") : $_POST['month'];
         $m = (int) $m;

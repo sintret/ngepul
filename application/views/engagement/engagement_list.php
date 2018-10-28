@@ -1,6 +1,4 @@
 
-    <div class="row">
-    <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
                 <h4><strong>Engagement</strong></h4>
@@ -29,7 +27,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -74,7 +72,7 @@
                                     </a>
                                     <?php } ?>
                                      <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'engagement','delete')){ ?>  
-                                    <a href="<?= base_url() ?>engagement/delete/<?=$engagement->id;?>" onclick="javasciprt: return confirm('Are You Sure ?')"  class="btn btn-default btn-sm" title="Delete">
+                                    <a href="<?= base_url() ?>engagement/delete/<?=$engagement->id;?>/page/<?=$start;?>" onclick="javasciprt: return confirm('Are You Sure ?')"  class="btn btn-default btn-sm" title="Delete">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
                                     <?php } ?>
@@ -95,5 +93,4 @@
                 <?php echo $pagination ?>
             </div>
         </div>
-    </body>
-</html>
+   

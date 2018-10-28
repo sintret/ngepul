@@ -3,19 +3,20 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Reimbursement extends MY_Controller
+class Reimbursement extends CI_Controller
 {
     function __construct()
     {
         parent::__construct();
         $this->load->model(array('Mreimbursement','Mexpense','Memployee','Musers','Mengagement','Mnotification'));
-        $this->load->library(array('form_validation','template'));
+        $this->load->library(array('form_validation','template','session'));
         $this->load->helper(array('form', 'url', 'rupiah_helper'));
     }
 
     public function index()
     {
         $q = urldecode($this->input->get('q', TRUE));
+        $accesslevelId = $this->session->userdata('userlevelId');
         $start = intval($this->input->get('start'));
         
         if ($q <> '') {
@@ -42,10 +43,16 @@ class Reimbursement extends MY_Controller
             'start' => $start,
         );
         
-          
+        
+          if($accesslevelId == 1 || $accesslevelId == 2){
+              $this->template->capletfull('reimbursement/reimbursement_list', $data);
+          } else {
+             // $this->template->capletfull('personal/myreimbursement');
+               redirect(base_url('personal/myreimbursement'));
+          }
        
         
-       $this->template->caplet('reimbursement/reimbursement_list', $data);
+       
     }
     
      
@@ -76,7 +83,7 @@ class Reimbursement extends MY_Controller
 		'updateDate' => $row->updateDate,
 	    );
        
-             $this->template->caplet('reimbursement/reimbursement_read', $data);
+             $this->template->caplettable('reimbursement/reimbursement_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('reimbursement'));
@@ -157,6 +164,7 @@ class Reimbursement extends MY_Controller
 
     public function create() 
     {
+        //echo "<pre>"; print_r($this->session->userdata);  exit();
         $data = array(
             'button' => 'Create',
             'action' => site_url('reimbursement/create_action'),
@@ -181,7 +189,7 @@ class Reimbursement extends MY_Controller
 	    'userUpdate' => set_value('userUpdate'),
 	    'updateDate' => set_value('updateDate'),
 	);
-         $this->template->caplet('reimbursement/reimbursement_form', $data);
+         $this->template->caplettable('reimbursement/reimbursement_form', $data);
     }
     
     public function create_action() 
@@ -190,9 +198,6 @@ class Reimbursement extends MY_Controller
         
         
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
             $data = array(
 		'engagementId' => $this->input->post('engagementId',TRUE),
 		'employeeId' =>  $this->input->post('employeeId',TRUE),
@@ -236,7 +241,7 @@ class Reimbursement extends MY_Controller
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('reimbursement'));
           //  redirect(site_url('personal/my_reimbursement'));
-        }
+       
     }
     
     public function update($id) 
@@ -310,6 +315,7 @@ class Reimbursement extends MY_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mreimbursement->get_by_id($id);
 
         if ($row) {

@@ -40,7 +40,7 @@ class Province extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('province/province_list', $data);
+        $this->template->capletfull('province/province_list', $data);
     }
 
     public function read($id) 
@@ -140,15 +140,18 @@ class Province extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mprovince->get_by_id($id);
 
         if ($row) {
-            $this->Mprovince->delete($id);
+//            $this->Mprovince->delete($id);
+            $data['provinceDeleted'] = 1;
+            $this->Mprovince->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('province'));
+            redirect(base_url('province/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('province'));
+            redirect(base_url('province/?start='.$page));
         }
     }
 

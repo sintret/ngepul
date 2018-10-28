@@ -110,8 +110,14 @@ class Mtimesheet extends CI_Model {
 
     // get data by id
     function get_by_id($id) {
-        $this->db->where($this->id, $id);
-        return $this->db->get($this->table)->row();
+        $this->db->select('a.*,b.name as engagementName, CONCAT(d.firstName," ",d.lastName) as fullname');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('employee d', 'a.employeeId = d.id');
+        $this->db->where("a.id", $id);
+        $this->db->order_by('a.updateDate', 'DESC');
+        return $this->db->get("timesheet a")->row();
+        
+       
     }
 
     // get total rows
@@ -120,7 +126,20 @@ class Mtimesheet extends CI_Model {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+    
+    function get_mytimesheet($limit, $start = 0, $q = NULL) {
+        $employeeId = $this->session->userdata('employeeId');
+        //echo $employeeId; exit(0);
+        $this->db->select('a.*,b.name as engagementName, CONCAT(d.firstName," ",d.lastName) as fullname');
+        $this->db->join('engagement b', 'a.engagementId = b.id');
+        $this->db->join('employee d', 'a.employeeId = d.id');
+        $this->db->where("a.employeeId", $employeeId);
+        $this->db->order_by('a.updateDate', 'DESC');
+        $this->db->limit($limit, $start);
 
+        return $this->db->get("timesheet a")->result();
+    }
+    
     // get data with limit and search
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->select('a.*,b.name as engagementName, CONCAT(d.firstName," ",d.lastName) as fullname');

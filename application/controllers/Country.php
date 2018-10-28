@@ -40,7 +40,7 @@ class Country extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('country/country_list', $data);
+        $this->template->capletfull('country/country_list', $data);
     }
 
     public function read($id) 
@@ -133,15 +133,18 @@ class Country extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mcountry->get_by_id($id);
 
         if ($row) {
-            $this->Mcountry->delete($id);
+            $data['CountryDeleted'] = 1;
+            $this->Mcountry->update($id, $data);
+            //$this->Mcountry->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('country'));
+            redirect(base_url('country/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('country'));
+            redirect(base_url('country/?start='.$page));
         }
     }
 

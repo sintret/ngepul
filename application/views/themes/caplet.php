@@ -14,7 +14,11 @@
         <link rel="shortcut icon" href="<?= base_url() ?>assets/ico/favicon.ico">
         <!-- CSS Stylesheet-->
         <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap/bootstrap.min.css" />
+        
+        
+        <link rel="stylesheet" href="<?php echo base_url('assets/datatables/dataTables.bootstrap.css') ?>"/>
         <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap/bootstrap-themes.css" />
+        <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
         <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/style.css" />
 
 <!--<script src="<?= base_url() ?>assets/js/jquery-1.7.1.min.js"></script>-->
@@ -25,8 +29,18 @@
         <link type="text/css" rel="alternate stylesheet" media="screen" title="style4" href="<?= base_url() ?>assets/css/styleTheme4.css" />-->
 
     </head>
-    <!--<body class="leftMenu nav-collapse in">-->
-    <body class="leftMenu nav-collapse">
+    <!--<body class="leftMenu nav-collapse in">
+    <body class="leftMenu nav-collapse">-->
+        
+        <?php
+           // echo "<pre>"; print_r($this->session->userdata); exit(0);
+            if($this->session->userdata == 1){
+                $bodyCss = '<body class="leftMenu nav-collapse">';
+            } else {
+                $bodyCss = '<body class="leftMenu nav-collapse in">';
+            }
+            echo $bodyCss;
+        ?>
         <div id="wrapper">
             <?= $_header; ?>
 
@@ -173,7 +187,21 @@
         <script type="text/javascript" src="<?= base_url() ?>assets/plugins/miscellaneous/miscellaneous.js"></script>
         <!-- Library Themes Customize-->
         <script type="text/javascript" src="<?= base_url() ?>assets/js/caplet.custom.js"></script>
-        <script type="text/javascript" src="<?= base_url() ?>assets/plugins/datable/jquery.dataTables.min.js"></script>
+        
+<!--        <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>-->
+        <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
+        <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#mytable").dataTable({
+					 paging:         false,
+                                         "bInfo" : false
+   });
+				});
+            });
+        </script>
+        
+<!--        <script type="text/javascript" src="<?= base_url() ?>assets/plugins/datable/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="<?= base_url() ?>assets/plugins/datable/dataTables.bootstrap.js"></script>
         <script type="text/javascript">
 
@@ -206,8 +234,10 @@
                 $('#table-example').dataTable();
                 $('table[data-provide="data-table"]').dataTable();
             });
-        </script>
+        </script>-->
         <script type="text/javascript" src="<?= base_url() ?>assets/js/bootstrap-datepicker.min.js"></script>
+         <script src="<?= base_url() ?>assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+         
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>-->
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/datepicker.css" />
         <script>
@@ -226,7 +256,10 @@
         <script type="text/javascript" >$("input.number").number(true, 0, ",", ".");</script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
+        
+
+   
+
                 $('select[id="showhide"]').change(function () {
                     $(this).find("option:selected").each(function () {
                         var optionValue = $(this).attr("value");
@@ -239,6 +272,7 @@
                     });
                 }).change();
             });
+           
         </script>
         <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
         <script>

@@ -3,7 +3,7 @@
 $segmentPage = $this->uri->segment(1);
 $segmentPage2 = $this->uri->segment(2);
 ?>
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>Engagement</strong> /<?= $button ?></h4>
     </header>
@@ -331,6 +331,20 @@ $segmentPage2 = $this->uri->segment(2);
                                                     <?= $employee->firstName . ' ' . $employee->lastName; ?>
                                                     </option>
                                                 <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="int">Engagement Status <?php echo form_error('finishStatusId') ?></label>
+                                        <select name="finishStatusId" class="form-control" id="engagementPartnerId" >
+                                                    <option value="0" <?php if($finishStatusId == 0) { echo "selected"; } else {} ?>>
+                                                        On Progress
+                                                    </option>
+                                                    <option value="1" <?php if($finishStatusId == 1) { echo "selected"; } else {} ?>>
+                                                        Finish
+                                                    </option>
+                                                    <option value="2" <?php if($finishStatusId == 2) { echo "selected"; } else {} ?>>
+                                                        Cancel
+                                                    </option>
                                         </select>
                                     </div>
                                     <div class="form-group">

@@ -3,18 +3,18 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                <h4><strong>All Reimbursement List</strong></h4>
+                <h4><strong>Reimbursement List</strong></h4>
             </header>
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                      <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','create')){ ?>  
                     <li>
-                        <a href="<?= site_url('reimbursement/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
+                        <a href="<?= base_url('reimbursement/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li> 
                     <?php } ?>
                      <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','excel')){ ?>  
                     <li>
-                        <a href="<?= site_url('reimbursement/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
+                        <a href="<?= base_url('reimbursement/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
                     <?php } ?>
                      <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','word')){ ?>  
@@ -29,7 +29,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -50,6 +50,7 @@
             
 		<tbody align="center">
             <?php
+            $no=1;
             foreach ($reimbursement_data as $reimbursement)
             {
                $approvalStatusId = $reimbursement->approvalStatusId;
@@ -60,7 +61,7 @@
                }
                 ?>
                 <tr>
-			<td width="80px"><?php echo ++$start ?></td>
+			<td width="80px"><?php echo $no ?></td>
 			<td><span class="btn btn-default btn-sm"><?php echo $reimbursement->fromName ?></span></td>
 			<td><span class="btn btn-default btn-sm"><?php echo $reimbursement->engagementName ?></span></td>
 			<td><?php echo $reimbursement->periodDate ?></td>
@@ -73,15 +74,15 @@
 			<td style="text-align:center" width="200px">
                  <span class="tooltip-area">
                                           <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','view')){ ?>  
-                                            <a href="<?= site_url('reimbursement/read/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= base_url('reimbursement/read/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
                                            <?php } ?> 
                                             <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','update')){ ?>  
-                                                <a href="<?= site_url('reimbursement/update/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                                <a href="<?= base_url('reimbursement/update/' . $reimbursement->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
                                             <?php } ?>
                                             <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'reimbursement','delete')){ ?>  
-                                               <a href="<?= site_url('reimbursement/delete/' . $reimbursement->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                               <a href="<?= base_url('reimbursement/delete/' . $reimbursement->id) ?>/page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                             <?php } ?>
                                         </span>
@@ -89,6 +90,7 @@
 			</td>
 		</tr>
                 <?php
+                $no++;
             }
             ?>
             </tbody>

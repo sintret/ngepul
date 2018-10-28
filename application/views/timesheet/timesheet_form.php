@@ -2,31 +2,23 @@
 //echo "<pre>"; print_r($qpositionGroup);
 $segmentPage = $this->uri->segment(1);
 $segmentPage2 = $this->uri->segment(2);
+$accesslevelId = $this->session->userdata('userlevelId');
 ?>
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>TIMESHEET</strong> /<?= $button ?></h4>
     </header>
     <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post"  enctype="multipart/form-data" id="target">
-                 
+          
+
         <div class="form-group">
-            <label for="int">EngagementId <?php echo form_error('engagementId') ?></label>
-            <select name="engagementId" class="form-control" >
-                                    <?php 
-                                    foreach($engagements as $rsEngagement){
-                                    ?>
-                                        <option value="<?= $rsEngagement->id;?>" <?php if($rsEngagement->id == $engagementId) { echo "selected"; }?>>
-                                                <?= $rsEngagement->name;?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-        </div>
-	    <div class="form-group">
-            <label for="int">EmployeeId <?php echo form_error('employeeId') ?></label>
-            <select name="employeeId" class="form-control" >
+             <?php
+                //echo $accesslevelId;
+                if ($accesslevelId == 1 || $accesslevelId == 2) {
+             ?>
+            <label for="int">Employee <?php echo form_error('employeeId') ?></label>
+            <select name="employeeId" class="selectpicker show-tick form-control" data-size="10" data-live-search="true">
                                     <?php 
                                     foreach($employees as $rsEmployee){
                                     ?>
@@ -37,6 +29,33 @@ $segmentPage2 = $this->uri->segment(2);
                                     }
                                     ?>
                                 </select>
+            
+            <?php
+                } else {
+            ?>
+             
+            <input type="text" name="employeeShowId" disabled="disabled" readonly="readonly" class="form-control" value="<?php echo $this->session->userdata('fullName'); ?>" /> 
+                            <input type="hidden" name="employeeId" value="<?php echo $this->session->userdata('employeeId'); ?>" /> 
+                           
+                         <?php
+                        }
+                        ?>
+        </div>
+            
+         <div class="form-group">
+            <label for="int">Engagement Name <?php echo form_error('engagementId') ?></label>
+            <select name="engagementId" class="form-control selectpicker  show-tick" data-live-search="true">
+                <option value="0" <?php if($engagementId == 0) { echo "selected"; } else {}?>>Non Engagement</option>
+                                    <?php 
+                                    foreach($engagements as $rsEngagement){
+                                    ?>
+                                        <option value="<?= $rsEngagement->id;?>" <?php if($rsEngagement->id == $engagementId) { echo "selected"; }?>>
+                                                <?= $rsEngagement->name;?>
+                                        </option>
+                                    <?php
+                                    }
+                                    ?>
+            </select>
         </div>
 	    <div class="form-group">
             <label for="date">Date <?php echo form_error('date') ?></label>

@@ -3,13 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Position extends MY_Controller
+class Position extends CI_Controller
 {
     function __construct()
     {
         parent::__construct();
         $this->load->model(array('Mposition','Mposition_group'));
         $this->load->library(array('form_validation','template'));
+        
         $this->load->helper(array('form','url','rupiah_helper'));
     }
 
@@ -41,7 +42,7 @@ class Position extends MY_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('position/position_list', $data);
+        $this->template->capletfull('position/position_list', $data);
     }
 
     public function read($id) 
@@ -156,15 +157,18 @@ class Position extends MY_Controller
     
     public function delete($id) 
     {
+         $page =  $this->uri->segment(5);
         $row = $this->Mposition->get_by_id($id);
 
         if ($row) {
-            $this->Mposition->delete($id);
+//            $this->Mposition->delete($id);
+             $data['positionDeleted'] = 1;
+            $this->Mposition->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('position'));
+            redirect(site_url('position/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('position'));
+            redirect(site_url('position/?start='.$page));
         }
     }
 

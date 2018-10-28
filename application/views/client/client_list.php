@@ -68,7 +68,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-        <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
+        <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -114,7 +114,7 @@
                                     </a>
                                      <?php } ?>
                                       <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'client','delete')){ ?>  
-                                    <a href="<?= base_url() ?>client/delete/<?=$client->id;?>"  class="btn btn-default btn-sm" title="Delete">
+                                    <a href="<?= base_url() ?>client/delete/<?=$client->id;?>page/<?=$start;?>"  class="btn btn-default btn-sm" title="Delete">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
                                      <?php } ?>

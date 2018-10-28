@@ -23,7 +23,7 @@
                 </ul>
             </div>
         <div class="panel-body">    
-         <table  class="table table-striped table-hover tex-center" data-provide="data-table" id="toggle-column">
+         <table id="mytable" class="stripe table-bordered order-column text-center" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -54,7 +54,7 @@
                                             </a>
                                             <a href="<?= site_url('service/read/' . $service->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="<?= site_url('service/delete/' . $service->id) ?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
+                                            <a href="<?= base_url('service/delete/' . $service->id) ?>/page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>
                                         </span>
                                     </td>

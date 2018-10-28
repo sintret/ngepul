@@ -93,8 +93,9 @@
 		 $(".widget-write-post textarea").limit({  limit: 20 });
 		 
 		//////////     SELETE PICKER    //////////
-		$('.selectpicker').selectpicker();
 		
+                $('.selectpicker').selectpicker();
+		 
 		//////////     INPUT MAXLENGTH    //////////
 		$("input[maxlength] , textarea[maxlength] ").each(function() {
 			$(this).maxlength({ bornIn:"#main" }); 

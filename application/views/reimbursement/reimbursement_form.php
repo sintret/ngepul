@@ -4,7 +4,7 @@ $segmentPage = $this->uri->segment(1);
 $segmentPage2 = $this->uri->segment(2);
 $accesslevelId = $this->session->userdata('userlevelId');
 ?>
-<section class="panel" style="background-color: whitesmoke">
+<section class="panel">
     <header class="panel-heading btn-inverse">
         <h4><strong>REIMBURSEMENT </strong> /<?= $button ?></h4>
     </header>
@@ -15,18 +15,19 @@ $accesslevelId = $this->session->userdata('userlevelId');
                 <div class="col-lg-12">
                     <div class="row">
                         <?php
+                        //echo $accesslevelId;
                         if ($accesslevelId == 1 || $accesslevelId == 2) {
                             ?>
                             <div class="col-sm-12"> 
                                 <label for="int">employee <?php echo form_error('employeeId') ?></label>
-                                <select name="employeeId" class="form-control" >
+                                <select name="employeeId" class="form-control selectpicker  show-tick" data-live-search="true">
                                     <?php
                                     foreach ($employees as $rsEmployee) {
                                         ?>
                                         <option value="<?= $rsEmployee->id; ?>" <?php if ($rsEmployee->id == $employeeId) {
                                     echo "selected";
                                 } ?>>
-                                        <?= $rsEmployee->firstName; ?>  <?= $rsEmployee->lastName; ?>
+                                        <?= $rsEmployee->firstName; ?>  <?= $rsEmployee->lastName; ?> 
                                         </option>
                                         <?php
                                     }
@@ -36,13 +37,16 @@ $accesslevelId = $this->session->userdata('userlevelId');
                             <?php
                         } else {
                             ?>
+                          <div class="col-sm-12"> 
+                           <input type="text" name="employeeShowId" disabled="disabled" class="form-control" value="<?php echo $this->session->userdata('fullName'); ?>" /> 
                             <input type="hidden" name="employeeId" value="<?php echo $this->session->userdata('employeeId'); ?>" /> 
-                            <?php
+                          </div>   
+                         <?php
                         }
                         ?>
                         <div class="col-sm-3">                          
                             <label for="int">Engagement <?php echo form_error('engagementId') ?></label>
-                            <select name="engagementId" class="form-control" >
+                            <select name="engagementId" class="form-control selectpicker  show-tick" data-live-search="true" >
                                 <?php
                                 foreach ($engagements as $rsEngagement) {
                                     ?>
@@ -76,7 +80,7 @@ $accesslevelId = $this->session->userdata('userlevelId');
                         </div>
                         <div class="col-sm-3"> 
                             <label for="int">Approval To <?php echo form_error('approvalId') ?></label>
-                            <select name="approvalId" class="form-control" >
+                            <select name="approvalId" class="form-control selectpicker  show-tick" data-live-search="true" >
 <?php
 foreach ($employees as $rsEmployee) {
     ?>

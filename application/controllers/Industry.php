@@ -40,7 +40,7 @@ class Industry extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('industry/industry_list', $data);
+        $this->template->capletfull('industry/industry_list', $data);
     }
 
     public function read($id) 
@@ -146,15 +146,18 @@ class Industry extends CI_Controller
     
     public function delete($id) 
     {
+        $page =  $this->uri->segment(5);
         $row = $this->Mindustry->get_by_id($id);
 
         if ($row) {
-            $this->Mindustry->delete($id);
+//            $this->Mindustry->delete($id);
+            $data['deleted'] = 1;
+            $this->Mindustry->update($id, $data);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('industry'));
+            redirect(site_url('industry/?start='.$page));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('industry'));
+            redirect(site_url('industry/?start='.$page));
         }
     }
 

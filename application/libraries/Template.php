@@ -42,6 +42,59 @@ class Template {
         //$data['Maccess'] =$this->_CI->load->model('Maccess');
         $this->_CI->load->view('themes/caplet.php', $data);
     }
+    
+     function capletform($template, $data = null) {
+        $data['_content'] = $this->_CI->load->view($template, $data, true);
+        $data['_header'] = $this->_CI->load->view('themes/capletform/header', $data, true);
+        $data['_slideleft'] = $this->_CI->load->view('themes/caplet/slideleft', $data, true);
+        $data['_modal_message'] = $this->_CI->load->view('themes/capletform/modal_message', $data, true);
+        $data['_modal_notification'] = $this->_CI->load->view('themes/capletform/modal_notification', $data, true);
+        $data['_leftnav'] = $this->_CI->load->view('themes/caplet/leftnav', $data, true);
+        $data['_rightnav'] = $this->_CI->load->view('themes/capletform/rightnav', $data, true);
+        $data['_sidebar'] = $this->_CI->load->view('themes/capletform/sidebar', $data, true);
+        //$data['Maccess'] =$this->_CI->load->model('Maccess');
+        $this->_CI->load->view('themes/capletform.php', $data);
+    }
+    
+    function caplettable($template, $data = null) {
+        $data['_content'] = $this->_CI->load->view($template, $data, true);
+        $data['_header'] = $this->_CI->load->view('themes/capletform/header', $data, true);
+        $data['_slideleft'] = $this->_CI->load->view('themes/caplet/slideleft', $data, true);
+        $data['_modal_message'] = $this->_CI->load->view('themes/capletform/modal_message', $data, true);
+        $data['_modal_notification'] = $this->_CI->load->view('themes/capletform/modal_notification', $data, true);
+        $data['_leftnav'] = $this->_CI->load->view('themes/caplet/leftnav', $data, true);
+        $data['_rightnav'] = $this->_CI->load->view('themes/capletform/rightnav', $data, true);
+        $data['_sidebar'] = $this->_CI->load->view('themes/capletform/sidebar', $data, true);
+        //$data['Maccess'] =$this->_CI->load->model('Maccess');
+        $this->_CI->load->view('themes/caplettable.php', $data);
+    }
+    
+    function capletfull($template, $data = null) {
+        $data['_content'] = $this->_CI->load->view($template, $data, true);
+        $data['_header'] = $this->_CI->load->view('themes/caplet/header', $data, true);
+        $data['_slideleft'] = $this->_CI->load->view('themes/caplet/slideleft', $data, true);
+        $data['_modal_message'] = $this->_CI->load->view('themes/caplet/modal_message', $data, true);
+        $data['_modal_notification'] = $this->_CI->load->view('themes/caplet/modal_notification', $data, true);
+        $data['_leftnav'] = $this->_CI->load->view('themes/caplet/leftnav', $data, true);
+        $data['_rightnav'] = $this->_CI->load->view('themes/caplet/rightnav', $data, true);
+        $data['_sidebar'] = $this->_CI->load->view('themes/caplet/sidebar', $data, true);
+        //$data['Maccess'] =$this->_CI->load->model('Maccess');
+        $this->_CI->load->view('themes/capletfull.php', $data);
+    }
+	
+	function fixtable($template, $data = null) {
+        $data['_content'] = $this->_CI->load->view($template, $data, true);
+        $data['_header'] = $this->_CI->load->view('themes/caplet/header', $data, true);
+        $data['_slideleft'] = $this->_CI->load->view('themes/caplet/slideleft', $data, true);
+        $data['_modal_message'] = $this->_CI->load->view('themes/caplet/modal_message', $data, true);
+        $data['_modal_notification'] = $this->_CI->load->view('themes/caplet/modal_notification', $data, true);
+        $data['_leftnav'] = $this->_CI->load->view('themes/caplet/leftnav', $data, true);
+        $data['_rightnav'] = $this->_CI->load->view('themes/caplet/rightnav', $data, true);
+        $data['_sidebar'] = $this->_CI->load->view('themes/caplet/sidebar', $data, true);
+        //$data['Maccess'] =$this->_CI->load->model('Maccess');
+        $this->_CI->load->view('themes/fixtable.php', $data);
+    }
+	
 
     function capletFile($template, $data = null) {
         $data['_content'] = $this->_CI->load->view($template, $data, true);

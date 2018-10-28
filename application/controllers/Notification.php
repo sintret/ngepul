@@ -40,7 +40,7 @@ class Notification extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $this->template->caplet('notification/notification_list', $data);
+        $this->template->caplettable('notification/notification_list', $data);
     }
 
     public function read($id) 

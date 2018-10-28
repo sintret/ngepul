@@ -16,6 +16,16 @@ class Muserslist extends CI_Model
     }
 
     // get all
+    function get_all_tbl()
+    {
+        $this->db->select('a.*, b.company_name, c.userlevel_name, d.firstName,d.lastName');
+        $this->db->order_by("a.updateDate", $this->order);
+        $this->db->join('entity b', 'a.entityId = b.id');
+        $this->db->join('userlevel c', 'a.userlevelId = c.id');
+        $this->db->join('employee d', 'a.employeeId = d.id');
+        $this->db->where('a.active', 1);
+        return $this->db->get("users a")->result();
+    }
     function get_all()
     {
         $this->db->order_by($this->id, $this->order);
@@ -31,32 +41,19 @@ class Muserslist extends CI_Model
     
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-	$this->db->or_like('entityId', $q);
-	$this->db->or_like('userlevelId', $q);
-	$this->db->or_like('avatar', $q);
-	$this->db->or_like('employeeId', $q);
-	$this->db->or_like('username', $q);
-	$this->db->or_like('email', $q);
-	$this->db->or_like('password', $q);
-	$this->db->or_like('active', $q);
-	$this->db->or_like('deleted', $q);
-	$this->db->or_like('userCreate', $q);
-	$this->db->or_like('createDate', $q);
-	$this->db->or_like('userUpdate', $q);
-	$this->db->or_like('updateDate', $q);
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
     // get data with limit and search
     function get_limit_data($limit, $start = 0, $q = NULL) {
-         $this->db->select('a.*, b.company_name, c.userlevel_name, d.firstName,d.lastName');
+         $this->db->select('a.*, b.company_name, c.userlevel_name, d.firstName,d.lastName, d.phone, d.handphone');
             //$this->db->from('users a');
             $this->db->join('entity b', 'a.entityId = b.id');
             $this->db->join('userlevel c', 'a.userlevelId = c.id');
             $this->db->join('employee d', 'a.employeeId = d.id');
             $this->db->where('a.active', 1);
+            $this->db->where('a.deleted', 0);
             $this->db->limit($limit, 0);
             $this->db->order_by('a.updateDate', 'DESC');
         //cek apakah ada ba

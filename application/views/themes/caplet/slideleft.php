@@ -29,15 +29,14 @@
 
         <div class="avatar-link btn-group btn-group-justified">
             <a class="btn" href="#"  title="profile"><i class="fa fa-briefcase"></i></a>
-            <a class="btn"  data-toggle="modal" href="#md-notification" title="Notification">
+            <a class="btn"  href="#md-notification" title="Notification">
                 <i class="fa fa-bell-o"></i><em class="green"></em>
             </a>
-            <a class="btn"  data-toggle="modal" href="#md-messages"  title="Messages">
+            <a class="btn" href="#md-messages"  title="Messages">
                 <i class="fa fa-envelope-o"></i><em class="active"></em>
             </a>
             <a class="btn" href="#" title="themes"><i class="fa fa-book"></i></a>
-<!--            <a class="btn" href="#menu-right" title="themes color"><i class="fa fa-book"></i></a>-->
-        </div>
+         </div>
         <!-- //avatar-link-->
 
     </div>
@@ -74,39 +73,31 @@
     </div>-->
     <!-- //widget-collapse-->
 
-<!--
+
 
     <div class="widget-collapse dark">
         <header>
-            <a data-toggle="collapse" href="#collapseTasks"><i class="collapse-caret fa fa-angle-down"></i> (2) Tasks processing </a>
+            <a href="<?= base_url() ?>personal/my_task"> My Engagement Task </a>
         </header>
-        <section class="collapse" id="collapseTasks">
-
-            <div class="collapse-boby">
-
-                <div class="widget-slider">
-                    <p>Upload status</p>
-                    <div class="progress progress-dark progress-xs tooltip-in">
-                        <div class="progress-bar bg-darkorange" aria-valuetransitiongoal="75"></div>
-                    </div>
-                    <label class="progress-label">Master.zip 4 / 5 </label>
-                     //progress
-
-                    <div class="progress progress-dark progress-xs">
-                        <div class="progress-bar bg-theme-inverse" aria-valuetransitiongoal="45"></div>
-                    </div>
-                    <label class="progress-label lasted">Profile 2 / 5 </label>
-                     //progress
-
-                </div>
-                 //widget-slider
-
-            </div>
-             //collapse-boby
-
-        </section>
-         //collapse
-    </div>-->
+        
+        <header>
+            <a href="<?= base_url() ?>timesheet/mytimesheet"> My Timesheet </a>
+        </header>
+        <header>
+            <a href="<?= base_url() ?>personal/myreimbursement"> My Reimbursement List</a>
+        </header>
+        <header>
+            <a href="<?= base_url() ?>notification"> Message And Notification</a>
+        </header>
+        <header>
+            <a href="<?= base_url() ?>personal/change_password"> Change Password</a>
+        </header>
+        <header>
+            <a href="<?= base_url() ?>site/logout"> Sign Out</a>
+        </header>
+        
+         
+    </div>
     <!-- //widget-collapse-->
 
 

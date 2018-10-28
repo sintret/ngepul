@@ -5876,6 +5876,10 @@ body.leftMenu .mm-menu:not(.mm-right).mm-hassearch .mm-panel {
 .bootstrap-select-searchbox {
   padding: 4px 8px;
 }
+.bootstrap-select .dropdown-menu li.selected a {
+    background-color: #eee !important;
+    color: #555 !important;
+}
 
 #caplet-overlay {
   background-color: #111;

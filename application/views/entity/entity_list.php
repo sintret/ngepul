@@ -40,7 +40,7 @@
             </div>
             <div class="panel-body">
                 <form>
-                    <table class="table table-bordered table-striped" id="table-example">
+                    <table class="table table-bordered table-striped" id="mytable">
                         <thead>
                             <tr>
                                 <th width="80px" class="text-center">No</th>
