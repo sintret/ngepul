@@ -97,6 +97,7 @@ class Userslist extends MY_Controller
             'employees' => $this->Memployee->get_all(),
             'entities' => $this->Mentity->get_all(),
 	    'id' => set_value('id'),
+	    'pageId' => set_value('pageId'),
 	    'entityId' => set_value('entityId'),
 	    'userlevelId' => set_value('userlevelId'),
 	    'avatar' => set_value('avatar'),
@@ -121,7 +122,9 @@ class Userslist extends MY_Controller
 //        if ($this->form_validation->run() == FALSE) {
 //            $this->create();
 //        } else {
-        
+	
+		//echo "<pre>"; print_r($this->input->post()); exit(0);  
+        $pageId = $this->input->post('pageId',TRUE);
         
         $this->load->library('upload');
             $data['title'] = 'create gudang';
@@ -166,15 +169,14 @@ class Userslist extends MY_Controller
                 $data["avatar"] = $new_name;
                 //$oldAvatar = $this->input->post('entityId',TRUE);
                 //unlink("./assets/uploads/employee/".$oldAvatar);
-            }  
-       //echo "<pre>"; print_r($data); exit(0);     
+            }     
             $this->Muserslist->insert($data);
              $this->session->set_flashdata('message', '<div class="alert alert-success">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <span><strong>Notice: </strong> Userlist has been updated..</span>
                                 </div>');
             //$this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('userslist'));
+            redirect(site_url('userslist/?start='.$pageId));
 //        }
     }
     
@@ -287,17 +289,24 @@ class Userslist extends MY_Controller
         $page =  $this->uri->segment(5);
         //echo "<pre>"; print_r($page); exit(0);
         $row = $this->Muserslist->get_by_id($id);
-
+        
         if ($row) {
             
            // $this->Muserslist->delete($id);
             $data['deleted'] = 1;
             $this->Muserslist->update($id, $data);
             
-            $this->session->set_flashdata('message', 'Delete Record Success');
+             $this->session->set_flashdata('message', '<div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <span><strong>Notice: </strong> Userlist has been deleted..</span>
+                                </div>');
             redirect(site_url('userslist/?start='.$page));
         } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
+            $row = $this->Muserslist->get_by_id($id);
+           $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <span><strong>Notice: </strong> record not found..</span>
+                                </div>');
             redirect(site_url('userslist/?start='.$page));
         } 
     }

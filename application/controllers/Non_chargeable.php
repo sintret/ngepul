@@ -174,7 +174,10 @@ class Non_chargeable extends MY_Controller
 	    );
 
             $this->Mnon_chargeable->update($this->input->post('id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
+           $this->session->set_flashdata('message', '<div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <span><strong>Notice: </strong> Data has been updated..</span>
+                                </div>');
             redirect(site_url('non_chargeable'));
         }
     }

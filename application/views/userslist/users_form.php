@@ -111,7 +111,7 @@ $segmentPage2 = $this->uri->segment(2);
             <hr/>
             <center>    
                 <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
-                <input type="hidden" name="pageId" value="<?php echo $this->uri->segment(5); ?>" /> 
+                <input type="text" name="pageId" value="<?php if($this->uri->segment(2)== "create"){ echo $this->uri->segment(4); } else { echo $this->uri->segment(5);} ?>" /> 
                 <a href="<?php echo site_url('userslist') ?>" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
             </center>

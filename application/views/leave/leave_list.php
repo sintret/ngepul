@@ -56,9 +56,9 @@
 			
                          <td>
                                         <span class="tooltip-area">
-                                            <a href="<?= base_url('leave/update/' . $leave->id) ?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
+                                            <a href="<?= base_url('leave/update/' . $leave->id) ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="<?= base_url('leave/read/' . $leave->id) ?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
+                                            <a href="<?= base_url('leave/read/' . $leave->id) ?>/page/<?=$start;?>" class="btn btn-default btn-sm" title="detail"><i class="fa fa-eye"></i>
                                             </a>
                                             <a href="<?= base_url('leave/delete/' . $leave->id) ?>page/<?=$start;?>"  onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-default btn-sm" title="Delete" onclick="javasciprt: return confirm('Are You Sure ?')"><i class="fa fa-trash-o"></i>
                                             </a>

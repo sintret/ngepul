@@ -8,7 +8,7 @@
             <div class="panel-tools fully" align="right" data-toolscolor="#6CC3A0">
                 <ul class="tooltip-area">
                     <li>
-                        <a href="<?= site_url('userslist/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
+                        <a href="<?= base_url('userslist/create/'); ?>/page/<?=$start;?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
                     <li>
                         <a href="<?= site_url('userslist/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
