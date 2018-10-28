@@ -29,6 +29,12 @@ class Mclient_contact extends CI_Model
         return $this->db->get($this->table)->row();
     }
     
+    function get_detail_data($id) {
+        $this->db->select('a.*,b.clientName');
+        $this->db->join('client b', 'a.clientId = b.id', 'left');
+	$this->db->where("a.id", $id);
+        return $this->db->get('client_contact a')->row();
+    }
     
     function get_by_clientid($id)
     {

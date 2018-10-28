@@ -62,6 +62,7 @@ class Userslist extends MY_Controller
     public function read($id) 
     {
         $row = $this->Muserslist->get_by_id($id);
+        $contact = $this->Muserslist->get_by_id($id);
         if ($row) {
             $data = array(
 		'id' => $row->id,

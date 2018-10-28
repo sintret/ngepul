@@ -51,7 +51,7 @@
                         <a href="<?= base_url('client/create'); ?>" class="btn btn-success" title="create new data"><i class="fa fa-plus-square"></i></a>
                     </li>
                     <?php } ?>
-                    <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'client','excel')){ ?>
+                  <!--  <?php if($this->template->checkRole($this->session->userdata('userlevelId'),'client','excel')){ ?>
                     <li>
                         <a href="<?= base_url('client/excel'); ?>" class="btn btn-theme-inverse" title="download excel"><i class="fa fa-print"></i></a>
                     </li>
@@ -60,7 +60,7 @@
                     <li>
                         <a href="<?= base_url('client/word'); ?>" class="btn btn-warning" title="download word"><i class="fa fa-file-text"></i></a>
                     </li>
-                     <?php } ?>
+                     <?php } ?> -->
                     <li></li>
                     <li><a href="javascript:void(0)" class="btn btn-collapse" title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
                     <li><a href="javascript:void(0)" class="btn btn-reload"  title="Reload"><i class="fa fa-retweet"></i></a></li>

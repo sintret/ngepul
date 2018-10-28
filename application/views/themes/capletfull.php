@@ -207,7 +207,7 @@
             
             $(document).ready(function() {
                 $('#mytable').DataTable( {
-                    "scrollY": 600,
+                    "scrollY": 400,
                     "paging": false,
                      "bInfo" : false,
                     "scrollX": true,

@@ -45,10 +45,14 @@ class Client extends MY_Controller
 
     public function read($id) 
     {
-        $row = $this->Mclient->get_by_id($id);
+        $row = $this->Mclient->get_detail_data($id);
+        $rowContact = $this->Mclient_contact->get_detail_data($id);
+      //  echo "<pre>"; print_r($rowContact); exit(0);
         if ($row) {
             $data = array(
 		'id' => $row->id,
+		'row' => $row,
+		'rowContact' => $rowContact,
 		'entityId' => $row->entityId,
 		'clientCode' => $row->clientCode,
 		'clientName' => $row->clientName,
@@ -95,7 +99,7 @@ class Client extends MY_Controller
 		'userUpdate' => $row->userUpdate,
 		'updateDate' => $row->updateDate,
 	    );
-             $this->template->caplet('client/client_read', $data);
+             $this->template->caplettable('client/client_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('client'));
@@ -131,6 +135,7 @@ class Client extends MY_Controller
 	    'mainPOBox' => set_value('mainPOBox'),
 	    'mainPhone' => set_value('mainPhone'),
 	    'mainFax' => set_value('mainFax'),
+	    'sameAsMainAddress' => set_value('sameAsMainAddress'),
 	    'billingAddress' => set_value('billingAddress'),
 	    'billingCityId' => set_value('billingCityId'),
 	    'billingPostalCode' => set_value('billingPostalCode'),
@@ -162,16 +167,24 @@ class Client extends MY_Controller
 	    'userUpdate' => set_value('userUpdate'),
 	    'updateDate' => set_value('updateDate'),
 	);
-        $this->template->caplet('client/client_form', $data);
+        $this->template->caplettable('client/client_form', $data);
     }
     
     public function create_action() 
     {
         $this->_rules();
-
+      //  echo "<pre>"; print_r($_POST); exit(0);
 //        if ($this->form_validation->run() == FALSE) {
 //            $this->create();
 //        } else {
+        
+        $sameAsMainAddress  = $this->input->post('sameAsMainAddress',TRUE);
+        if($sameAsMainAddress == "showme1"){
+            $sameAsMainAddress = 1;
+        } else {
+            $sameAsMainAddress = 2;
+        }
+        
             $data = array(
 		'entityId' => 1,
 		'clientCode' => $this->input->post('clientCode',TRUE),
@@ -187,6 +200,7 @@ class Client extends MY_Controller
 		'mainPostalCode' => $this->input->post('mainPostalCode',TRUE),
 		'mainPOBox' => $this->input->post('mainPOBox',TRUE),
 		'mainPhone' => $this->input->post('mainPhone',TRUE),
+		'sameAsMainAddress' => $sameAsMainAddress,
 		'mainFax' => $this->input->post('mainFax',TRUE),
 		'billingAddress' => $this->input->post('billingAddress',TRUE),
 		'billingCityId' => $this->input->post('billingCityId',TRUE),
@@ -214,8 +228,8 @@ class Client extends MY_Controller
 		'foreignShareholders' => $this->input->post('foreignShareholders',TRUE),
 		'multinational' => $this->input->post('multinational',TRUE),
 		//'clientDeleted' => $this->input->post('clientDeleted',TRUE),
-		//'userCreate' => $this->input->post('userCreate',TRUE),
-		//'createDate' => $this->input->post('createDate',TRUE),
+		 'userCreate' => $this->session->userdata('id'),
+		 'createDate' => date("Y-m-d H:i:s"),
 		//'userUpdate' => $this->input->post('userUpdate',TRUE),
 		//'updateDate' => $this->input->post('updateDate',TRUE),
 	    );
@@ -256,6 +270,7 @@ class Client extends MY_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('client/update_action'),
+		'row' => $row,
 		'id' => set_value('id', $row->id),
 		'periodes' =>  $this->Mclosing_periode->get_all(),
 		'sectors' =>  $this->Msector->get_all(),
@@ -280,6 +295,7 @@ class Client extends MY_Controller
 		'mainPOBox' => set_value('mainPOBox', $row->mainPOBox),
 		'mainPhone' => set_value('mainPhone', $row->mainPhone),
 		'mainFax' => set_value('mainFax', $row->mainFax),
+		'sameAsMainAddress' => set_value('mainFax', $row->sameAsMainAddress),
 		'billingAddress' => set_value('billingAddress', $row->billingAddress),
 		'billingCityId' => set_value('billingCityId', $row->billingCityId),
 		'billingPostalCode' => set_value('billingPostalCode', $row->billingPostalCode),
@@ -311,7 +327,7 @@ class Client extends MY_Controller
 		'userUpdate' => set_value('userUpdate', $row->userUpdate),
 		'updateDate' => set_value('updateDate', $row->updateDate),
 	    );
-             $this->template->caplet('client/client_form', $data);
+             $this->template->caplettable('client/client_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('client'));
@@ -326,6 +342,14 @@ class Client extends MY_Controller
 //        if ($this->form_validation->run() == FALSE) {
 //            $this->update($this->input->post('id', TRUE));
 //        } else {
+        
+        $sameAsMainAddress  = $this->input->post('sameAsMainAddress',TRUE);
+        if($sameAsMainAddress == "showme1"){
+            $sameAsMainAddress = 1;
+        } else {
+            $sameAsMainAddress = 2;
+        }
+        
         $id = $this->input->post('id', TRUE);
             $data = array(
 		'entityId' => 1,
@@ -343,6 +367,7 @@ class Client extends MY_Controller
 		'mainPOBox' => $this->input->post('mainPOBox',TRUE),
 		'mainPhone' => $this->input->post('mainPhone',TRUE),
 		'mainFax' => $this->input->post('mainFax',TRUE),
+		'sameAsMainAddress' => $sameAsMainAddress,
 		'billingAddress' => $this->input->post('billingAddress',TRUE),
 		'billingCityId' => $this->input->post('billingCityId',TRUE),
 		'billingPostalCode' => $this->input->post('billingPostalCode',TRUE),

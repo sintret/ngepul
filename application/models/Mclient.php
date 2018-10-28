@@ -63,6 +63,20 @@ class Mclient extends CI_Model
         return $this->db->get('client a')->result();
     }
     
+     function get_detail_data($id) {
+        $this->db->select('a.*,b.company_name,c.sectorName, d.closingPeriode, e.cityName,f.provinceName');
+        $this->db->join('entity b', 'a.entityId = b.id', 'left');
+        $this->db->join('sector c', 'a.sectorId = c.id', 'left');
+        $this->db->join('closing_periode d', 'a.fsPeriode = d.id', 'left');
+        $this->db->join('city e', 'a.cityId = e.id', 'left');
+        $this->db->join('province f', 'a.provinceId = e.id', 'left');
+        $this->db->join('country g', 'a.countryId = g.id', 'left');
+        $this->db->order_by('a.updateDate', 'DESC');        
+	$this->db->where("a.id", $id);
+        return $this->db->get('client a')->row();
+    }
+    
+    
     // get data with limit and search
     function get_limit_data2($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
